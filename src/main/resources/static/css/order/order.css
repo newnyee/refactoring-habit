@@ -1,0 +1,289 @@
+.Home{
+  width: 840px;
+  margin: 0 auto;
+  padding:0 100px;
+}
+
+.Home_top{
+  margin-top: 50px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+section{
+  padding-bottom: 15px;
+  --margin:20px;
+  --padding:20px;
+}
+
+
+.Home_form{
+  margin-bottom: 50px;
+}
+
+#pagetitle_pay{
+  font-size:20px;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+.paypage_title {
+  font-size: 17px;
+  font-weight: bold;
+  margin:20px 20px;
+  display: inline-block;
+}
+
+#frip_img > img {
+  width:160px;
+  height:150px;
+  border-line:2px solid black;
+  border-radius: 20%;
+}
+
+#fripinfo{
+  display:flex;
+}
+
+.title_div{
+  display: inline-block;
+  height: 100%;
+  padding-top: 35px;
+  padding-left: 30px;
+}
+.title_div>p
+
+{
+
+
+  margin:20px 30px;
+  font-size: larger;
+  font-weight: bold;
+}
+
+
+.title_div > p + span {
+
+
+  margin-bottom: 10px;
+  margin-left:30px;
+
+}
+
+section > li {
+  padding:10px;
+}
+
+
+input[type='radio']{
+  display: none;
+}
+input[type='radio']+label{
+  margin-left:5px;
+  padding:15px;
+  display: inline-block;
+  cursor: pointer;
+  height: 50px;
+  width: 300px;
+  border: 1px solid lightgrey;
+  text-align: center;
+  align-items: center;
+  border-radius: 10px;
+  font-size:20px;
+  background-color: #fff;
+  color: #333;
+  justify-content: space-between;
+
+}
+input[type='radio']:checked+label{
+  background-color: #e83e8c;
+  color:white;
+  border-color: white;
+
+}
+
+.paypage_title>input[type='text']{
+  margin:5px;
+  border:1px solid gray;
+  width:300px;
+  height:40px;
+  border-radius: 20px;
+}
+
+input[type='button']:hover{
+  background-color: #e83e8c;
+}
+
+section>span+input[type='text']{
+  margin-right: 0px;
+  text-align: right;
+  font-size:x-large;
+  font-weight:bolder;
+  color:hotpink;
+  border-style: none;
+}
+
+.box-radio-input input[type="radio"]{
+  display:none;
+}
+
+.box-radio-input input[type="radio"] + span{
+  display:inline-block;
+  background:none;
+  border:1px solid #dfdfdf;
+  padding:0 10px;
+  text-align:center;
+  height:35px;
+  line-height:33px;
+  font-weight:500;
+  cursor:pointer;
+  border-radius: 20px;
+}
+
+.box-radio-input input[type="radio"]:checked + span{
+  border:1px solid #e83e8c;
+  background:#e83e8c;
+  color:#fff;
+}
+
+#paybtn {
+  width:100%;
+  height:50px;
+  color:white;
+  background-color: #e83e8c;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #e83e8c;
+}
+
+.tos_btn{
+  height:30px;
+  background-color: #b0b0b0;
+  border: none;
+  border-radius: 10px;
+  color: white;
+}
+
+.tos_a{
+  font-size: 14px;
+  padding-left: 20px;
+}
+
+#tot_price{
+  display: inline-block;
+  margin-left: 100px;
+}
+
+.recommend_ment{
+  font-size: 15px;
+  padding:0px 0 40px 20px;
+}
+
+#with_somebody{
+  padding-left: 20px;
+}
+
+tr{
+  margin-bottom: 10px;
+  border: 0.5px solid #c3c3c3;
+  border-radius: 20px;
+
+}
+
+td{
+  position: relative;
+  --height:150px;
+  --display: inline-block;
+}
+
+td>p {
+  align-items: start;
+  font-size: 16px;
+  position: relative;
+  top:-110px;
+  left: -40px;
+
+}
+
+.cartlist1{
+  border:1px solid lightgray;
+  border-radius:10px;
+  margin:10px;
+  width:600px;
+  border-collapse: separate;
+  height:200px;
+  display: inline-block;
+
+}
+
+.img_td{
+  width: 210px;
+}
+
+.item_img {
+  width:150px;
+  height:150px;
+  border-radius: 10px;
+  margin:20px;
+  --padding-top:20px;
+}
+
+.pro_info{
+  width: 265px;
+  height: 200px;
+  word-break:break-all;
+  table-layout:fixed;
+}
+
+.show_pro_info{
+  display: inline-block;
+  position: relative;
+  top: -80px;
+  left: -15px
+}
+
+.show_pro_info>p{
+  margin-bottom: 10px;
+}
+
+.Home_show_qty{
+  position: relative;
+  top:-105px;
+  margin-right:30px;
+}
+
+.input_result{
+  display: inline-block;
+  width: 83px;
+  border: none;
+  text-align: center;
+  background-color: white;
+  font-weight: 600;
+}
+
+.Home_qty_btn_min{
+  background-color: #c3c3c3;
+  color: white;
+  border:none;
+  width: 40px;
+  border-radius: 3px;
+}
+
+.Home_qty_btn_plus{
+  background-color: #e83e8c;
+  color: white;
+  border:none;
+  width: 40px;
+  border-radius: 3px;
+}
+
+.confirm-payment-agreement {
+  text-align: center;
+  color: gray;
+  font-size: 14px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+

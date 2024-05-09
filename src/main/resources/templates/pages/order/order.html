@@ -1,0 +1,98 @@
+<th:block lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/order/order.css}">
+  </head>
+
+  <title>결제 하기 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+
+  <section class="Home">
+    <form  name="frm"  action="/order/payDone" method="POST" onsubmit="return checkEnergyUse()">
+      <h1 style="font-size: 20px; font-weight: bold; margin-top: 20px">
+        결제하기
+      </h1>
+      <hr style="border-width: 1.5px"/>
+      <section class="Home_form">
+        <p class="paypage_title">해빗정보</p>
+        <table class="cartlist1" id="cartlist${one_status.index}">
+          <tr>
+            <td class="img_td" >
+              <img src="../../img/ang.png" class="item_img" />
+            </td>
+            <td class="pro_info">
+              <div class="show_pro_info">
+                <p>상품명</p>
+                <p>옵션명</p>
+                <p>가격 : <span class="oneprice${one_status.index}">000,000 원</span></p>
+              </div>
+            </td>
+            <td>
+              <div class="Home_show_qty">
+                <input type="text" class="one${one_status.index} input_result" value="수량" readonly>
+                <input type="button" value="-" class="Home_qty_btn_min btn_min"/>
+                <input type="button" value="+" class="Home_qty_btn_plus btn_plus"/>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <section>
+          <p class="paypage_title">결제수단</p>
+          <div>
+            <input type="radio" id="by_card" name="payby" value="C" checked />
+            <label for="by_card" style="font-size: 15px;" >신용/체크카드</label>
+            <input type="radio" id="by_etc" name="payby" value="etc"/>
+            <label for="by_etc" style="font-size: 15px;">기타결제</label>
+          </div>
+        </section>
+        <hr>
+        <section>
+          <span class="paypage_title">총 결제 금액 : 000,000 원</span>
+        </section>
+        <hr style="border-width: 4px" />
+        <section>
+          <p class="paypage_title">이번 해빗은 누구와 하시나요?</p>
+          <p class="recommend_ment">다음번 크루님이 좋아할만한 해빗을 추천해드릴게요.</p>
+          <div id="with_somebody">
+            <label class="box-radio-input">
+              <input type="radio" name="cp_item" value="옵션1" checked="checked"/>
+              <span>혼자</span>
+            </label>
+            <label class="box-radio-input">
+              <input type="radio" name="cp_item" value="옵션2" />
+              <span>연인</span>
+            </label>
+            <label class="box-radio-input">
+              <input type="radio" name="cp_item" value="옵션3" checked="checked"/>
+              <span>친구</span>
+            </label>
+            <label class="box-radio-input">
+              <input type="radio" name="cp_item" value="옵션4" checked="checked"/>
+              <span>가족</span>
+            </label>
+            <label class="box-radio-input">
+              <input type="radio" name="cp_item" value="옵션5" checked="checked"/>
+              <span>배우자</span>
+            </label>
+          </div>
+        </section>
+        <hr style="border-width: 4px" />
+
+        <section>
+          <div style="display: inline-block">
+            <a href="#" class="tos_a">개인정보 제 3자 제공 동의</a>
+            <button type="button" class="tos_btn">보기</button>
+            <br /><br />
+            <a href="#" class="tos_a">결제 대행 서비스 이용약관</a>
+            <button type="button" class="tos_btn">보기</button>
+          </div>
+        </section>
+        <hr>
+        <p class="confirm-payment-agreement">
+          위 내용을 모두 확인하였으며, 결제에 동의합니다.
+        </p>
+        <input type="button" value="결제하기" id="paybtn" onclick="requestPay()"/>
+      </section>
+    </form>
+  </section>
+</th:block>
