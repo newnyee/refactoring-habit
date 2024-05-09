@@ -1,0 +1,50 @@
+<th:block lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/member/cart.css}">
+    <script th:src="@{/js/member/cart.js}"></script>
+  </head>
+
+  <title>장바구니 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+
+  <section class="Home">
+    <h1 style="font-size: 20px; font-weight: bold; margin-top: 20px">
+      장바구니
+    </h1>
+    <hr style="border-width: 1.5px"/>
+    <form class="Home_form" action="payPage.html" name="cartlist" onsubmit="return checkCart()">
+      <div>
+        <button type="button" id="allCk" class="Home_choice_btn">장바구니 비우기</button>
+      </div>
+      <table class="cartlist1" id="cartlist${one_status.index}">
+        <tr>
+          <td class="img_td" >
+            <img src="../../img/ang.png" class="item_img" />
+          </td>
+          <td class="pro_info">
+            <div class="show_pro_info">
+              <p>상품명</p>
+              <p>옵션명</p>
+              <p>가격 : <span class="oneprice${one_status.index}">000,000</span></p>
+            </div>
+          </td>
+          <td>
+            <div class="Home_show_qty">
+              <input type="text" class="one${one_status.index} input_result" value="수량" readonly>
+              <input type="button" value="-" class="Home_qty_btn_min btn_min"/>
+              <input type="button" value="+" class="Home_qty_btn_plus btn_plus"/>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="Home_show_result">
+        <hr>
+        <p style="font-size: larger; font-weight: bold; display:inline-block;padding-left: 20px;">합계금액 :
+          <span class="totalPrice" style="padding-left: 20px;">000,000</span> 원</p>
+        <hr>
+        <input type="button" value="결제하기" onclick="order()" class="go_order"/>
+      </div>
+    </form>
+  </section>
+</th:block>
