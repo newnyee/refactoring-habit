@@ -1,0 +1,169 @@
+/*================주 컨텐츠 ========================*/
+.Home{
+    width: 840px;
+    margin: 0 auto;
+}
+
+.Home_top{
+    margin-top: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.Home_form {
+    padding: 24px 100px;
+    margin: 0 auto;
+    width: 590px;
+}
+
+.Home_form_div{
+    margin-top: 20px;
+}
+
+.Home_form_div>div{
+    width: 100%;
+}
+
+.Home_form input::placeholder {
+    color: #a8a8a8;
+    font-size: 14px;
+    
+  }
+
+.Home_form_input {
+    margin: 5px auto;
+    display: inline-block;
+    width: 100%;
+    --width: 340px;
+    height: 40px;
+    font-size: 15px;
+    border: 1px solid rgb(205, 205, 205);
+    border-radius: 2px;
+    background-color: #f6f6f6;
+    padding-left: 10px;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.Home_form_input1{
+    margin: 10px;
+}
+
+#idCheck {
+    width: 95px;
+    height: 30px;
+    position: relative;
+    top: 10px;
+}
+
+.Home_form_input_email{
+    margin: 5px auto;
+    width:183px;
+    height:40px;
+    font-size:15px;
+    border: 1px solid rgb(205, 205, 205);
+    background-color: #f6f6f6;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+
+.Home_form_input_email_select{
+    margin: 5px auto;
+    --width: 40px;
+    width:180px;
+    height:40px;
+    font-size:15px;
+    border: 1px solid rgb(205, 205, 205);
+    border-radius: 2px;
+    background-color: #f6f6f6;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+
+.Home_form_num{
+    margin: 5px auto;
+    --width: 40px;
+    width:118px;
+    height:40px;
+    font-size:15px;
+    border: 1px solid rgb(205, 205, 205);
+    border-radius: 2px;
+    background-color: #f6f6f6;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.Home_form_date{
+    margin: 5px auto;
+    --width: 40px;
+    width:100%;
+    height:40px;
+    font-size:15px;
+    border: 1px solid rgb(205, 205, 205);
+    border-radius: 2px;
+    background-color: #f6f6f6;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+
+.Home_form_profile{
+    display: inline-block;
+    width: 80px;
+    margin-top: 10px;
+}
+
+.Home_proimg{
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    --border: 1px solid black;
+    border-radius: 100%; 
+    
+}
+
+.Home_form_div_p{
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+.Home_form_file{
+    display: inline-block;
+    position: relative;
+    float: left;
+    width: 240px;
+    border-radius: 5px;
+}
+
+input[type=file]::file-selector-button {
+    margin: 5px auto;
+    --width: 40px;
+    width:100px;
+    height:40px;
+    font-size:15px;
+    border: 1px solid rgb(205, 205, 205);
+    border-radius: 2px;
+    background-color: #f6f6f6;
+    padding-left: 10px;
+}
+
+input:focus{
+    outline: 1px solid #ffcae0;
+    background-color: white;
+}
+
+.Home_new_btn{
+    margin-top: 60px;
+    margin-bottom: 30px;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    background-color: #e83e8c;
+}
