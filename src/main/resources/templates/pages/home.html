@@ -1,0 +1,343 @@
+<th:block lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/member/home.css}">
+    <script th:src="@{/js/member/home.js}"></script>
+  </head>
+
+  <title>해빗(habit) : 세상 모든 취미 여가의 시작</title>
+
+  <section><!-- 본문 시작 -->
+    <div class="Home">
+      <div class="Home_wrapper">
+        <!--베너-->
+        <div class="Home_banner">
+          <div class="Home_slider">
+            <div id="slides">
+              <div id="overflow" class="swiper-container">
+                <div class="inner swiper-wrapper">
+                  <a>
+                    <div data-index="0" class="slide slide_0 swiper-slide" id="slide0">
+                      <div class="slide-content">
+                        <h2>Slide0</h2>
+                        <p><img src="../../img/topban4.png"></p>
+                      </div>
+                    </div>
+                  </a>
+                  <a>
+                    <div data-index="1" class="slide slide_1 swiper-slide" id="slide1">
+                      <div class="slide-content">
+                        <h2>Slide1</h2>
+                        <p><img src="../../img/topban.png"></p>
+                      </div>
+                    </div>
+                  </a>
+                  <a>
+                    <div data-index="2" class="slide slide_2 swiper-slide" id="slide2">
+                      <div class="slide-content">
+                        <h2>Slide2</h2>
+                        <p><img src="../../img/topban5.png"></p>
+                      </div>
+                    </div>
+                  </a>
+                  <a>
+                    <div data-index="3" class="slide slide_3 swiper-slide" id="slide3">
+                      <div class="slide-content">
+                        <h2>Slide3</h2>
+                        <p><img src="../../img/topban3.png"></p>
+                      </div>
+                    </div>
+                  </a>
+                  <a>
+                    <div data-index="4" class="slide slide_4 swiper-slide" id="slide4">
+                      <div class="slide-content">
+                        <h2>Slide4</h2>
+                        <p><img src="../../img/topban4.png"></p>
+                      </div>
+                    </div>
+                  </a>
+                  <a>
+                    <div data-index="5" class="slide slide_5 swiper-slide" id="slide5">
+                      <div class="slide-content">
+                        <h2>Slide5</h2>
+                        <p><img src="../../img/topban2.png"></p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <p class="controller">
+              <!-- &lang: 왼쪽 방향 화살표&rang: 오른쪽 방향 화살표 -->
+              <span class="prev">&lang;</span>
+              <span class="next">&rang;</span>
+            </p>
+          </div>
+        </div>
+        <!--배너끝-->
+
+        <!--인기 목록-->
+        <div class="Home_product_recommend">
+          <div class="Home_product_recommend_wrapper">
+            <div>
+              <div>
+                <div class="Home_product_recommend_font1">
+                  <h2>인기만점 해빗 💜</h2>
+                </div>
+              </div>
+              <div class="Home_product_recommend_list">
+                <div class="Home_product_recommend_p">
+                  <a href="" class="href">
+                    <div class="Home_product_recommend_p_div">
+                      <div>
+                        <img src="../../img/image.jpeg" alt="" width="150px">
+                      </div>
+                      <div>
+                        <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                          <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                        </button>
+                      </div>
+                      <div class="Home_product_recommend_p_font">
+                        <div>
+                          <span class="Miniarea">강남/서초</span>
+                          <div>청춘유랑단 20 유럽편 With 리슬 모집</div>
+                          <section class="Home_recommend_img">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/halfstar.png" alt="" class="Home_recommend_star">
+                          </section>
+                          <hr class="Home_recommend_hr">
+                          <div>300,000원</div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="Home_product_recommend_p">
+                  <a href="" class="href">
+                    <div class="Home_product_recommend_p_div">
+                      <div>
+                        <img src="../../img/image.jpeg" alt="" width="150px">
+                      </div>
+                      <div>
+                        <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                          <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                        </button>
+                      </div>
+                      <div class="Home_product_recommend_p_font">
+                        <div>
+                          <span class="Miniarea">강남/서초</span>
+                          <div>청춘유랑단 20 유럽편 With 리슬 모집</div>
+                          <section class="Home_recommend_img">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/halfstar.png" alt="" class="Home_recommend_star">
+                          </section>
+                          <hr class="Home_recommend_hr">
+                          <div>300,000원</div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="Home_product_recommend_p">
+                  <a href="" class="href">
+                    <div class="Home_product_recommend_p_div">
+                      <div>
+                        <img src="../../img/image.jpeg" alt="" width="150px">
+                      </div>
+                      <div>
+                        <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                          <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                        </button>
+                      </div>
+                      <div class="Home_product_recommend_p_font">
+                        <div>
+                          <span class="Miniarea">강남/서초</span>
+                          <div>청춘유랑단 20 유럽편 With 리슬 모집</div>
+                          <section class="Home_recommend_img">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/halfstar.png" alt="" class="Home_recommend_star">
+                          </section>
+                          <hr class="Home_recommend_hr">
+                          <div>300,000원</div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="Home_product_recommend_p">
+                  <a href="" class="href">
+                    <div class="Home_product_recommend_p_div">
+                      <div>
+                        <img src="../../img/image.jpeg" alt="" width="150px">
+                      </div>
+                      <div>
+                        <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                          <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                        </button>
+                      </div>
+                      <div class="Home_product_recommend_p_font">
+                        <div>
+                          <span class="Miniarea">강남/서초</span>
+                          <div>청춘유랑단 20 유럽편 With 리슬 모집</div>
+                          <section class="Home_recommend_img">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/halfstar.png" alt="" class="Home_recommend_star">
+                          </section>
+                          <hr class="Home_recommend_hr">
+                          <div>300,000원</div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--신규 목록-->
+        <div class="Home_product_recommend">
+          <div class="Home_product_recommend_wrapper">
+            <div>
+              <div>
+                <div class="Home_product_recommend_font1">
+                  <h2>신규 해빗 🌟</h2>
+                </div>
+              </div>
+              <div class="Home_product_recommend_list">
+                <div class="Home_product_recommend_p">
+                  <a href="" class="href">
+                    <div class="Home_product_recommend_p_div">
+                      <div>
+                        <img src="../../img/image.jpeg" alt="" width="150px">
+                      </div>
+                      <div>
+                        <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                          <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                        </button>
+                      </div>
+                      <div class="Home_product_recommend_p_font">
+                        <div>
+                          <span class="Miniarea">강남/서초</span>
+                          <div>청춘유랑단 20 유럽편 With 리슬 모집</div>
+                          <section class="Home_recommend_img">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/halfstar.png" alt="" class="Home_recommend_star">
+                          </section>
+                          <hr class="Home_recommend_hr">
+                          <div>300,000원</div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="Home_product_recommend_p">
+                  <a href="" class="href">
+                    <div class="Home_product_recommend_p_div">
+                      <div>
+                        <img src="../../img/image.jpeg" alt="" width="150px">
+                      </div>
+                      <div>
+                        <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                          <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                        </button>
+                      </div>
+                      <div class="Home_product_recommend_p_font">
+                        <div>
+                          <span class="Miniarea">강남/서초</span>
+                          <div>청춘유랑단 20 유럽편 With 리슬 모집</div>
+                          <section class="Home_recommend_img">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/halfstar.png" alt="" class="Home_recommend_star">
+                          </section>
+                          <hr class="Home_recommend_hr">
+                          <div>300,000원</div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="Home_product_recommend_p">
+                  <a href="" class="href">
+                    <div class="Home_product_recommend_p_div">
+                      <div>
+                        <img src="../../img/image.jpeg" alt="" width="150px">
+                      </div>
+                      <div>
+                        <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                          <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                        </button>
+                      </div>
+                      <div class="Home_product_recommend_p_font">
+                        <div>
+                          <span class="Miniarea">강남/서초</span>
+                          <div>청춘유랑단 20 유럽편 With 리슬 모집</div>
+                          <section class="Home_recommend_img">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/halfstar.png" alt="" class="Home_recommend_star">
+                          </section>
+                          <hr class="Home_recommend_hr">
+                          <div>300,000원</div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="Home_product_recommend_p">
+                  <a href="" class="href">
+                    <div class="Home_product_recommend_p_div">
+                      <div>
+                        <img src="../../img/image.jpeg" alt="" width="150px">
+                      </div>
+                      <div>
+                        <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                          <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                        </button>
+                      </div>
+                      <div class="Home_product_recommend_p_font">
+                        <div>
+                          <span class="Miniarea">강남/서초</span>
+                          <div>청춘유랑단 20 유럽편 With 리슬 모집</div>
+                          <section class="Home_recommend_img">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/star.png" alt="" class="Home_recommend_star">
+                            <img src="../../img/halfstar.png" alt="" class="Home_recommend_star">
+                          </section>
+                          <hr class="Home_recommend_hr">
+                          <div>300,000원</div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--호스트 지원 배너-->
+        <div class="Home_smallBanner">
+          <div>
+            <a href="/habit_v2_UI/html/host/join.html"><img src="../../img/host.png" alt=""></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 본문 끝-->
+  </section>
+</th:block>
