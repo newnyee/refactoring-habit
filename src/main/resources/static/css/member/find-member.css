@@ -1,0 +1,74 @@
+/*================주 컨텐츠 ========================*/
+.Home{
+  width: 840px;
+  margin: 0 auto;
+  padding:0 100px;
+}
+
+.Home_wrapper{
+  margin-bottom: 45px;
+}
+
+.Home_sub{
+  font-size: 25px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 5px;
+  height: 45px;
+}
+
+.Home_ment{
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.Home_input{
+  margin: 20px 0;
+  border-radius: 10px;
+  padding-left: 10px;
+  border: 0.5px solid rgb(182, 182, 182);
+  height: 50px;
+  width: 300px;
+}
+
+.Home_input:focus{
+  outline: 0.5px solid #e83e8c;
+}
+
+.Home_submit{
+  margin-top: 20px;
+  display: block;
+  width: 10%;
+  height: 35px;
+  border: 0.5px solid rgb(182, 182, 182);
+  border-radius: 10px;
+  background-color: #e83e8c;
+  color: white;
+  letter-spacing: 1px;
+  float: right;
+}
+
+.Home_form {
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  flex-direction: column
+}
+
+.error {
+  color: red; 
+  font-size: small;
+}
+
+.center_sort {
+  display:flex; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.center_sort>button {
+  height:40px; 
+  width: 200px; 
+  margin: 30px 5px;
+}
