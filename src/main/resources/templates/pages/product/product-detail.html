@@ -1,0 +1,842 @@
+<th:block lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{css/product/product-detail.css}">
+    <script th:src="@{/js/product/product-detail.js}"></script>
+  </head>
+
+  <title>해빗 상세보기 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+
+  <section class="PageWrapper">
+    <div style="margin-top: 30px; margin-bottom: 18px; display: flex; justify-content: space-around">
+      <img style="width: 300px; height: 300px; border-radius: 3px;" src="/img/ang.png">
+      <div style="margin-left: 20px; width: 280px;">
+        <div style="height: 255px;">
+          <div class="BasicInfoSection">
+            <hgroup class="BasicInfoSecion_Title">
+              <h1 class="BIS_title">상품명</h1>
+            </hgroup>
+            <div class="BasicInfoSection_Action">
+              <button type="button" name="ShareBtn" class="ButtonShare">
+                <img src="/img/share.png" alt="공유 아이콘">
+              </button>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-end; margin-top: 20px;">
+            <div style="font-weight: bold; font-size: 30px; margin-right: auto; margin-left: 5px">
+              000,000 원
+              <!-- <fmt:formatNumber value="${price.money}" pattern="#,##0" />원 -->
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="host-info">
+          <div>
+            <img src="../../img/host-default-img.webp" alt="" style="border-radius: 40px; width: 40px; height: 40px; background-color: rgb(0, 0, 0);"/>
+          </div>
+          <div style="font-weight: bold; font-size: 20px;">호스트 명 </div>
+          <div class="hostcls">해빗 00 | 후기 00</div> <!--해빗 갯수 | 후기 갯수-->
+        </div>
+      </div>
+    </div>
+
+    <div class="ReviewSummary">
+      <div class="ReviewSummary_info">
+        <div class="Readonly_star">
+          <img src="/img/star.png" alt="" style="" class="detail-star">
+          <img src="/img/star.png" alt="" style="" class="detail-star">
+          <img src="/img/star.png" alt="" style="" class="detail-star">
+          <img src="/img/star.png" alt="" style="" class="detail-star">
+          <img src="/img/star.png" alt="" style="" class="detail-star">
+        </div>
+        <strong class="ReviewSummary_Aver">5.00</strong>
+        <span class="ReviewSummary_Count">5개의 후기</span>
+      </div>
+      <span class="ReviewSummary_Comment">경험한 크루들은 이렇게 평가했어요!</span>
+    </div>
+    <div class="Reviewblack">
+      <div class="Reviewflex parent-container">
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <div class="Reviewgreen">
+          <img src="/img/ang.png" alt=""/>
+          <div class="CoverReviewCard_User">
+            <div class="CoverReviewCard_ProfileImg">
+              <img src="/img/host-default-img.webp" alt=""/>
+            </div>
+            <div class="CoverReviewCard_UserInfo">
+              <p>멤버 아이디</p>
+            </div>
+            <p class="CorverReivewCard_p"></p>
+          </div>
+          <span class="SpanLineClamp">리뷰 내용</span> <!--글자수 제한하여 가져오기-->
+        </div>
+        <div class="Reviewgreen">
+          <img src="/img/ang.png" alt=""/>
+          <div class="CoverReviewCard_User">
+            <div class="CoverReviewCard_ProfileImg">
+              <img src="/img/host-default-img.webp" alt=""/>
+            </div>
+            <div class="CoverReviewCard_UserInfo">
+              <p>멤버 아이디</p>
+            </div>
+            <p class="CorverReivewCard_p"></p>
+          </div>
+          <span class="SpanLineClamp">리뷰 내용</span>
+        </div>
+        <div class="Reviewgreen">
+          <img src="/img/ang.png" alt=""/>
+          <div class="CoverReviewCard_User">
+            <div class="CoverReviewCard_ProfileImg">
+              <img src="/img/host-default-img.webp" alt=""/>
+            </div>
+            <div class="CoverReviewCard_UserInfo">
+              <p>멤버 아이디</p>
+            </div>
+            <p class="CorverReivewCard_p"></p>
+          </div>
+          <span class="SpanLineClamp">리뷰 내용</span>
+        </div>
+        <div class="Reviewgreen">
+          <img src="/img/ang.png" alt=""/>
+          <div class="CoverReviewCard_User">
+            <div class="CoverReviewCard_ProfileImg">
+              <img src="/img/host-default-img.webp" alt=""/>
+            </div>
+            <div class="CoverReviewCard_UserInfo">
+              <p>멤버 아이디</p>
+            </div>
+            <p class="CorverReivewCard_p"></p>
+          </div>
+          <span class="SpanLineClamp">리뷰 내용</span>
+        </div>
+        <div class="Reviewgreen">
+          <img src="/img/ang.png" alt=""/>
+          <div class="CoverReviewCard_User">
+            <div class="CoverReviewCard_ProfileImg">
+              <img src="/img/host-default-img.webp" alt=""/>
+            </div>
+            <div class="CoverReviewCard_UserInfo">
+              <p>멤버 아이디</p>
+            </div>
+            <p class="CorverReivewCard_p"></p>
+          </div>
+          <span class="SpanLineClamp">리뷰 내용</span>
+        </div>
+        <div class="Reviewgreen">
+          <img src="/img/ang.png" alt=""/>
+          <div class="CoverReviewCard_User">
+            <div class="CoverReviewCard_ProfileImg">
+              <img src="/img/host-default-img.webp" alt=""/>
+            </div>
+            <div class="CoverReviewCard_UserInfo">
+              <p>멤버 아이디</p>
+            </div>
+            <p class="CorverReivewCard_p"></p>
+          </div>
+          <span class="SpanLineClamp">리뷰 내용</span>
+        </div>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+      </div>
+      <div class="reviewplus">
+        <strong><a href="/category/products/${cont_no}/reviews" class="review_stylelink">50개 후기 더보기 > </a></strong>
+      </div>
+    </div>
+    <div class="Classintroduction">
+      <section class="ProductDetailPage">
+        <article>
+          <header class="Article_Header">
+            <h2 class="Article_Header_title">해빗 소개</h2>
+          </header>
+          <div class="DescriptionSection_Container">
+            <div class="product-description">
+
+              교육비용 33% 할인 진행 중
+
+
+
+              [여름기념 프립특가]
+
+              참가비 (1인)
+
+              200,000원 → 135,000원 (33%🔻
+
+
+
+              여러분 그거 아시나요?
+
+
+
+              지구의 70% 이상이 바다 물 속 세상 입니다.
+
+              저와 함께 물 속 세상을
+
+              경험해보시면 어떨까요? 💦
+
+
+
+              지구의 70%를 구성하고 있는 바다
+
+              나머지 70% 는 어떤 세상인지 궁금하지 않으신가요?
+
+
+
+
+
+
+
+              안녕하세요 (^^)  프쿠버 입니다
+
+              [ 다이빙 교육 벌써 6년차 ]
+
+              AIDA, PADI, AFIA 프리다이빙
+
+              PADI 스쿠버다이빙
+
+              PADI 머메이드
+
+              어른 + 소아 + 어린이 = 전문 응급처치 및 EFR
+
+              국제인증 3개 협회
+
+              전문자격을 갖추고 있어요
+
+
+
+
+
+
+
+              저는 수영을 배워본 적도 없고
+
+              7살 때 물에 빠져서
+
+              생명의 고비를 넘겨 어릴 때부터
+
+              물 공포증 트라우마가 굉장히 심했어요.
+
+
+
+
+
+
+
+              그랬던 제가 지금은 바다를 가장 사랑하고
+
+              맨몸으로 자유롭게 수영을 해요. 🧜‍♀️
+
+              한때 물이 무서웠던 만큼
+
+              그 어떤 선생님보다
+
+              안전하게 친절하게 가르쳐 드릴 자신이 있습니다!
+
+
+
+
+
+
+
+              여러분들 가운데에서
+
+              다이빙에 도전하고 싶지만 ...
+
+              물이 무서워 선뜻 도전하기를 망설이고 계시는 분들이
+
+              🧘 분명 정말 많을 거에요
+
+
+
+
+
+
+
+              물 공포증을 극복했던
+
+              프쿠버 강사님과 함께 라면
+
+              걱정과 망설임은 접어두셔도 됩니다 !!
+
+
+
+
+
+
+
+              제 스스로가 물 공포증을 겪었던 경험이 있기에
+
+              그 누구보다
+
+              물과 친해지는 법을
+
+              어렵지 않게 알려드릴 자신 있어요! 😄
+
+
+
+
+
+
+
+              프립 클래스 안내
+
+
+
+              [ LV1 입문자 자격증 1일 과정 ]
+
+              이론교육 + 실기교육
+
+              총 3시간~4시간소요
+
+              🔻
+
+              참여자 분들의 배움의 속도에따라
+
+              시간이 상시 달라집니다.
+
+              (최대 5시간은 넘기지는 않습니다)
+
+              🔻
+
+              자격증 획득 시 자유롭게
+
+              입장할 수 있는 자격증이 주어지게 됩니다.
+
+
+
+
+
+
+
+              [ 자격증은 AIDA, PADI, AFIA 협회 입니다. ]
+
+              200,000원 → 135,000원 (33%🔻)
+
+              ☆ 평일교육 프쿠버 장비렌탈 무료 ☆
+
+              [ 마스크,+스노클+프리다이빙 전용 롱핀 ]
+
+              주말은 잠수풀 기준 입니다
+
+
+
+
+
+
+
+              모든 교육은 그룹 레슨이며
+
+              체계적으로 교육하고 있습니다.
+
+              혼자 오셔도 편하게 교육 받을 수 있게 해드려요^^
+
+              걱정 마세요 !!
+
+
+
+
+
+
+
+              한번에 잘 안되시는 분은
+
+              평일 무료로 트레이닝 해드리고 있습니다.
+
+              🔻
+
+              제 프립은 다른 프립과
+
+              차별점이 있는데요, 바로
+
+              지속적인 벙개가 활발하다는 것!
+
+              🔻
+
+              자격증 이수 후
+
+              [ 매월 정기모임  및 무료 트레이닝 ]
+
+
+
+
+
+              또한, 벙개에 참여하신 분들끼리
+
+              친목을 다지며 즐겁게
+
+              프리다이빙의 세계에 빠질 수 있다는 것 !!
+
+
+
+              이 프립의 매력포인트
+
+
+
+              프리다이빙 트레이너란?
+
+              🔻
+
+              프리다이빙 강사 레벨 중 최 상위 레벨입니다.
+
+              일반강사 > 어드벤스강사 > 마스터 강사
+
+              > 강사 트레이너 훈련관
+
+              🔻
+
+              프쿠버  호스트는
+
+              6년차 베테랑 강사 트레이너 훈련관 입니다.
+
+              🔻
+
+              이 외 전문 프쿠버 강사진 5분
+
+              가비샘 (여) +주샘 (여) +쭌샘 (남)
+
+              +키티샘 (남) +라미샘 (남)
+
+              🔻
+
+              수업 스케줄 걱정은 NO 언제 든지 가능해요
+
+              🔻
+
+              오시는 남 여 모든 분들
+
+              고가의  수중 촬영용 전문 카메라로 무료 촬영해드립니다
+
+
+
+              처음 수업 후 솔직한 사진후기
+
+
+
+
+              처음으로 물 속에서  📷 찍어보는 거라서
+
+              어색 할 수 있어요
+
+
+
+              자주 연습하시면
+
+              [우리 모두] ~ 에브리 바디 여러분 모두
+
+
+
+              예쁘게 + 멋있게 프리다이빙 즐길 수 있어요
+
+              프쿠버 호스트 팀원들과
+
+              재밌게 즐겁게
+
+              편안하게 클래스 수업 어떠세요?
+
+              프립 일정 안내
+
+
+
+              평일 + 주말 교육 상시 가능합니다.
+
+              평일에 직장인 분들은
+
+              6시 퇴근 후에
+
+              방문하셔도 언제든지 진행 가능합니다!
+
+              🔻
+
+              교육 약속은 티켓 구매 후
+
+              [ 장소 안내  & 시간 안내사항 ]
+
+              문자 & 카톡을 먼저 보내드립니다
+
+              🔻
+
+              또는 대원님이
+
+              원하시는 날짜를 먼저 1-1 문의 주셔도 됩니다
+
+              🔻
+
+              사전 협의 후에 결정하시면 됩니다.
+
+              🔻
+
+              프리 다이빙의 세계로 여러분을 초대합니다
+
+
+
+              클래스 진행 장소 안내
+
+
+
+              1) 서울 송파구 올림픽로 424 올림픽공원 올림픽 수영장
+
+              2 ) 서울 송파구 올림픽로 25 잠실 제2 수영장
+
+              3) 경기 성남시 중원구 제일로 60  성남 잠수풀
+
+              4) 경기 가평군 청평면 고재길 262-57 K26 잠수풀
+
+              5) 경기 용인시 처인구 포곡읍 성산로 523 딥스테이션 잠수풀
+
+              위 5곳 중에서 원하시는 장소에서
+
+              프립 진행 가능합니다.
+
+
+
+              결제 시 참가비 구매 해주세요
+
+              🔻
+
+              📍 바로 카톡 &문자 연락 드리겠습니다
+
+
+
+              자주 묻는 질문 모음 안내
+
+              프리다이빙은
+
+              수영을 전혀 못해도 누구나 할 수 있어요!
+
+              🔻
+
+              1) 수영 못하는데 할 수 있나요?
+
+              👉  네. 일반수영과 다이빙은 차이가 있으며
+
+              수영 못하시는 분이 더 잘합니다.
+
+              🔻
+
+              2) 자격증 없는 초보자도 가능한가요?
+
+              👉 네. 배우시면 누구나 가능합니다.
+
+              🔻
+
+              3) 여름에만 할 수 있는거 아닌가요?
+
+              👉 4계절 내내 같이 즐겨용^^
+
+              🔻
+
+              4) 교육과정 + 기간 + 날짜 궁금해요.?
+
+              👉  교육 날짜 본인이 편하신 날짜 선정 후
+
+              저에게 문의 주시면 됩니다
+
+              🔻
+
+              5) 혼자 가는 분도 계신가요 ?
+
+              👉네. . . 네. . . 전부 혼자 오셨어요
+
+              혼자 오셔도 친해지게 도와드려요 !!
+
+              🔻
+
+              6) 날씨 추운데 풀장가면 춥지 않을까요?
+
+              추운 날씨에도 교육 받을 수 있나요?
+
+              👉 네 !! *풀장 물 온도 따뜻 한 장소로 갑니다.
+
+              🔻
+
+              8) 준비물이 뭐? 뭐? 필요한가요?
+
+              *수모,수건,세면도구,수영복& 래쉬가드
+
+              🔻
+
+              궁금하신 사항을 먼저 연락 주시면
+
+              밤 늦게라도 답장을 남겨놓을게요.
+
+              🔻
+
+              ※ 해당 프립은 장소와 장비를 미리 준비해야 하기 때문에
+
+              인원제한 그룹레슨으로 선 예약 선착순 입니다.
+
+              🔻
+
+              여러분들의 시간이 중요하듯이
+
+              다른분들의 시간도 존중해주세요.
+
+              🔻
+
+              지각 하시면 안되요 ㅜㅜ
+
+              잠수풀 사용 시간이 정해져 있어서
+
+              다른 분 들이 피해보실 수 있어요
+
+              🔻
+
+              어때요?
+
+              벌써부터 다이빙 욕구가 뿜뿜하지 않나요?
+
+              소그룹 클래스다보니 조기 마감될 수 있습니다
+
+
+
+              얼른 신청하세요~!
+
+              대원님들을 환영합니다 :)
+
+
+              [클래스 안내]
+              · 프립 진행 가능 시간 : 상시 예약 가능
+              · 문의 : Q&A 게시판 활용
+              ※ 정확한 일정 협의는 Q&A 게시판 또는 구매 후 문자로 발송되는 호스트 연락처로 문의해주세요.
+
+              [신청 시 유의사항]
+              · 구매 시 호스트 연락처를 문자로 보내드립니다.
+              · 프립에서 구매 후 호스트 연락처로 가능한 날짜 예약 바랍니다.
+              · 예약 시간에 맞추어 늦지 않게 도착해 주시기 바랍니다.
+              · 안전사고에 대비하여 강사의 지침을 꼭 따라주시기 바랍니다.
+              · 교육의 특성상 감기나 코막힘 등의 증상이 있으면
+              교육이 어려우니 참고 부탁드립니다.
+              · 평일은 장비대여가 무료입니다.
+              · 주말은 마스크 스노클,3천원,롱핀대여 5천원 발생합니다
+              · 슈트는 본인 선택이며 입어도, 안입어도 됩니다
+              (물 온도를 직접 체크하시고 선택해주세요)
+              대여 하실경우 3천원 발생합니다
+
+              ※ 해당 프립은 장소와 장비를 미리 준비해야 하기 때문에
+
+              인원제한 그룹레슨 입니다
+
+              ※ 최선을 다해 친철하게 쉽게 편안하게 강습할게요.
+              ※ 예약확정 후 환불이 불가합니다.
+
+              7일전 날짜 일정 변경은 가능합니다.
+
+              ※ 예약확정 후 7일뒤 사용처리 완료 입니다
+              불참 시 노쇼(No show) 처리된다는 점 참고 부탁드립니다
+              ※ 에약시간에 맞추어 도착하시고
+
+              강습시작10분전에 미리 도착해주세요
+
+              (잠수풀 시간이 정해져 있어요)
+              ※ 신체에 이상있는분은 강사님께 사전고지 해주세요
+
+              ※ 그룹레슨이기에 20분이상 지각하는 분들은 노쇼처리 입니다
+
+              다른 분들의 시간도 소중히 배려 부탁 드려요
+
+              늦지마시라고 예약날짜,전날, 두번 문자드립니다.
+
+              ※ 그럼에도 20분이상 지각하는분. ㅜㅜ
+
+              그 한분 때문에 모든분들이 피해 볼수있습니다. 부탁드려요
+
+              ※  당일 건강문제 생긴 분 확인서 제출 해주셔야 노쇼처리 안됩니다.
+
+
+
+              교육비용 33% 할인 진행 중
+
+
+
+              [여름기념 프립특가]
+
+              참가비 (1인)
+
+              200,000원 → 135,000원 (33%🔻
+
+
+
+              여러분 그거 아시나요?
+
+
+
+              지구의 70% 이상이 바다 물 속 세상 입니다.
+
+              저와 함께 물 속 세상을
+
+              경험해보시면 어떨까요? 💦
+
+
+
+              지구의 70%를 구성하고 있는 바다
+
+              나머지 70% 는 어떤 세상인지 궁금하지 않으신가요?
+
+
+
+
+            </div>
+          </div>
+          <div class="DescriptionSection">
+            <button type="button" class="Buttoninfo" id="detailButton">
+              <span>상세정보 더보기</span>
+              <div class="ButtonMore"><img class="arrow-icon" src="/img/arrow.svg" ></div>
+            </button>
+          </div>
+        </article>
+      </section>
+    </div>
+    <section class="ProductDetailPage">
+      <article>
+        <header class="Article_Header">
+          <h2 class="Article_Header_title">진행하는 장소</h2>
+        </header>
+        <div class="Classplace">
+          <div id="map" style="width:100%;height:350px;"></div>
+          <div class="address">xx도 xx시 xx구 / xxx로 000번길00 / 00층 000호</div>
+        </div>
+      </article>
+    </section>
+    <section class="ProductDetailPage">
+      <article>
+        <header class="Article_Header"><h2  class="Article_Header_title">해시 태그</h2></header>
+        <div class="Classsupplies">
+          <span class="RoundTag">남자 / 여자 / 성별 무관</span>
+          <span class="RoundTag">10대 / 20대 / 30대 / 40대 / 50대 이상</span>
+          <span class="RoundTag">커플과 함께 / 친구와 함께 / 혼자</span>
+        </div>
+      </article>
+    </section>
+    <section class="ProductDetailPage">
+      <article>
+        <div class="LinkAccordion">
+          <div class="Accordion_Container">
+            <div>유의 사항</div>
+            <div class="Accordion_Icon"><img class ="Accordion_IconArrow" src="/img/accordion_arrow.svg"></div>
+          </div>
+          <div class="Accordion_Content" style="display:none;">* 본문 내용 참고</div>
+        </div>
+      </article>
+      <article>
+        <div class="LinkAccordion">
+          <div class="Accordion_Container">
+            <div>환불 정책</div>
+            <div class="Accordion_Icon"><img class ="Accordion_IconArrow" src="/img/accordion_arrow.svg"></div>
+          </div>
+          <div class="Accordion_Content" style="display:none;">
+            [날짜 조율형]
+            1. 결제 후 7일 이내 취소 시 : 전액 환불
+            (단, 결제 후 14일 이내라도 호스트와 해빗 진행일 예약 확정 후 환불 불가)
+            2. 결제 후 14일 이후 취소 시 : 환불 불가
+            ※ 상품의 유효기간 만료 시 연장은 불가합니다.
+            ※ 다회권의 경우, 1회라도 사용시 부분 환불이 불가합니다.
+
+            [날짜 지정형]
+            1. 구매한 클래스 이용권 사용일 전 취소 시 : 전액 환불
+            2. 구매한 클래스 이용권 사용일 이후 취소 시 : 환불 불가
+            ※ 상품의 유효기간 만료 시 연장은 불가합니다.
+
+            [환불 신청 방법]
+            1. 해당 해빗 결제한 계정으로 로그인
+            2. 마이해빗 - 신청내역 or 결제내역
+          </div>
+        </div>
+      </article>
+    </section>
+    <section class="ProductDetailPage">
+      <article>
+        <header class="Article_Header">
+          <h2 class="Article_Header_title">이런 해빗 어때요?</h2>
+        </header>
+        <div>
+        </div>
+      </article>
+    </section>
+    </div>
+    <div class="FloatingActionBar" id="FloatingActionBar" >
+      <div class="FloatingButton">
+        <button class="SaveActionButton zzim_btn" type="button" onclick="preventA()" onsubmit="return false">
+          <img src="/img/black2.png" id="" alt="상품 찜" >
+          <span class="SaveActionButton">500(찜 갯수)</span>
+        </button>
+        <button class="ActionButton" id="openModalButton">
+          <div class="DefaultButton">참여하기</div>
+        </button>
+      </div>
+    </div>
+    <!--아이템 옵션 모달창-->
+    <div  id="productOptionsModal" class="Main_Wrapper">
+      <div role="button" class="Toggle_Purch">
+        <img src="data:image/svg+xml,%3Csvg width='17' height='10' viewBox='0 0 17 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M1.75 1.75L8.5 8.5L15.25 1.75' stroke='%23777777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E %3C/svg%3E" class="Toggle_PurchIcon">
+      </div>
+      <div class="OptionBottomSheet">
+        <div role="button" class="OptionSelect_Wrapper">
+          <div class="OptionSelect_Title">
+            <span class="OptionSelect_Title">기본 옵션</span>
+            <img src="/img/arrow.svg" class="arrow-icon">
+          </div>
+          <div class="OptionItem_Wrapper">
+            <div class="OptionItem_Container" id="${status.index}" data-price="${option.one_price}">
+              <input type="hidden" value="${option.pro_no}" class="Option_Head">
+              <div class="OptionItem_ContentContainer">
+                <div class="OptionItem_TitleContainer">
+                  <span class="OptionItem_Title" color="#333333">00월 00일 (요일) 00:00</span>
+                </div>
+                <div class="OptionItem_PriceContainer">
+                  <span color="#333333" class="OptionItem_Price"><span id="option_price">5000</span>원</span>
+                  <span color="#999999" class="OptionItem_Remains"><span id="option_remains">0</span>개 남음</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="BottomContent_Wrapper">
+        <div class="OptionBottomSheet_OptionItem">
+          <strong class="OptionBottomSheet_Count">총 <span id="total_quantity">0</span>개</strong> <!--총수량-->
+          <strong class="OptionBottomSheet_Price"><span id="total_price">0</span>원</strong> <!--총가격-->
+        </div>
+        <div class="OptionBottomSheet_ProductInfo">
+          <button class="SaveActionButton" type="button">
+            <img src="/img/black2.png" id="cont_no${detail.cont_no}">
+            <span class="SaveActionButton_Count">500</span> <!--찜갯수-->
+          </button>
+          <button class="OptionBottomSheet_Button">참여하기</button>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=514f787389abd52c7772e80e1f1beba1&libraries=services"></script>
+    <script>
+      // 지도 API
+      var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+          mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+          };
+
+      // 지도를 생성합니다
+      var map = new kakao.maps.Map(mapContainer, mapOption);
+
+      // 주소-좌표 변환 객체를 생성합니다
+      var geocoder = new kakao.maps.services.Geocoder();
+
+      // 주소로 좌표를 검색합니다
+      geocoder.addressSearch('${detail.cont_addr1}', function(result, status) {
+
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+
+          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+          // 결과값으로 받은 위치를 마커로 표시합니다
+          var marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+          });
+
+          // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+          map.setCenter(coords);
+        }
+      });
+    </script>
+  </section>
+</th:block>

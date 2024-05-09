@@ -1,0 +1,22 @@
+
+.review-star{
+  width: 15px;
+}
+
+.class-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 260px;
+  height: 490px;
+  margin: 20px 10px;
+  border: 1px solid rgba(171, 171, 171, 0.39);
+  border-radius: 10px;
+}
+
+.habit-img {
+  border-radius: 10px;
+  width: 220px;
+  height: 220px;
+}

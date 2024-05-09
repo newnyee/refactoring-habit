@@ -1,0 +1,76 @@
+.Home{
+  width: 840px;
+  margin: 0 auto;
+  padding:0 100px;
+}
+
+.Home_top{
+  margin-top: 50px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.show_payed_finish{
+  margin-bottom: 50px;
+}
+
+#paydone_img{
+  width:70px;
+  height:70px;
+  margin:auto;
+  display:block;
+  margin-bottom: 20px;
+}
+
+.total_pay{
+  width: 100%;
+  --height: 100%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.total_pay>p{
+  text-align: center; 
+  font-size: 22px; 
+  font-weight: bold;
+}
+
+.payed_btn_wrapper{
+  width: 200px;
+  --float: right;
+  margin: 0 0 0 auto;
+} 
+
+#continue_shop_btn{
+  width: 200px;
+  height:50px;
+  background-color: hotpink;
+  color:white;
+  border-radius: 10px;
+  border: none;
+}
+
+#orderlist_img1{
+  width:150px;
+  height:150px;
+  border-radius: 20%;
+  display: inline-block;
+}
+
+.show_price_wrapper{
+  display: block;
+}
+
+#payed_price{
+  font-size: 17px;
+  font-weight: 600;
+  padding-top: 10px;
+  margin:10px 30px;
+  
+}
+
+.Home_sub{
+  margin:10px 30px;
+  font-weight: bold;
+  display: block;
+}

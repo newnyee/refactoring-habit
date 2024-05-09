@@ -1,0 +1,187 @@
+/*================주 컨텐츠 ========================*/
+.Home{
+    width: 840px;
+    margin: 0 auto;
+    padding:0 100px;
+}
+
+.Home_wrapper{
+    margin-top: 20px;
+}
+
+.Home_wrapper_a{
+    margin-right: 40px;
+}
+
+.Home_wrapper_btn{
+    
+    font-size: 20px;
+    height: 45px;
+    padding: 0px 0px 26px;
+    border: none;
+    --border: 1px solid black;
+    background-color: transparent;
+
+    
+}
+.Home_wrapper_btn>div:nth-child(1){
+    display: inline-block;
+    font-weight: 600;
+    
+}
+
+.btn_circle1{
+  
+    display: block;
+    margin: 10px auto;
+    width: 5px;
+    background-color: #ffcae0;
+    height: 5px;
+    border-radius: 100%;
+}
+
+.btn_circle2{
+    display: block;
+    margin: 7px auto;
+    width: 6px;
+    background-color: #ffffff;
+    height: 7px;
+    border-radius: 100%; 
+}
+
+/*본내용*/
+.Home_product_recommend{
+    display: inline-block;
+    --border: 1px solid saddlebrown ;
+    margin-bottom: 25px;
+}
+
+
+.Home_product_recommend_wrapper{
+    display: inline-block;
+}
+
+.Home_product_recommend_wrapper>div>div{
+    margin-bottom: 30px;
+}
+
+
+
+.Home_product_recommend_list{
+    width: 100%;
+    margin: 20px 0;
+    display: inline-block;
+    --background-color: #bbb;
+}
+
+.Home_product_recommend_p{
+    width: 160px;
+    height: 350px;
+    --border: 1px solid coral;
+    display: inline-block;
+    float: left;
+    padding: 7px;
+}
+
+.Home_product_recommend_p_div{
+    text-align: center;
+}
+
+.Home_product_recommend_p_div>div>img{
+    border:1px solid black;
+    border-radius: 5%;
+}
+.Home_product_recommend_p_div_btn{
+    background-color:transparent;
+    border:none;
+    transform: translate(20px,-50px);
+    position: absolute;
+    height: 35px;
+    width: 40px;
+    
+}
+.Home_product_recommend_p_div_img{
+    --background-color: rgba(255,255,255,0.75);
+    background-color: transparent;
+    filter: drop-shadow(2px 2px 2px #a3a3a3);
+    --transform: translateY(-50px);
+    --transform: translate(30px,-50px);
+   
+}
+
+.Home_product_recommend_p_font{
+    padding-top: 10px;
+    font-size: 14px;
+    text-align: left;
+    padding: 13px;
+    color: black;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+.Home_product_recommend_p_font>div>div{
+    margin-bottom: 30px;
+}
+
+
+.Wrapper_Paging{
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-flex: 0;
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 30px 0px;
+    background-color: white;
+} 
+
+.Wrapper_Paging  .paging button {
+    width: 40px;
+    height: 40px;
+    float:left;
+    padding: 35px;
+	margin: auto;
+	width:15px;
+	color:#000;
+	font-size: 18px;
+    font-weight: normal;
+    border-radius: 50%;
+	border:none;
+	text-align:center;
+	text-decoration:none;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.Wrapper_Paging  .paging button:hover, .Wrapper_Paging  .paging button:focus {
+    color:rgb(255, 121, 177);
+	background-color:white;
+    text-align:center;
+    font-weight: bold;
+	text-decoration:none;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+
+
+ .paging > button {
+    border: none;
+    font-weight: bold;
+    padding:10px;
+    background-color: white;
+}
+
+a {
+    color: hsl(0, 0%, 0%);
+}
+
+a:hover {
+    color: #e83e8c;
+    text-decoration: underline;
+}

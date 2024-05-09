@@ -1,0 +1,98 @@
+/*================주 컨텐츠 ========================*/
+.Home{
+    width: 840px;
+    margin: 0 auto;
+    padding:0 100px;
+}
+
+.Home_order_sub{
+    margin-top: 40px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.Home_show_container{
+    margin-top: 30px;
+}
+
+.Home_show_date{
+    display: inline-block;
+    font-size: 12px;
+    
+}
+
+.Home_show_num{
+    display: inline-block;
+    font-size: 12px;
+}
+
+.Home_show_wrapper{
+    margin-top: 20px;
+}
+
+.Home_show_order_img{
+    width: 100px;
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.Home_show_wrapper>a{
+    color: black;
+}
+
+
+
+.Home_show_order_info{
+    margin-left: 20px;
+    display: inline-block;
+    position: relative;
+    top: -32px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.Home_show_order_info>div{
+    margin-bottom: 5px;
+}
+
+.Home_order_sub2{
+    margin-top: 25px;
+    font-size: 17px;
+    font-weight: 600;
+ 
+}
+
+.Home_order_check{
+    margin-top: 20px;
+}
+
+.Home_order_check_sub{
+    font-size: 16px;
+    display: inline-block;
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
+.Home_order_check_num{
+    display: inline-block;
+    float: right;
+    padding-right: 10px;
+}
+
+.review-write {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+    font-size: large;
+    font-weight: bold;
+    color: #e83e8c;
+    background-color: white;
+    border: 1px solid #e83e8c;
+    border-radius: 8px;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+}
+
+.review-write:hover {
+    background-color: #e83e8c;
+    color: white;
+}

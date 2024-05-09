@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--라이브러리 참조 : Thymeleaf & Thymeleaf Layout -->
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="host-layout (head, content)">
+
+<!--공통 JS / CSS 영역을 관리하는 환경 영역-->
+  <head th:insert="~{common/fragments/host/config :: host-config-fragment}">
+    <div th:replace="${head}"></div>
+  </head>
+
+  <body>
+    <div class="container">
+      <!--nav 영역을 참조합니다.-->
+      <th:block th:replace="~{common/fragments/host/nav :: host-nav-fragment}"></th:block>
+
+      <!--Content 내용 영역을 참조합니다-->
+      <div th:replace="${content}"></div>
+    </div>
+    <!--Footer 영역을 참조합니다.-->
+    <footer th:insert="~{common/fragments/host/footer :: host-footer-fragment}"></footer>
+
+    <script th:inline="javascript">
+      if ([[${message}]] !== null) {
+        alert([[${message}]]);
+      }
+    </script>
+  </body>
+</html>

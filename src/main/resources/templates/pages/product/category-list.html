@@ -1,0 +1,82 @@
+<th:block lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/product/category-list.css}">
+  </head>
+
+  <title>카테고리 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+
+  <section class="PageWrapper">
+    <div class="Padded">
+      <h1 font-size="20px" class="Left-LeftPageTitle">카테고리</h1>
+      <div class="Fade_Wrapper" style="opacity: 1; display: block;">
+        <div class="CategoryList__Wrapper">
+          <a href="product-list.html" class="CategoryItem-A">
+            <div class="CategoryItem1">
+              <div class="CategoryItem__Background"></div>
+              <div class="CategoryItem__Text"></div>
+              <span>아웃도어</span>
+            </div>
+          </a>
+
+          <a href="" class="CategoryItem-A">
+            <div class="CategoryItem2">
+              <div class="CategoryItem__Background"></div>
+              <div class="CategoryItem__Text"></div>
+              <span>피트니스</span>
+            </div>
+          </a>
+
+          <a href="" class="CategoryItem-A">
+            <div class="CategoryItem3">
+              <div class="CategoryItem__Background"></div>
+              <div class="CategoryItem__Text"></div>
+              <span>공예DIY</span>
+            </div>
+          </a>
+
+          <a href="" class="CategoryItem-A">
+            <div class="CategoryItem4">
+              <div class="CategoryItem__Background"></div>
+              <div class="CategoryItem__Text"></div>
+              <span>스포츠</span>
+            </div>
+          </a>
+
+          <a href="" class="CategoryItem-A">
+            <div class="CategoryItem5">
+              <div class="CategoryItem__Background"></div>
+              <div class="CategoryItem__Text"></div>
+              <span>베이킹</span>
+            </div>
+          </a>
+
+          <a href="" class="CategoryItem-A">
+            <div class="CategoryItem6">
+              <div class="CategoryItem__Background"></div>
+              <div class="CategoryItem__Text"></div>
+              <span>문화예술</span>
+            </div>
+          </a>
+
+          <a href="" class="CategoryItem-A">
+            <div class="CategoryItem7">
+              <div class="CategoryItem__Background"></div>
+              <div class="CategoryItem__Text"></div>
+              <span>온라인</span>
+            </div>
+          </a>
+
+          <a href="" class="CategoryItem-A">
+            <div class="CategoryItem8">
+              <div class="CategoryItem__Background"></div>
+              <div class="CategoryItem__Text"></div>
+              <span>자기계발</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</th:block>

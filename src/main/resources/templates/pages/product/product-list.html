@@ -1,0 +1,477 @@
+<th:block lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/product/product-list.css}">
+    <script th:src="@{/js/product/product-list.js}"></script>
+  </head>
+
+  <title>해빗 목록 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+
+  <section class="PageWrapper">
+    <div class="Fade_Wrapper" style="opacity: 1; display: block;">
+      <div class="CategoryNav_Wrapper">
+        <span>아웃도어</span>
+        <img src="/img/accordion_arrow2.svg" class="CategoryNav_arrow">
+      </div>
+      <div>
+        <div class="ItemList_Wrapper jEQWdY">
+          <a class="active" href="" style="font-weight: bold; color: #e83e8c;">전체</a>
+          <a href="">서핑</a>
+          <a href="">등산·트레킹</a>
+          <a href="">캠핑</a>
+          <a href="">승마</a>
+          <a href="">러닝</a>
+        </div>
+      </div>
+      <!-- 필터 버튼 -->
+      <div class="Filter_Wrapper">
+        <div class="Filter__FilterButtonWrapper">
+          <div class="FilterOther">
+            <div class="FilterOpenButton">
+              <button height="auto" color="initial" font-size="14px" font-weight="500" class="Button1">필터</button>
+            </div>
+          </div>
+        </div>
+        <!-- 필터 모달창-->
+        <div class="Filter_Container_Modal" >
+          <div class="Filter_FlexFix">
+            <div class="Filter_Wrapper_Modal">
+              <header class="Filter_HeaderWrapper">
+                <div class="FilterModalHeader_Wrapper">
+                  <span class="FilterModalHeader_ModalTitle">필터</span>
+                </div>
+                <button type="button" class="Filter_Button filter-close">
+                  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cg fill='none' fill-rule='nonzero'%3E %3Cpath d='M0 0h24v24H0z'/%3E %3Cpath stroke='%23000' stroke-width='2' d='M7.05 7.05l9.9 9.9M16.95 7.05l-9.9 9.9'/%3E %3C/g%3E %3C/svg%3E" alt="닫기버튼">
+                </button>
+              </header>
+              <div class="FilterBodyContainer">
+                <div class="FilterOther_Momo">
+                  <div class="FilterOther_ModalSection">
+                    <div>
+                      <div class="FilterOthers_FilterTitle">정렬</div>
+                      <div class="FilterRadio">
+                        <div direction="column" class="FilterRadio_RadioInput">
+                          <div class="radio-box">
+                            <label class="filter-radio">
+                              <span>인기순</span>
+                              <input type="radio" id="radio-hot" name="filter" value="popularity">
+                            </label>
+                          </div>
+                          <div class="radio-box">
+                            <label class="filter-radio">
+                              <span>등록일순</span>
+                              <input type="radio" id="radio-date" name="filter" value="date">
+                            </label>
+                          </div>
+                          <div class="radio-box">
+                            <label class="filter-radio">
+                              <span>평점순</span>
+                              <input type="radio" id="radio-review" name="filter" value="rating">
+                            </label>
+                          </div>
+                          <div class="radio-box">
+                            <label class="filter-radio">
+                              <span>가격 높은순</span>
+                              <input type="radio" id="radio-pricehigh" name="filter" value="highPrice">
+                            </label>
+                          </div>
+                          <div class="radio-box">
+                            <label class="filter-radio">
+                              <span>가격 낮은순</span>
+                              <input type="radio" id="radio-pricelow" name="filter" value="lowPrice">
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="FilterOther_Price">
+                    </div>
+                  </div>
+                </div>
+                <footer class="Filter_FooterWrapper">
+                  <button width="280px" height="50px" color="white" font-size="13px" font-weight="bold" class="Button_btn">적용하기</button>
+                </footer>
+              </div>
+            </div>
+            <div class="Filter_Overlay"></div>
+          </div>
+        </div>
+        <!-- 필터 모달창 끝 -->
+
+        <!-- 콘텐츠 리스트 -->
+        <div font-size="14px" class="ProductSectionHeader_Wrapper">
+          <div font-size="18" class="ProductSectionHeader_Header">
+            <h2 class="ProductSectionHeader_Title">아웃도어 해빗</h2>
+            <span>12</span>
+          </div>
+        </div>
+
+        <!-- * 전체 아웃도어 리스트 시작 -->
+        <div class="Home_product_recommend_list">
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="/img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="/img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 1]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr type="Line" size="16">
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="../../img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 2]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr>
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="../../img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img zzim_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 3]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr>
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="../../img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 4]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr>
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="../../img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img zzim_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 5]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr>
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="../../img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 6]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr>
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="../../img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 7]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr>
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="../../img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 8]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr>
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="../../img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 9]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr>
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="../../img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 10]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr>
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="../../img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 11]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr>
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="Home_product_recommend_p">
+            <a href="" class="href">
+              <div class="Home_product_recommend_p_div">
+                <div>
+                  <img src="../../img/ang.png" alt="" width="150px">
+                </div>
+                <div>
+                  <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">
+                    <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+                  </button>
+                </div>
+                <div class="CardProduct_Wrapper">
+                  <div>
+                    <span class="">전국</span>
+                    <div>
+                      [전체 아웃도어 카드 12]
+                    </div>
+                    <div>
+                      후기 : 0
+                    </div>
+                    <hr>
+                    <div>
+                      159,000원
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!--* 전체 아웃도어 리스트 끝 -->
+
+        <!--* 이전/다음 버튼 -->
+        <div class="Wrapper_Paging">
+          <div class="paging">
+            <button width="40px" height="40px" color="#3397ff" font-size="18px" font-weight="bold"  onclick="onPageClick(-1)">&lt;</button>
+            <button width="40px" height="40px" color="#3397ff" font-size="18px" font-weight="bold"  onclick="onPageClick(1)">1</button>
+            <button width="40px" height="40px" color="#3397ff" font-size="18px" font-weight="bold"  onclick="onPageClick(2)">2</button>
+            <button width="40px" height="40px" color="#3397ff" font-size="18px" font-weight="bold" onclick="onPageClick(3)">3</button>
+            <button width="40px" height="40px" color="#3397ff" font-size="18px" font-weight="bold" onclick="onPageClick(4)">4</button>
+            <button width="40px" height="40px" color="#3397ff" font-size="18px" font-weight="bold" onclick="onPageClick(-2)">></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</th:block>

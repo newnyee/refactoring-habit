@@ -1,0 +1,32 @@
+<th:block lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/member/find-id.css}">
+  </head>
+
+  <title>아이디 찾기 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+
+  <section>
+    <!-- 본문 시작 -->
+    <div class="Home">
+      <div class="Home_sub">
+        아이디 찾기
+      </div>
+      <hr>
+      <div class="Home_form_wrapper">
+        <div class="Home_select">
+          <div class="Home_ment">회원님의 아이디는 아래와 같습니다.</div>
+          <div class="Home_ment" style="margin-bottom: 0">user-1</div>
+        </div>
+        <button type="submit" class="Home_btn" onclick="location.href='/login'">로그인 하러가기</button>
+
+        <div class="Home_select">
+          <div class="Home_ment" style="margin-bottom: 0">회원 정보를 찾을 수 없습니다.</div>
+        </div>
+        <button type="submit" class="Home_btn" onclick="location.href='javascript:history.back()'">뒤로가기</button>
+      </div>
+    </div>
+    <!-- 본문 끝 -->
+  </section>
+</th:block>

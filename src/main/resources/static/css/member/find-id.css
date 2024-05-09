@@ -1,0 +1,42 @@
+/*================주 컨텐츠 ========================*/
+.Home{
+  width: 840px;
+  margin: 0 auto;
+  padding:0 100px;
+
+}
+
+.Home_sub{
+  font-size: 25px;
+  font-weight: 600;
+  margin-top: 55px;
+  margin-bottom: 5px;
+  height: 45px;
+}
+
+.Home_ment{
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+
+.Home_form_wrapper{
+  text-align: center;
+}
+
+.Home_select{
+  margin-bottom: 15px;
+}
+
+.Home_btn{
+  margin-top: 30px;
+  width: 450px;
+  height: 40px;
+  border-radius: 10px;
+  border: 0.5px solid #d9d9d9;
+  background-color: #e83e8c;
+  color: white;
+  margin-bottom: 150px;
+}

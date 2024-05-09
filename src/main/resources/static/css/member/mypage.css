@@ -1,0 +1,64 @@
+/*================주 컨텐츠 ========================*/
+.Home{
+    width: 840px;
+    margin: 0 auto;
+    padding:0 100px;
+
+}
+
+.Home_myinfo{
+    margin-top: 25px;
+    margin-bottom: 30px;
+    color: black;
+    text-align: center;
+}
+
+.Home_myinfo_name{
+    padding-top: 15px;
+}
+
+.Home_myinfo_name2{
+    font-weight: 600;
+    padding-top: 15px;
+    color: rgb(61, 61, 61);
+}
+
+.Home_myinfo_img>img{
+    width: 100px;
+    border: 1px solid rgb(214, 214, 214);
+    border-radius: 100%;
+}
+
+.Home_myrecord{
+    margin-bottom: 30px;
+}
+
+.Home_myrecord>a{
+    color: black;
+    font-size: 14px;
+    display: inline-block;
+    margin-right:38px;
+}
+
+.Home_myrecord_name{
+    margin-bottom: 10px;
+}
+
+.Home_myrecord_num{
+    font-weight: 600;
+    padding-left: 5px;
+}
+
+/*===========마이 활동 정보*/
+
+.Home_myact_name{
+    font-size: 14px;
+    color: rgb(152, 152, 152);
+    margin-bottom: 30px;
+}
+.Home_myact_order{
+    margin-bottom: 40px;
+    font-weight: 500;
+    color: black;
+}
+

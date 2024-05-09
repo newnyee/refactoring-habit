@@ -1,0 +1,36 @@
+<th:block lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/order/order-result.css}">
+  </head>
+
+  <title>결제 완료 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+
+  <section class="Home">
+    <h1 style="font-size: 20px; font-weight: bold; margin-top: 20px">결제완료</h1>
+    <hr>
+    <div class="show_payed_finish">
+      <img src="../../img/check.png" id="paydone_img" />
+      <p style="font-size: 21px; text-align: center; font-weight: bold; margin-bottom: 10px;">
+        구매가 정상적으로 완료되었습니다.
+      </p>
+    </div>
+    <hr style="border: 0.5px solid rgb(211, 211, 211)">
+    <div style="display: flex; justify-content: space-around; align-items: center;">
+      <div>
+        <img src="../../img/ang.png" id="orderlist_img1" />
+      </div>
+      <div class="show_proinfo">
+        <div class="Home_sub">[망원] 카페 인기메뉴! 마카오식 에그타르트 만들기</div>
+        <div class="Home_sub">옵션명</div>
+        <div class="Home_sub">수량 : 00 개</div>
+        <div class="Home_sub">가격 : 30,000 원</div>
+      </div>
+    </div>
+    <hr style="border: 0.5px solid rgb(211, 211, 211)">
+    <div class="total_pay">
+      <p>총 결제 금액 : 000,000 원</p>
+    </div>
+  </section>
+</th:block>

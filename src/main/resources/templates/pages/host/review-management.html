@@ -1,0 +1,207 @@
+<html lang="ko"
+    xmlns:th="http://www.thymeleaf.org"
+    th:insert="~{common/layouts/host-layout :: host-layout (~{::head}, ~{::section})}">
+
+  <head>
+    <link rel="stylesheet" th:href="@{/css/host/review-management.css}">
+    <script th:src="@{/js/host/review-management.js}"></script>
+  </head>
+
+  <section>
+    <!-- 페이지 이름 -->
+    <p class="page-name">리뷰 관리</p>
+
+    <!-- main 시작 -->
+    <div class="content-wrap">
+      <!-- 리뷰검색 시작-->
+      <div class="content">
+        <p class="content-name">리뷰 검색</p>
+        <!-- 별점 -->
+        <div class="content-flex">
+          <div class="item-name">
+            <p>별점 (미선택시 전체)</p>
+          </div>
+          <div style="display: flex; flex-wrap: wrap;">
+            <div>
+              <input class="form-check-input" type="checkbox" value=1 name="starScore" id="flexCheckChecked1" checked="">
+              <label class="form-check-label" for="flexCheckChecked1">
+                1점&nbsp;&nbsp;
+              </label>
+            </div>
+            <div>
+              <input class="form-check-input" type="checkbox" value=2 name="starScore" id="flexCheckChecked2" checked="">
+              <label class="form-check-label" for="flexCheckChecked2">
+                2점&nbsp;&nbsp;
+              </label>
+            </div>
+            <div>
+              <input class="form-check-input" type="checkbox" value=3 name="starScore" id="flexCheckChecked3" checked="">
+              <label class="form-check-label" for="flexCheckChecked3">
+                3점&nbsp;&nbsp;
+              </label>
+            </div>
+            <div>
+              <input class="form-check-input" type="checkbox" value=4 name="starScore" id="flexCheckChecked4" checked="">
+              <label class="form-check-label" for="flexCheckChecked4">
+                4점&nbsp;&nbsp;
+              </label>
+            </div>
+            <div>
+              <input class="form-check-input" type="checkbox" value=5 name="starScore" id="flexCheckChecked5" checked="">
+              <label class="form-check-label" for="flexCheckChecked5">
+                5점&nbsp;&nbsp;
+              </label>
+            </div>
+          </div>
+        </div>
+        <!-- 리뷰내용 -->
+        <div class="content-flex">
+          <div class="item-name">
+            <p>리뷰 내용</p>
+          </div>
+          <div>
+            <input type="text" class="form-control" name="reviewContKeyword" id="reviewContKeyword" placeholder="내용을 입력해주세요" style="width: 300px;">
+            <p class="item2-info">입력한 내용이 리뷰내용에 포함되어있는 내역만 검색 됩니다.</p>
+          </div>
+        </div>
+        <!-- 회원ID -->
+        <div class="content-flex">
+          <div class="item-name">
+            <p>회원 ID</p>
+          </div>
+          <div>
+            <input type="text" class="form-control" name="searchUserId" id="searchUserId" placeholder="회원 ID를 입력해주세요" style="width: 300px;">
+            <p class="item2-info">입력한 ID와 정확히 일치하는 내역만 검색 됩니다.</p>
+          </div>
+        </div>
+        <!-- 해빗명-->
+        <div class="content-flex">
+          <div class="item-name">
+            <p>해빗명</p>
+          </div>
+          <div>
+            <input type="text" class="form-control" name="searchUserId" id="" placeholder="해빗명을 입력해주세요" style="width: 300px;">
+          </div>
+        </div>
+        <!-- 리뷰 검색 버튼 -->
+        <div style="float: right;">
+          <input type="button" class="btn btn-primary" value="검색" id="search-reservation">
+          <input type="reset" class="btn btn-outline-primary" value="초기화">
+        </div>
+      </div>
+      <!-- 리뷰 검색 종료 -->
+
+      <!-- 검색 결과 -->
+      <div class="content">
+        <div id="search-result">
+          <p class='content-name'>검색 결과 : 00 건</p>
+        </div>
+        <div style="text-align: center;">
+          <table class="table search-result">
+            <thead>
+            <tr class="table-secondary">
+              <th>회원ID</th>
+              <th>해빗명</th>
+              <th>별점</th>
+              <th>리뷰내용</th>
+              <th>리뷰작성일</th>
+            </tr>
+            </thead>
+            <tbody id="table-body">
+            <tr onclick="reviewDetail('review_no', this)">
+              <td>user-1</td>
+              <td>해빗명</td>
+              <td>
+                <img src='/img/star.png' alt = '★' class='review_star'>
+                <img src='/img/star.png' alt = '★' class='review_star'>
+                <img src='/img/star.png' alt = '★' class='review_star'>
+                <img src='/img/star.png' alt = '★' class='review_star'>
+                <img src='/img/star.png' alt = '★' class='review_star'>
+              </td>
+              <td>리뷰 내용 16자 출력</td>
+              <td>2024.03.28</td>
+            </tr>
+            <tr onclick="reviewDetail('review_no', this)">
+              <td>user-2</td>
+              <td>해빗명</td>
+              <td>
+                <img src='/img/star.png' alt = '★' class='review_star'>
+                <img src='/img/star.png' alt = '★' class='review_star'>
+                <img src='/img/star.png' alt = '★' class='review_star'>
+              </td>
+              <td>리뷰 내용 16자 출력</td>
+              <td>2024.03.29</td>
+            </tr>
+            <tr>
+              <td colspan='5'>검색 결과가 없습니다</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- 페이징 -->
+        <div class="align-center">
+          <ul class="pagination" id="pagination">
+            <li class="page-item ${paging.prev == true ? '' : 'disabled'}">
+              <a class="page-link" href="/host/review/${paging.startPage-1}">&laquo;</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/host/review/${num}">1</a>
+            </li>
+            <li class="page-item ${paging.next == true ? '' : 'disabled'}">
+              <a class="page-link" href="/host/review/${paging.endPage+1}">&raquo;</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- main 종료 -->
+
+    <!--  리뷰 상세 모달 시작 -->
+    <div class="modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <table class="table review-detail-table">
+              <tr>
+                <th>회원 ID</th>
+                <td class="review_user_id"></td>
+              </tr>
+              <tr>
+                <th>해빗명</th>
+                <td class="review_product_name"></td>
+              </tr>
+              <tr>
+                <th>옵션명</th>
+                <td class="review_option_name">000</td>
+              </tr>
+              <tr>
+                <th>별점</th>
+                <td class="review_star_score">??</td>
+              </tr>
+              <tr>
+                <th>리뷰 작성일</th>
+                <td class="review_created_at">??</td>
+              </tr>
+              <tr>
+                <th>리뷰 내용</th>
+                <td>
+                  <textarea class="review-textarea" readonly>
+dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd<br>
+DDDDD<br>
+DDDDD<br>
+DDDDDD
+
+
+
+
+
+                  </textarea>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  리뷰 상세 모달 종료 -->
+  </section>

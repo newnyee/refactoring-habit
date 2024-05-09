@@ -1,0 +1,57 @@
+<th:block lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/order/order-list.css}">
+  </head>
+
+  <title>결제 내역 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+
+  <section class="Home">
+    <div>
+      <div class="Home_order_sub">결제 내역</div>
+      <hr>
+      <div>
+        <div>
+          <div class="Home_btn">
+            <button class="Home_reserve_btn">예약 확정만 보기</button>
+          </div>
+          <div class="Home_btn">
+            <button class="Home_reserve_can">취소 내역 숨기기</button>
+          </div>
+        </div>
+        <!--버튼 끝-->
+        <div>
+          <div class="Home_show_container">
+            <div class="Home_show_date">2022년 5월 24일 23:30 결제</div> |
+            <div class="Home_show_num"> 구매수량 : <span>1</span></div>
+            <div class="Home_show_wrapper">
+              <a href="order-detail.html">
+                <img src="../../img/image.jpeg" alt="" class="Home_show_order_img">
+                <div class="Home_show_order_info">
+                  <div>신사 / 가로수길 칵테일 클래스</div>
+                  <div>6월 1일 (일) 오후 2시 30분</div>
+                </div>
+              </a>
+            </div>
+            <hr>
+          </div>
+          <div class="Home_show_container">
+            <div class="Home_show_date">2022년 5월 24일 23:30 결제</div> |
+            <div class="Home_show_num"> 구매수량 : <span>1</span></div>
+            <div class="Home_show_wrapper">
+              <a href="order-detail.html">
+                <img src="../../img/image.jpeg" alt="" class="Home_show_order_img">
+                <div class="Home_show_order_info">
+                  <div>신사 / 가로수길 칵테일 클래스</div>
+                  <div>6월 1일 (일) 오후 2시 30분</div>
+                </div>
+              </a>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</th:block>

@@ -1,0 +1,66 @@
+/*================주 컨텐츠 ========================*/
+.Home{
+    width: 840px;
+    margin: 0 auto;
+    padding:0 100px;
+    text-align: center;
+}
+
+.Home_top{
+    margin-top: 50px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.Home_loginForm{
+    margin-top: 20px;
+    margin-bottom: 110px;
+    width: 100%;
+    padding: 24px 150px;
+}
+
+.Home_loginForm_input>input{
+    margin: 5px auto;
+    --width: 40px;
+    width:340px;
+    height:50px;
+    font-size:15px;
+    border: 1px solid rgb(205, 205, 205);
+    border-radius: 2px;
+    background-color: #f6f6f6;
+    padding-left: 10px;
+}
+
+.Home_loginForm_input>input:focus{
+    outline: 1px solid #ffcae0;
+    background-color: white;
+}
+
+.Home_find_a1{
+    display: inline-block;
+    --float: left;
+    font-size: 15px;
+    color: gray;
+    margin-top: 8px;
+    margin-left: 15px;
+
+}
+
+.Home_find_a2{
+    display: inline-block;
+    --float: right;
+    font-size: 15px;
+    color: gray;
+    margin-top: 6px;
+
+}
+
+.Home_login_btn{
+    margin-top: 16px;
+    width: 340px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    background-color: #e83e8c;
+}

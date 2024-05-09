@@ -1,0 +1,98 @@
+<th:block lang="ko"
+          xmlns:th="http://www.thymeleaf.org"
+          th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/member/member-review-list.css}">
+    <script th:src="@{/js/member/member-review-list.js}"></script>
+  </head>
+
+  <title>리뷰 관리 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+
+  <section class="Home">
+    <h1 style="font-size: 20px; font-weight: bold; margin-top: 20px">리뷰 관리</h1>
+    <hr>
+    내가 쓴 총 리뷰 : 00 개
+    <hr>
+    <div class="review-container">
+      <div class="review-product-name-container">
+        <div class="review-product-name">
+          <span>해빗명 > </span>
+        </div>
+        <div>
+          <button class="review_modify_btn">수정</button>
+          <button class="review_delete_btn">삭제</button>
+        </div>
+      </div>
+      <div class="review-option-name">
+        <span>옵션명</span>
+      </div>
+      <div class="review-star-score-container">
+        <img src="../../img/star.png" alt="">
+        <img src="../../img/star.png" alt="">
+        <img src="../../img/star.png" alt="">
+        <img src="../../img/star.png" alt="">
+        <img src="../../img/star.png" alt="">
+        <span style="margin-left: 15px">0000년 00월 00일, 수정됨 (수정했을 경우 수정일 & 수정됨 표시)</span>
+      </div>
+      <textarea class="review-content-text" readonly>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+      </textarea>
+    </div>
+    <div class="review-container">
+      <div class="review-product-name-container">
+        <div class="review-product-name">
+          <span>해빗명 > </span>
+        </div>
+        <div>
+          <button class="review_modify_btn">수정</button>
+          <button class="review_delete_btn">삭제</button>
+        </div>
+      </div>
+      <div class="review-option-name">
+        <span>옵션명</span>
+      </div>
+      <div class="review-star-score-container">
+        <img src="../../img/star.png" alt="">
+        <img src="../../img/star.png" alt="">
+        <img src="../../img/star.png" alt="">
+        <img src="../../img/star.png" alt="">
+        <img src="../../img/star.png" alt="">
+        <span>0000년 00월 00일, 수정됨 (수정했을 경우 수정일 & 수정됨 표시)</span>
+      </div>
+      <div>
+        <textarea class="review-content-text" readonly>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+리뷰 내용<br>
+        </textarea>
+        <div class="review-content-img">
+          <img src="/img/bake.png">
+          <img src="/img/bake.png">
+        </div>
+        <!--        <div class="review-content-text">-->
+        <!--        </div>-->
+      </div>
+    </div>
+    <button class="see-more">더보기</button>
+  </section>
+</th:block>

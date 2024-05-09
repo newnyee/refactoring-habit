@@ -1,0 +1,33 @@
+<th:block lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/member/find-member.css}">
+    <script th:src="@{/js/member/find-member.js}"></script>
+  </head>
+
+  <title>아이디/비밀번호 찾기 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+
+  <section>
+    <!-- 본문 시작 -->
+    <div class="Home">
+      <div class="Home_wrapper">
+        <div>
+          <div class="Home_sub">아이디 / 비밀번호 찾기</div>
+          <div class="Home_ment">가입 시 사용한 이메일을 입력해주세요</div>
+          <form class="Home_form" method="post" name="UserCheckForm" onsubmit="return checkForm()">
+            <input type="text" placeholder="이메일 입력" class="Home_input" name="user_email" id="user_email">
+            <small class="error" id="email-small" hidden></small>
+            <div class="center_sort">
+              <button type="submit" onclick="javascript:form.action='/findid/result'" class="Home_submit">아이디 찾기</button>
+              <button type="submit" onclick="javascript:form.action='/findpw'" class="Home_submit">비밀번호 찾기</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <br>
+      <hr>
+    </div>
+    <!-- 본문 끝 -->
+  </section>
+</th:block>

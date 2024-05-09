@@ -1,0 +1,161 @@
+/*================주 컨텐츠 ========================*/
+.Home{
+  width: 840px;
+  margin: 0 auto;
+  padding:0 100px;
+}
+
+.review-average-container {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+}
+
+.review-average-container img {
+  width: 20px;
+}
+
+.review-average-container span {
+  margin-left: 20px;
+  font-size: large;
+  font-weight: bold;
+  color: #9d9a9a;
+}
+
+.review-container {
+  border: 1px solid rgba(210, 210, 210, 0.45);
+  border-radius: 6px;
+  padding: 15px 45px;
+  margin: 10px 0 30px;
+}
+
+.review-container div {
+  margin: 10px 0;
+}
+
+.review-product-name-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review_modify_btn{
+  height: 23px;
+  width: 45px;
+  border-radius: 3px;
+  border: none;
+  font-size: small;
+  color: white;
+  background-color: #e83e8c;
+}
+
+.review_delete_btn {
+  height: 23px;
+  width: 45px;
+  font-size: small;
+  font-weight: bold;
+  color: #e83e8c;
+  background-color: white;
+  border-radius: 3px;
+  border: 1px solid #e83e8c;
+}
+
+.review-product-name {
+  font-weight: bold;
+  font-size: large;
+}
+
+.review-option-name {
+  font-size: small;
+  color: gray;
+}
+
+.review-star-score-container {
+  font-size: small;
+}
+
+.review-star-score-container img {
+  width: 13px;
+}
+
+.review-star-score-container>span {
+  margin-left: 15px;
+}
+
+.review-content {
+  display: flex;
+}
+
+.review-content-img {
+  display: flex;
+}
+
+.review-content-img > img {
+  width: 120px;
+  border-radius: 15px;
+  margin-right: 20px;
+  padding: 5px;
+}
+
+.review-content-text {
+  margin-top: 10px;
+  width: 100%;
+  line-height: 25px;
+  border: none;
+  resize: none;
+}
+
+.review-content-text:focus {
+  outline: none;
+}
+
+.Wrapper_Paging{
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-flex: 0;
+  flex: 0 0 auto;
+  width: 100%;
+  padding: 30px 0px;
+  background-color: white;
+}
+
+.paging button {
+  width: 40px;
+  height: 40px;
+  float:left;
+  padding: 35px;
+  margin: auto;
+  color:#000;
+  font-size: 18px;
+  font-weight: normal;
+  border-radius: 50%;
+  border:none;
+  text-align:center;
+  text-decoration:none;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+}
+
+.Wrapper_Paging  .paging button:hover, .Wrapper_Paging  .paging button:focus {
+  color:#e83e8c;
+  background-color:white;
+  text-align:center;
+  font-weight: bold;
+  text-decoration:none;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.paging > button {
+  border: none;
+  font-weight: bold;
+  padding:10px;
+
+  background-color: white;
+}

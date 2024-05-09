@@ -1,0 +1,158 @@
+<html lang="ko"
+    xmlns:th="http://www.thymeleaf.org"
+    th:insert="~{common/layouts/host-layout :: host-layout (~{::head}, ~{::section})}">
+
+  <head>
+    <link rel="stylesheet" th:href="@{/css/host/invoice-management.css}">
+    <script th:src="@{/js/host/invoice-management.js}"></script>
+  </head>
+
+  <section>
+    <!-- 페이지 이름 -->
+    <p class="page-name">정산서 관리</p>
+
+    <!-- main 시작 -->
+    <div class="content-wrap">
+      <!-- 정산서 조회 검색 시작 -->
+      <div class="content">
+        <p class="content-name">정산서 조회</p>
+        <!-- 클래스 실행일 -->
+        <div class="content-flex">
+          <div class="item-name">
+            <p>정산서 조회 기간</p>
+          </div>
+          <div>
+            <div class="item">
+              <div style="display: flex;">
+                <input type="date" class="form-control" id="searchStartDate" name="searchStartDate"> &nbsp;~&nbsp; <input type="date" id="searchEndDate" name="searchEndDate" class="form-control">
+              </div>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="today" value="today" autocomplete="off">
+                <label class="btn btn-sm btn-outline-primary" for="today">오늘</label>
+                <input type="radio" class="btn-check" name="btnradio" id="1Month" value="1Month" autocomplete="off">
+                <label class="btn btn-sm btn-outline-primary" for="1Month">1개월</label>
+                <input type="radio" class="btn-check" name="btnradio" id="6Month" value="6Month" autocomplete="off">
+                <label class="btn btn-sm btn-outline-primary" for="6Month">6개월</label>
+                <input type="radio" class="btn-check" name="btnradio" id="1year" value="1year" autocomplete="off">
+                <label class="btn btn-sm btn-outline-primary" for="1year">&nbsp;1년&nbsp;</label>
+                <input type="radio" class="btn-check" name="btnradio" id="5year" value="5year" autocomplete="off">
+                <label class="btn btn-sm btn-outline-primary" for="5year">&nbsp;5년&nbsp;</label>
+                <input type="radio" class="btn-check" name="btnradio" id="all" value="all" autocomplete="off" checked>
+                <label class="btn btn-sm btn-outline-primary" for="all">전체</label>
+              </div>
+            </div>
+            <div>
+              <div>
+                <p class="item2-info" style="color: gray;">조회기간을 비워두면 전체기간으로 조회됩니다.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 검색 버튼 -->
+        <div>
+          <div style="float: right;">
+            <input type="button" class="btn btn-primary" value="검색" id="search-reservation">
+            <input type="reset" class="btn btn-outline-primary" value="초기화">
+          </div>
+        </div>
+      </div>
+      <!-- 정산서 조회 검색 종료 -->
+
+      <!-- 검색 결과 -->
+      <div class="content">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+          <p class="content-name">검색 결과 : 00 건</p>
+          <button class="btn btn-sm btn-primary" onclick="changeStatus()">지급 요청</button>
+        </div>
+        <div style="text-align: center;">
+          <table class="table table-hover">
+            <thead>
+            <tr class="table-secondary">
+              <th></th>
+              <th>정산기간</th>
+              <th>정산서 제목</th>
+              <th>총 지급액</th>
+              <th>총 수수료</th>
+              <th>등록일</th>
+              <th>지급상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr onclick="showDetail('${adjust.calc_no}',this)" class="calculate-row">
+              <td onclick="event.stopPropagation()"><input class="form-check-input checkBtn" type="checkbox"></td>
+              <td>정산기간</td>
+              <td>정산서 제목</td>
+              <td>000,000 원</td>
+              <td>000,000 원</td>
+              <td>등록일</td>
+              <td>지급 대기 / 지급 완료</td>
+            </tr>
+            <tr>
+              <td colspan="7">검색 결과가 없습니다</td>
+            </tr>
+            </tbody>
+          </table>
+
+          <!-- 정산 상세 모달 시작 -->
+          <div class="show-modal">
+            <div class="show-detail">
+              <div class="show-detail-con">
+                <div class="close-modal">X</div>
+                <div class="show-detail-wrapper1">
+                  <div class="detail-sub1">정산서 상세</div>
+                  <div class="detail-sub2"><span class="detail-sub2-name">정산서 제목</span><span style="font-weight: 600;" class="adjust-name"></span></div>
+                  <div class="detail-sub2"><span class="detail-sub2-name">정산 기간</span><span style="font-weight: 600;" class="adjust-date"></span></div>
+                </div>
+                <div class="show-detail-wrapper2">
+                  <div style="overflow: auto; height: 400px;">
+                    <table class="table">
+                      <thead>
+                      <tr class="table-secondary">
+                        <th>해빗명</th>
+                        <th>총 금액</th>
+                        <th>총 수량</th>
+                      </tr>
+                      </thead>
+                      <tbody class="detail-content">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="show-detail-wrapper3">
+                  <div class="show-detail-wrapper4">
+                    <div class="detail-sub2"><span class="detail-sub3-name">총 합산액 (세전)</span><span style="font-weight: 600;" class="ttlprice"></span></div>
+                    <div class="detail-sub2"><span class="detail-sub3-name">총 수수료 (20%)</span><span style="font-weight: 600;" class="comprice"></span></div>
+                    <hr>
+                    <div class="detail-sub2"><span class="detail-sub3-name">총 지급액</span><span style="font-weight: 600;">000,000</span> 원</div>
+                  </div>
+                  <div class="show-detail-wrapper4">
+                    <div class="detail-sub2"><span class="detail-sub4-name">정산계좌</span></div>
+                    <div class="detail-sub2"><span class="detail-sub3-name">은행</span><span style="font-weight: 600;" class="bankName">00은행</span></div>
+                    <div class="detail-sub2"><span class="detail-sub3-name">예금주</span><span style="font-weight: 600;" class="acholName">김해빗</span></div>
+                    <div class="detail-sub2"><span class="detail-sub3-name">계좌번호</span><span style="font-weight: 600;" class="accountNum">00-0000-0000</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 정산 상세 모달 종료 -->
+
+          <!-- 페이징 -->
+          <div class="align-center">
+            <ul class="pagination" id="pagination">
+              <li class="page-item ${paging.prev == true ? '' : 'disabled'}">
+                <a class="page-link" href="/host/review/${paging.startPage-1}">&laquo;</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="/host/review/${num}">1</a>
+              </li>
+              <li class="page-item ${paging.next == true ? '' : 'disabled'}">
+                <a class="page-link" href="/host/review/${paging.endPage+1}">&raquo;</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- main 종료 -->
+  </section>
