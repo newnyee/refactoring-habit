@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--라이브러리 참조 : Thymeleaf & Thymeleaf Layout -->
+<html lang="ko"
+      th:fragment="basic-layout (head, title, content)"
+      xmlns:th="http://www.thymeleaf.org">
+
+<!--공통 JS / CSS 영역을 관리하는 환경 영역-->
+  <head th:insert="~{common/fragments/basic/config :: basic-config-fragment}">
+    <div th:replace="${title}"></div>
+    <div th:replace="${head}"></div>
+  </head>
+
+  <body>
+    <!--Header 영역을 참조합니다.-->
+    <header th:insert="~{common/fragments/basic/header :: basic-header-fragment}"></header>
+
+    <!--Content 내용 영역을 참조합니다-->
+    <div th:replace="${content}"></div>
+
+    <!--Footer 영역을 참조합니다.-->
+    <footer th:insert="~{common/fragments/basic/footer :: basic-footer-fragment}"></footer>
+
+    <script th:inline="javascript">
+      if ([[${message}]] !== null) {
+        alert([[${message}]]);
+      }
+    </script>
+  </body>
+</html>
