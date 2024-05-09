@@ -1,0 +1,19 @@
+.review-detail-table th {
+  width: 120px;
+}
+
+.review-textarea {
+  height: 200px;
+  width: 102%;
+  border: none;
+  resize: none;
+}
+
+.review-textarea:focus {
+  outline: none;
+}
+
+.search-result tr:hover td {
+  background-color: rgba(252, 242, 246, 0.61);
+  cursor: pointer;
+}
