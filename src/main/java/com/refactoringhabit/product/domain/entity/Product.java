@@ -43,11 +43,10 @@ public class Product extends BaseCreateTimeEntity {
     private ProductStatus status; // 'OPENED', 'CLOSED'
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "member_id")
     private Member member;
 }
-

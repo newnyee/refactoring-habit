@@ -20,10 +20,9 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String mid; // 외부 이용 식별자
-    private String userId; // 가입 아이디
-    private String password;
-    private String name;
     private String email;
+    private String password;
+    private String nickName;
     private String phone;
     private String birth;
     private String profileImage;

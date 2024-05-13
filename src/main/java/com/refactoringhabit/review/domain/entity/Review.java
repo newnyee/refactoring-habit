@@ -29,10 +29,10 @@ public class Review extends BaseTimeEntity {
     private ReviewStatus status; // 리뷰 삭제시 상태만 변경 - 'SHOW', 'HIDE'
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "option_id")
     private Option option;
 }
