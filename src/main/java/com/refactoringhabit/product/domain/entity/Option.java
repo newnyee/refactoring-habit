@@ -23,9 +23,9 @@ public class Option {
     private int price;
 
     @Enumerated(EnumType.STRING)
-    private OptionStatus status; // 'SALE', 'SOLDOUT'
+    private OptionStatus status; // 'SALE', 'SOLD_OUT'
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "product_id")
     private Product product;
 }

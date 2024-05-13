@@ -27,6 +27,6 @@ public class Host extends BaseTimeEntity {
     private String accountHolder; // 예금주
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "member_id")
     private Member member;
 }

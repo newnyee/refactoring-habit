@@ -40,14 +40,14 @@ public class Order extends BaseTimeEntity {
     private UsedStatus usedStatus; // 'UNUSED', 'USED', 'CANCELED'
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "host_id")
     private Host host;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "option_id")
     private Option option;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "member_id")
     private Member member;
 }

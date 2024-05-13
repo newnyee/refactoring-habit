@@ -32,6 +32,6 @@ public class Invoice extends BaseTimeEntity {
     private InvoiceStatus status; // 정산 지급 상태 - 'WAIT', 'COMPLETE'
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "host_id")
     private Host host;
 }
