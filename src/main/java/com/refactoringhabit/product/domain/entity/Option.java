@@ -1,6 +1,9 @@
 package com.refactoringhabit.product.domain.entity;
 
+import com.refactoringhabit.product.domain.enums.OptionStatus;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,7 +21,9 @@ public class Option {
     private String name;
     private int quantity;
     private int price;
-    private Enum status; // 'SALE', 'SOLDOUT'
+
+    @Enumerated(EnumType.STRING)
+    private OptionStatus status; // 'SALE', 'SOLDOUT'
 
     @ManyToOne
     @JoinColumn(name = "id")

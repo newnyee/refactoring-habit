@@ -3,7 +3,10 @@ package com.refactoringhabit.review.domain.entity;
 import com.refactoringhabit.common.domain.entity.BaseTimeEntity;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.product.domain.entity.Option;
+import com.refactoringhabit.review.domain.enums.ReviewStatus;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,7 +24,9 @@ public class Review extends BaseTimeEntity {
     private String content;
     private int starScore;
     private String image;
-    private Enum status; // 리뷰 삭제시 상태만 변경 - 'SHOW', 'HIDE'
+
+    @Enumerated(EnumType.STRING)
+    private ReviewStatus status; // 리뷰 삭제시 상태만 변경 - 'SHOW', 'HIDE'
 
     @ManyToOne
     @JoinColumn(name = "id")

@@ -2,7 +2,10 @@ package com.refactoringhabit.invoice.domain.entity;
 
 import com.refactoringhabit.common.domain.entity.BaseTimeEntity;
 import com.refactoringhabit.host.domain.entity.Host;
+import com.refactoringhabit.invoice.domain.enums.InvoiceStatus;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,7 +27,9 @@ public class Invoice extends BaseTimeEntity {
     private String accountNumber; // 정산 계좌 번호
     private  String accountHolder; // 예금주
     private String bank; // 정산 은행 이름
-    private Enum status; // 정산 지급 상태 - 'WAIT', 'COMPLETE'
+
+    @Enumerated(EnumType.STRING)
+    private InvoiceStatus status; // 정산 지급 상태 - 'WAIT', 'COMPLETE'
 
     @ManyToOne
     @JoinColumn(name = "id")

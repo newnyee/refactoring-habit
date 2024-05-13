@@ -3,7 +3,11 @@ package com.refactoringhabit.product.domain.entity;
 import com.refactoringhabit.category.domain.entity.Category;
 import com.refactoringhabit.common.domain.entity.BaseCreateTimeEntity;
 import com.refactoringhabit.member.domain.entity.Member;
+import com.refactoringhabit.product.domain.enums.ProductStatus;
+import com.refactoringhabit.product.domain.enums.ProductType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,15 +28,19 @@ public class Product extends BaseCreateTimeEntity {
     private String address1;
     private String address2;
     private String extra_address;
-    private Enum type; // 'RESERVATION', 'TICKET'
     private String image;
     private String description;
-    private Enum status; // 'OPENED', 'CLOSED'
     private Long view;
     private String closed_at;
     private String tag_gender;
     private String tag_age;
     private String tag_with;
+
+    @Enumerated(EnumType.STRING)
+    private ProductType type; // 'RESERVATION', 'TICKET'
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status; // 'OPENED', 'CLOSED'
 
     @ManyToOne
     @JoinColumn(name = "id")

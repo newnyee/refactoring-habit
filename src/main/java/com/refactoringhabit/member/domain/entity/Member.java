@@ -1,7 +1,12 @@
 package com.refactoringhabit.member.domain.entity;
 
 import com.refactoringhabit.common.domain.entity.BaseTimeEntity;
+import com.refactoringhabit.member.domain.enums.Gender;
+import com.refactoringhabit.member.domain.enums.MemberStatus;
+import com.refactoringhabit.member.domain.enums.MemberType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,8 +26,14 @@ public class Member extends BaseTimeEntity {
     private String email;
     private String phone;
     private String birth;
-    private Enum gender; //	'MALE', 'FEMALE'
     private String profileImage;
-    private Enum status; // 회원 상태 - 'WITHDRAWN', 'ACTIVE', 'INACTIVE'
-    private Enum type; // 회원 구분 - 'MEMBER', 'HOST'
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender; // 'MALE', 'FEMALE'
+
+    @Enumerated(EnumType.STRING)
+    private MemberStatus status; // 회원 상태 - 'WITHDRAWN', 'ACTIVE', 'INACTIVE'
+
+    @Enumerated(EnumType.STRING)
+    private MemberType type; // 회원 구분 - 'MEMBER', 'HOST'
 }
