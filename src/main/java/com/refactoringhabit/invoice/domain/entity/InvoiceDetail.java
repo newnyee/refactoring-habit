@@ -21,10 +21,10 @@ public class InvoiceDetail extends BaseCreateTimeEntity {
     private int totalQuantity;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "invoice_id")
     private Invoice invoice;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "product_id")
     private Product product;
 }

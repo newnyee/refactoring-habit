@@ -22,10 +22,10 @@ public class Cart extends BaseTimeEntity {
     private int quantity;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "option_id")
     private Option option;
 }
