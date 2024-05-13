@@ -27,4 +27,3 @@ public class Wish extends BaseCreateTimeEntity {
     @JoinColumn(name = "product_id")
     private Product product;
 }
-
