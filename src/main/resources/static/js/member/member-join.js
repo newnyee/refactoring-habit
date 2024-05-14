@@ -197,29 +197,74 @@ const previewProfile = (imgs) => {
   profileImageErrorMessage.css('display', 'none')
 }
 
-const joinValidation = () => {
+const requestJoinApi = () => {
 
-  // 이메일
-  emailValidation()
+  let phoneNumbers = []
+  for (let i = 0; i < 3; i++) {
+    phoneNumbers[i] = $("input[name='phone']").eq(i).val()
+  }
 
-  // 비밀번호
-  passwordValidation()
+  let memberInfo = {
+    'email' : $('#email').val(),
+    'password' : $('#password').val(),
+    'nickName' : $('#nick_name').val(),
+    'phone' : phoneNumbers.join('-'),
+    'birth' : $('#birth').val(),
+    'gender' : $("input[name='gender']:radio:checked").val()
+  }
 
-  // 비밀번호 확인
-  passwordMatch()
+  let formData = new FormData()
+  let memberInfoJson = JSON.stringify(memberInfo)
+  let blob = new Blob([memberInfoJson], {type: "application/json"})
+  formData.append("memberInfo", blob)
 
-  // 닉네임
-  nickNameValidation()
+  let profileImgFiles = $('#profile_img_file')[0].files;
+  let profileImgFile
+      = (profileImgFiles.length !== 0)
+      ? profileImgFiles[0]
+      : null
+  formData.append('profileImgFile', profileImgFile)
 
-  //성별
-  genderValidation()
+  $.ajax({
+    url: '/api/v2/members',
+    method: 'post',
+    enctype: 'multipart/form-data',
+    processData: false,
+    contentType: false,
+    data: formData,
+    success: (data) => {
+      console.log(data)
+    },
+    error: () => {}
+  })
+}
 
-  // 휴대폰 번호
-  phoneNumberLengthLimit()
+const joinSubmit = () => {
 
-  // 생년월일
-  birthValidation()
+  // // 이메일
+  // emailValidation()
+  //
+  // // 비밀번호
+  // passwordValidation()
+  //
+  // // 비밀번호 확인
+  // passwordMatch()
+  //
+  // // 닉네임
+  // nickNameValidation()
+  //
+  // //성별
+  // genderValidation()
+  //
+  // // 휴대폰 번호
+  // phoneNumberLengthLimit()
+  //
+  // // 생년월일
+  // birthValidation()
+  //
+  // // 이미지 파일
+  // previewProfile()
 
-  // 이미지 파일
-  previewProfile()
+  // 회원가입 api 호출
+  requestJoinApi()
 }
