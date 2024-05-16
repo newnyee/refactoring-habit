@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface MemberEntityMapper {
 
     MemberEntityMapper INSTANCE = Mappers.getMapper(MemberEntityMapper.class);

@@ -4,14 +4,12 @@ import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.enums.Gender;
 import com.refactoringhabit.member.dto.MemberJoinRequestDto;
 import javax.annotation.processing.Generated;
-import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-16T20:35:18+0900",
+    date = "2024-05-16T21:37:23+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
-@Component
 public class MemberEntityMapperImpl implements MemberEntityMapper {
 
     @Override
