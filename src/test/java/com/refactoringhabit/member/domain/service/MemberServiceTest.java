@@ -48,7 +48,7 @@ class MemberServiceTest {
         verify(memberRepository, times(1)).save(any());
     }
 
-    @DisplayName("회원 가입 - 실패 : 파일 저장 오류 발생")
+    @DisplayName("회원 가입 - 실패 : 파일 저장 예외 발생")
     @Test
     void memberJoin_FileSaveFailed() throws IOException {
         // Given
