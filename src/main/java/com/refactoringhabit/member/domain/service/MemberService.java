@@ -31,6 +31,7 @@ public class MemberService {
             memberRepository
                 .save(MemberEntityMapper.INSTANCE.toEntity(memberJoinRequestDto, MID));
         } catch (IOException e) {
+            log.error("[{}] {}", e.getClass().getSimpleName(), e.getMessage());
             throw new FileSaveFailedException();
         }
     }
