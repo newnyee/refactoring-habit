@@ -148,11 +148,6 @@ const birthValidation = () => {
   let birthErrorMessage = birth.closest('.Home_form_div').find('.error-message')
 
   notNullCheck(birth.val(), birthErrorMessage)
-  //
-  // if (birth.val() === '') {
-  //   birthErrorMessage.css('display', 'block')
-  //   birthErrorMessage.text('필수 입력란 입니다')
-  // }
 
   let year = birth.val().split('-')[0];
   let month = birth.val().split('-')[1]
@@ -216,13 +211,14 @@ const requestJoinApi = () => {
   let formData = new FormData()
   let memberInfoJson = JSON.stringify(memberInfo)
   let blob = new Blob([memberInfoJson], {type: "application/json"})
-  formData.append("memberInfo", blob)
 
   let profileImgFiles = $('#profile_img_file')[0].files;
   let profileImgFile
       = (profileImgFiles.length !== 0)
       ? profileImgFiles[0]
       : null
+
+  formData.append("memberInfo", blob)
   formData.append('profileImgFile', profileImgFile)
 
   $.ajax({
@@ -241,29 +237,29 @@ const requestJoinApi = () => {
 
 const joinSubmit = () => {
 
-  // // 이메일
-  // emailValidation()
-  //
-  // // 비밀번호
-  // passwordValidation()
-  //
-  // // 비밀번호 확인
-  // passwordMatch()
-  //
-  // // 닉네임
-  // nickNameValidation()
-  //
-  // //성별
-  // genderValidation()
-  //
-  // // 휴대폰 번호
-  // phoneNumberLengthLimit()
-  //
-  // // 생년월일
-  // birthValidation()
-  //
-  // // 이미지 파일
-  // previewProfile()
+  // 이메일
+  emailValidation()
+
+  // 비밀번호
+  passwordValidation()
+
+  // 비밀번호 확인
+  passwordMatch()
+
+  // 닉네임
+  nickNameValidation()
+
+  //성별
+  genderValidation()
+
+  // 휴대폰 번호
+  phoneNumberLengthLimit()
+
+  // 생년월일
+  birthValidation()
+
+  // 이미지 파일
+  previewProfile()
 
   // 회원가입 api 호출
   requestJoinApi()
