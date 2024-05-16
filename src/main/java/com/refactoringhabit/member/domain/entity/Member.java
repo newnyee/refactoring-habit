@@ -11,15 +11,21 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Table(name = "members")
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String mid; // 외부 이용 식별자
+    private String mid; // 외부 이용 식별자 (UUID)
     private String email;
     private String password;
     private String nickName;
@@ -28,11 +34,25 @@ public class Member extends BaseTimeEntity {
     private String profileImage;
 
     @Enumerated(EnumType.STRING)
-    private Gender gender; // 'MALE', 'FEMALE'
+    private Gender gender;
 
     @Enumerated(EnumType.STRING)
-    private MemberStatus status; // 회원 상태 - 'WITHDRAWN', 'ACTIVE', 'INACTIVE'
+    private MemberStatus status; // default 'ACTIVE'
 
     @Enumerated(EnumType.STRING)
-    private MemberType type; // 회원 구분 - 'MEMBER', 'HOST'
+    private MemberType type; // default 'MEMBER'
+
+    @Builder
+    public Member(String mid, String email, String password, String nickName, String phone,
+        String birth, String profileImage, Gender gender) {
+
+        this.mid = mid;
+        this.email = email;
+        this.password = password;
+        this.nickName = nickName;
+        this.phone = phone;
+        this.birth = birth;
+        this.profileImage = profileImage;
+        this.gender = gender;
+    }
 }
