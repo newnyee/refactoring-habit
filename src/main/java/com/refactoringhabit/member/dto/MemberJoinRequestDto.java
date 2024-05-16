@@ -2,7 +2,6 @@ package com.refactoringhabit.member.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @NoArgsConstructor
@@ -15,9 +14,8 @@ public class MemberJoinRequestDto {
     private String birth;
     private String gender;
     private String profileImage;
-    private MultipartFile profileImgFile;
 
-    public void setProfileImgFile(MultipartFile profileImgFile) {
-        this.profileImgFile = profileImgFile;
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }
