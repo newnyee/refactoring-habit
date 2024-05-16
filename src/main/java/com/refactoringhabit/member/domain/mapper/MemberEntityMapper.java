@@ -18,8 +18,8 @@ public interface MemberEntityMapper {
 
     @Named("generateUuid")
     default String generateUuid(String value) {
-        return (value != null)
-            ? value
-            : UUID.randomUUID().toString().replace("-", "");
+        return (value == null)
+            ? UUID.randomUUID().toString().replace("-", "")
+            : value;
     }
 }
