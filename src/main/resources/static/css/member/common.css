@@ -326,3 +326,8 @@ a:hover{
   margin-top: 10px;
 }
 
+.error-message {
+  display: none;
+  color: red;
+  font-size: small;
+}

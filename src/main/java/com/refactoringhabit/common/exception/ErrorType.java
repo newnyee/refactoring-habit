@@ -1,5 +1,6 @@
 package com.refactoringhabit.common.exception;
 
+import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
 import java.util.Arrays;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -11,8 +12,9 @@ import org.springframework.http.HttpStatus;
 public enum ErrorType {
 
     EX001("EX001", "예외 클래스 예시 입니다.",
-            CustomException.class, HttpStatus.BAD_REQUEST);
-
+            CustomException.class, HttpStatus.BAD_REQUEST),
+    F001("F001", "파일 저장에 실패했습니다.",
+        FileSaveFailedException.class, HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String code;
     private final String message;
