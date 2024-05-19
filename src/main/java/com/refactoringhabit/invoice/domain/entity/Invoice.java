@@ -3,6 +3,7 @@ package com.refactoringhabit.invoice.domain.entity;
 import com.refactoringhabit.common.domain.entity.BaseTimeEntity;
 import com.refactoringhabit.host.domain.entity.Host;
 import com.refactoringhabit.invoice.domain.enums.InvoiceStatus;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -20,16 +21,32 @@ public class Invoice extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "alt_id")
     private String altId; // 대체키
+
+    @Column(name = "period")
     private String period; // 정산 기간
+
+    @Column(name = "title")
     private String title; // 정산서 제목
+
+    @Column(name = "payment_amount")
     private int paymentAmount; // 지급액
+
+    @Column(name = "account_number")
     private String accountNumber; // 정산 계좌 번호
+
+    @Column(name = "account_holder")
     private  String accountHolder; // 예금주
+
+    @Column(name = "bank")
     private String bank; // 정산 은행 이름
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private InvoiceStatus status; // 정산 지급 상태 - 'WAIT', 'COMPLETE'
 
     @ManyToOne
