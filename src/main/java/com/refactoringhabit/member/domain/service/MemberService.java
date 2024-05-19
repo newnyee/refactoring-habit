@@ -8,6 +8,7 @@ import com.refactoringhabit.member.dto.MemberJoinRequestDto;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final CustomFileUtil customFileUtil;
+    private final PasswordEncoder passwordEncoder;
 
     public static final String MID = null;
 
@@ -27,7 +29,10 @@ public class MemberService {
         MemberJoinRequestDto memberJoinRequestDto, MultipartFile multipartFile) {
 
         try {
+            memberJoinRequestDto.setEncodedPassword(
+                passwordEncoder.encode(memberJoinRequestDto.getPassword()));
             memberJoinRequestDto.setProfileImage(customFileUtil.saveFile(multipartFile));
+
             memberRepository
                 .save(MemberEntityMapper.INSTANCE.toEntity(memberJoinRequestDto, MID));
         } catch (IOException e) {
