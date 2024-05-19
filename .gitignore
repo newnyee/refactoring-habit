@@ -98,5 +98,5 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos
 
 ### ETC ###
-application.yml
-
+application-local.yml
+application-prod.yml
