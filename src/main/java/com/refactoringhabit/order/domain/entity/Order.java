@@ -8,6 +8,7 @@ import com.refactoringhabit.order.domain.enums.PayMethod;
 import com.refactoringhabit.order.domain.enums.RefundStatus;
 import com.refactoringhabit.order.domain.enums.UsedStatus;
 import com.refactoringhabit.product.domain.entity.Option;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -25,19 +26,30 @@ public class Order extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String oid; // 외부 이용 식별자
+
+    @Column(name = "alt_id")
+    private String altId; // 대체키
+
+    @Column(name = "price")
     private int price;
+
+    @Column(name = "quantity")
     private int quantity;
+
+    @Column(name = "used_at")
     private String usedAt;
 
     @Enumerated(EnumType.STRING)
-    private PayMethod paymentMethod; // 'CARD'
+    @Column(name = "payment_method")
+    private PayMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
-    private RefundStatus refundStatus; // 'POSSIBLE', 'IMPOSSIBLE'
+    @Column(name = "refund_status")
+    private RefundStatus refundStatus; // default 'POSSIBLE'
 
     @Enumerated(EnumType.STRING)
-    private UsedStatus usedStatus; // 'UNUSED', 'USED', 'CANCELED'
+    @Column(name = "used_status")
+    private UsedStatus usedStatus; // default 'UNUSED'
 
     @ManyToOne
     @JoinColumn(name = "host_id")

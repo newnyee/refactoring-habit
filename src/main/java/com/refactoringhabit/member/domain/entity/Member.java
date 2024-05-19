@@ -4,6 +4,7 @@ import com.refactoringhabit.common.domain.entity.BaseTimeEntity;
 import com.refactoringhabit.member.domain.enums.Gender;
 import com.refactoringhabit.member.domain.enums.MemberStatus;
 import com.refactoringhabit.member.domain.enums.MemberType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,29 +27,47 @@ public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    private String mid; // 외부 이용 식별자 (UUID)
+
+    @Column(name = "alt_id")
+    private String altId; // 대체키
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "nick_name")
     private String nickName;
+
+    @Column(name = "phone")
     private String phone;
+
+    @Column(name = "birth")
     private String birth;
+
+    @Column(name = "profile_image")
     private String profileImage;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private MemberStatus status; // default 'ACTIVE'
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "type")
     private MemberType type; // default 'MEMBER'
 
     @Builder
-    public Member(String mid, String email, String password, String nickName, String phone,
+    public Member(String altId, String email, String password, String nickName, String phone,
         String birth, String profileImage, Gender gender) {
 
-        this.mid = mid;
+        this.altId = altId;
         this.email = email;
         this.password = password;
         this.nickName = nickName;
