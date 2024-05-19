@@ -18,6 +18,7 @@ public class Wish extends BaseCreateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String altId; // 대체키
 
     @ManyToOne
     @JoinColumn(name = "member_id")

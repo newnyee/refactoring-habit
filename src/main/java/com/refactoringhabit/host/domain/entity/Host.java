@@ -17,6 +17,7 @@ public class Host extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String altId; // 대체키
     private String nickName;
     private String phone;
     private String profileImage;

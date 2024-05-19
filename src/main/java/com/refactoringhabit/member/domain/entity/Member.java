@@ -27,7 +27,7 @@ public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String mid; // 외부 이용 식별자 (UUID)
+    private String altId; // 대체키
     private String email;
     private String password;
     private String nickName;
@@ -45,10 +45,10 @@ public class Member extends BaseTimeEntity {
     private MemberType type; // default 'MEMBER'
 
     @Builder
-    public Member(String mid, String email, String password, String nickName, String phone,
+    public Member(String altId, String email, String password, String nickName, String phone,
         String birth, String profileImage, Gender gender) {
 
-        this.mid = mid;
+        this.altId = altId;
         this.email = email;
         this.password = password;
         this.nickName = nickName;

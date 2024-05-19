@@ -21,6 +21,7 @@ public class Review extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String altId; // 대체키
     private String content;
     private int starScore;
     private String image;

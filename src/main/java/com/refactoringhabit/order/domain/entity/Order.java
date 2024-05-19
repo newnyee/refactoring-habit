@@ -25,7 +25,7 @@ public class Order extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String oid; // 외부 이용 식별자
+    private String altId; // 대체키
     private int price;
     private int quantity;
     private String usedAt;

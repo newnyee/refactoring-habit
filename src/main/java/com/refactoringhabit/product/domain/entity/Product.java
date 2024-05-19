@@ -22,7 +22,7 @@ public class Product extends BaseCreateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String pid; // 외부 이용 식별자
+    private String altId; // 대체키
     private String name;
     private String zip_code;
     private String address1;

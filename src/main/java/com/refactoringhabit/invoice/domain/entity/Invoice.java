@@ -21,6 +21,7 @@ public class Invoice extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String altId; // 대체키
     private String period; // 정산 기간
     private String title; // 정산서 제목
     private int paymentAmount; // 지급액
