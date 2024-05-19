@@ -38,7 +38,7 @@ public class Host extends BaseTimeEntity {
     @Column(name = "introduction")
     private String introduction; // 호스트 소개글
 
-    @Column(name = "accountNumber")
+    @Column(name = "account_number")
     private String accountNumber; // 정산 계좌 번호
 
     @Column(name = "bank")
