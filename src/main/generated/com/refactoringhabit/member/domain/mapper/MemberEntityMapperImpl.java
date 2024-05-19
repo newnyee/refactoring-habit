@@ -7,14 +7,14 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-17T02:04:33+0900",
+    date = "2024-05-19T18:41:59+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class MemberEntityMapperImpl implements MemberEntityMapper {
 
     @Override
-    public Member toEntity(MemberJoinRequestDto memberJoinRequestDto, String mid) {
-        if ( memberJoinRequestDto == null && mid == null ) {
+    public Member toEntity(MemberJoinRequestDto memberJoinRequestDto, String altId) {
+        if ( memberJoinRequestDto == null && altId == null ) {
             return null;
         }
 
@@ -31,7 +31,7 @@ public class MemberEntityMapperImpl implements MemberEntityMapper {
                 member.gender( Enum.valueOf( Gender.class, memberJoinRequestDto.getGender() ) );
             }
         }
-        member.mid( generateUuid( mid ) );
+        member.altId( generateUuid( altId ) );
 
         return member.build();
     }
