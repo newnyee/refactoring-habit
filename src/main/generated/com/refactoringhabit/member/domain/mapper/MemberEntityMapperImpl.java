@@ -7,7 +7,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-19T18:41:59+0900",
+    date = "2024-05-20T00:42:44+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class MemberEntityMapperImpl implements MemberEntityMapper {
@@ -21,8 +21,8 @@ public class MemberEntityMapperImpl implements MemberEntityMapper {
         Member.MemberBuilder member = Member.builder();
 
         if ( memberJoinRequestDto != null ) {
+            member.password( memberJoinRequestDto.getEncodedPassword() );
             member.email( memberJoinRequestDto.getEmail() );
-            member.password( memberJoinRequestDto.getPassword() );
             member.nickName( memberJoinRequestDto.getNickName() );
             member.phone( memberJoinRequestDto.getPhone() );
             member.birth( memberJoinRequestDto.getBirth() );
