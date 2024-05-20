@@ -1,10 +1,12 @@
 // 필수 입력 확인
-const notNullCheck = (value, errorMessage) => {
+const isNotBlank = (value, errorMessage) => {
   if (value.length === 0 || value === '') {
     errorMessage.css('display', 'block')
     errorMessage.text('필수 입력란 입니다')
     return false
   }
+  errorMessage.css('display', 'none')
+  return true
 }
 
 // 이메일 검증
@@ -16,15 +18,18 @@ const emailValidation = () => {
 
   let emailCheck = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
 
-  notNullCheck(email.val(), emailErrorMessage)
+  if (!isNotBlank(email.val(), emailErrorMessage)) {
+    return false
+  }
 
   if (emailCheck.test(email.val()) === false) {
-    emailErrorMessage.css('display', 'block')
-    emailErrorMessage.text('이메일 형식에 맞게 입력해주세요')
+    emailErrorMessage.css('display', 'block');
+    emailErrorMessage.text('이메일 형식에 맞게 입력해주세요');
     return false
   }
 
   emailErrorMessage.css('display', 'none')
+  return true
 }
 
 // 비밀번호 확인 검증
@@ -41,6 +46,7 @@ const passwordMatch = () => {
   }
 
   passwordMatchErrorMessage.css('display', 'none')
+  return true
 }
 
 // 비밀번호 검증
@@ -50,7 +56,9 @@ const passwordValidation = () => {
       = password.closest('.Home_form_div')
         .find('.error-message')
 
-  notNullCheck(password.val(), passwordErrorMessage)
+  if (!isNotBlank(password.val(), passwordErrorMessage)) {
+    return false
+  }
 
   let match = $('#password_match')
   if (match.val().length > 0) {
@@ -80,6 +88,7 @@ const passwordValidation = () => {
   }
 
   passwordErrorMessage.css('display', 'none')
+  return true
 }
 
 // 닉네임 검증
@@ -87,7 +96,9 @@ const nickNameValidation = () => {
   let nickName = $('#nick_name')
   let nickNameErrorMessage = nickName.closest('.Home_form_div').find('.error-message')
 
-  notNullCheck(nickName.val(), nickNameErrorMessage)
+  if (!isNotBlank(nickName.val(), nickNameErrorMessage)) {
+    return false
+  }
 
   if (nickName.val().length < 2) {
     nickNameErrorMessage.css('display', 'block')
@@ -96,6 +107,7 @@ const nickNameValidation = () => {
   }
 
   nickNameErrorMessage.css('display', 'none')
+  return true
 }
 
 // 성별 검증
@@ -109,6 +121,7 @@ const genderValidation = () => {
   }
 
   genderErrorMessage.css('display', 'none')
+  return true
 }
 
 // 휴대폰 번호 검증
@@ -140,6 +153,7 @@ const phoneNumberLengthLimit = () => {
   }
 
   phoneErrorMessage.css('display', 'none')
+  return true
 }
 
 // 생년월일 검증
@@ -147,7 +161,9 @@ const birthValidation = () => {
   let birth = $('#birth')
   let birthErrorMessage = birth.closest('.Home_form_div').find('.error-message')
 
-  notNullCheck(birth.val(), birthErrorMessage)
+  if (!isNotBlank(birth.val(), birthErrorMessage)) {
+    return false
+  }
 
   let year = birth.val().split('-')[0];
   let month = birth.val().split('-')[1]
@@ -162,6 +178,7 @@ const birthValidation = () => {
   }
 
   birthErrorMessage.css('display', 'none');
+  return true
 }
 
 // 이미지 파일 검증
@@ -190,6 +207,7 @@ const previewProfile = (imgs) => {
   }
 
   profileImageErrorMessage.css('display', 'none')
+  return true
 }
 
 const requestJoinApi = () => {
@@ -238,28 +256,44 @@ const requestJoinApi = () => {
 const joinSubmit = () => {
 
   // 이메일
-  emailValidation()
+  if (!emailValidation()) {
+    return false
+  }
 
   // 비밀번호
-  passwordValidation()
+  if (!passwordValidation()) {
+    return false
+  }
 
   // 비밀번호 확인
-  passwordMatch()
+  if (!passwordMatch()) {
+    return false
+  }
 
   // 닉네임
-  nickNameValidation()
+  if (!nickNameValidation()) {
+    return false
+  }
 
   //성별
-  genderValidation()
+  if (!genderValidation()) {
+    return false
+  }
 
   // 휴대폰 번호
-  phoneNumberLengthLimit()
+  if (!phoneNumberLengthLimit()) {
+    return false
+  }
 
   // 생년월일
-  birthValidation()
+  if (!birthValidation()) {
+    return false
+  }
 
   // 이미지 파일
-  previewProfile()
+  if (!previewProfile()) {
+    return false
+  }
 
   // 회원가입 api 호출
   requestJoinApi()
