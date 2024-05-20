@@ -1,0 +1,16 @@
+<th:block lang="ko"
+          xmlns:th="http://www.thymeleaf.org"
+          th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/member/error.css}">
+  </head>
+
+  <title>페이지를 찾을 수 없습니다</title>
+
+  <section class="Home">
+    <div class="PageWrapper" style="text-align: center;">
+      <div class="error-img"><img src="/img/404.png" alt="404 오류"></div>
+      <div class="error-words"><span>Page is not found!</span></div>
+    </div>
+  </section>
+</th:block>
