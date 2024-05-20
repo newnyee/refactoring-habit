@@ -1,0 +1,11 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${HOST_IP}:3306/${DATABASE_NAME}?serverTimezone=Asia/Seoul&useUniCode=yes&characterEncoding=UTF-8
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+
+file:
+  storage-path: ${STORAGE_PATH}
+  member-default-img: "member_default_img.png"

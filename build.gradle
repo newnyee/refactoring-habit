@@ -47,6 +47,12 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.5.3.Final"
+
+    // spring-security-core
+    implementation 'org.springframework.security:spring-security-core'
+
+    // Bouncy Castle Provider
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.76'
 }
 
 tasks.named('test') {

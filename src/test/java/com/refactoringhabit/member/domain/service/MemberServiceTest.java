@@ -19,6 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
@@ -28,6 +29,9 @@ class MemberServiceTest {
     @Mock
     private CustomFileUtil customFileUtil;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private MemberService memberService;
 
@@ -36,6 +40,9 @@ class MemberServiceTest {
     void memberJoin_Successfully() throws IOException {
         // given
         MemberJoinRequestDto memberJoinRequestDto = new MemberJoinRequestDto();
+        when(passwordEncoder.encode(memberJoinRequestDto.getPassword()))
+            .thenReturn("encodedPassword");
+
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg",
             "image/jpeg", "test data".getBytes());
         when(customFileUtil.saveFile(file)).thenReturn("rename_profile.jpg");
@@ -53,6 +60,9 @@ class MemberServiceTest {
     void memberJoin_FileSaveFailed() throws IOException {
         // Given
         MemberJoinRequestDto memberJoinRequestDto = new MemberJoinRequestDto();
+        when(passwordEncoder.encode(memberJoinRequestDto.getPassword()))
+            .thenReturn("encodedPassword");
+
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg",
             "image/jpeg", "test data".getBytes());
         when(customFileUtil.saveFile(file)).thenThrow(new IOException());

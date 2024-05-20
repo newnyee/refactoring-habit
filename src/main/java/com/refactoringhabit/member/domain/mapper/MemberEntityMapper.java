@@ -13,8 +13,9 @@ public interface MemberEntityMapper {
 
     MemberEntityMapper INSTANCE = Mappers.getMapper(MemberEntityMapper.class);
 
-    @Mapping(source = "mid", target = "mid", qualifiedByName = "generateUuid")
-    Member toEntity(MemberJoinRequestDto memberJoinRequestDto, String mid);
+    @Mapping(target = "altId", qualifiedByName = "generateUuid")
+    @Mapping(source = "memberJoinRequestDto.encodedPassword", target = "password")
+    Member toEntity(MemberJoinRequestDto memberJoinRequestDto, String altId);
 
     @Named("generateUuid")
     default String generateUuid(String value) {
