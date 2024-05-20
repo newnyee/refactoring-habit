@@ -50,11 +50,26 @@
     margin: 10px;
 }
 
-#idCheck {
-    width: 95px;
-    height: 30px;
+.check-email {
+    width: 120px;
+    height: 40px;
     position: relative;
-    top: 10px;
+    top: 5px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    background-color: #e83e8c;
+}
+
+.change-email {
+    width: 120px;
+    height: 40px;
+    position: relative;
+    top: 5px;
+    border-radius: 5px;
+    border: 0.1em solid #e83e8c;
+    color: #e83e8c;
+    background-color: white;
 }
 
 .Home_form_input_email{
@@ -166,4 +181,10 @@ input:focus{
     border: none;
     color: white;
     background-color: #e83e8c;
+}
+
+.check-email-submit-message {
+    display: none;
+    color: green;
+    font-size: small;
 }
