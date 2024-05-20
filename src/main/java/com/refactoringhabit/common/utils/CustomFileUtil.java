@@ -3,6 +3,7 @@ package com.refactoringhabit.common.utils;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -18,11 +19,11 @@ public class CustomFileUtil {
     @Value("${file.member-default-img}")
     private String fileName;
 
-    public String saveFile(MultipartFile file) throws IOException {
-
+    public String saveFile(Optional<MultipartFile> file) throws IOException {
         if (!file.isEmpty()) {
-            setFileName(file);
-            file.transferTo(new File(this.filePath + File.separator + this.fileName));
+            setFileName(file.get());
+            file.get().transferTo(
+                new File(this.filePath + File.separator + this.fileName));
         }
         return this.fileName;
     }
