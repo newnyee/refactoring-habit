@@ -12,6 +12,7 @@ import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
 import com.refactoringhabit.member.domain.repository.MemberRepository;
 import com.refactoringhabit.member.dto.MemberJoinRequestDto;
 import java.io.IOException;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,13 +46,13 @@ class MemberServiceTest {
 
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg",
             "image/jpeg", "test data".getBytes());
-        when(customFileUtil.saveFile(file)).thenReturn("rename_profile.jpg");
+        when(customFileUtil.saveFile(Optional.of(file))).thenReturn("rename_profile.jpg");
 
         // when
         memberService.memberJoin(memberJoinRequestDto, file);
 
         //then
-        verify(customFileUtil, times(1)).saveFile(file);
+        verify(customFileUtil, times(1)).saveFile(Optional.of(file));
         verify(memberRepository, times(1)).save(any());
     }
 
@@ -65,12 +66,12 @@ class MemberServiceTest {
 
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg",
             "image/jpeg", "test data".getBytes());
-        when(customFileUtil.saveFile(file)).thenThrow(new IOException());
+        when(customFileUtil.saveFile(Optional.of(file))).thenThrow(new IOException());
 
         // When, Then
         assertThrows(FileSaveFailedException.class,
             () -> memberService.memberJoin(memberJoinRequestDto, file));
-        verify(customFileUtil, times(1)).saveFile(file);
+        verify(customFileUtil, times(1)).saveFile(Optional.of(file));
         verify(memberRepository, never()).save(any());
     }
 }

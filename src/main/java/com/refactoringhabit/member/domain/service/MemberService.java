@@ -6,6 +6,7 @@ import com.refactoringhabit.member.domain.mapper.MemberEntityMapper;
 import com.refactoringhabit.member.domain.repository.MemberRepository;
 import com.refactoringhabit.member.dto.MemberJoinRequestDto;
 import java.io.IOException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +32,8 @@ public class MemberService {
         try {
             memberJoinRequestDto.setEncodedPassword(
                 passwordEncoder.encode(memberJoinRequestDto.getPassword()));
-            memberJoinRequestDto.setProfileImage(customFileUtil.saveFile(multipartFile));
+            memberJoinRequestDto.setProfileImage(
+                customFileUtil.saveFile(Optional.ofNullable(multipartFile)));
 
             memberRepository
                 .save(MemberEntityMapper.INSTANCE.toEntity(memberJoinRequestDto, MID));
