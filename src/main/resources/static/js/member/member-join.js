@@ -2,7 +2,7 @@
 const isNotBlank = (value, errorMessage) => {
   if (value.length === 0 || value === '') {
     errorMessage.css('display', 'block')
-    errorMessage.text('필수 입력란 입니다')
+    errorMessage.text('❌필수 입력란 입니다')
     return false
   }
   errorMessage.css('display', 'none')
@@ -24,7 +24,7 @@ const emailValidation = () => {
 
   if (emailCheck.test(email.val()) === false) {
     emailErrorMessage.css('display', 'block');
-    emailErrorMessage.text('이메일 형식에 맞게 입력해주세요');
+    emailErrorMessage.text('❌이메일 형식에 맞게 입력해주세요');
     return false
   }
 
@@ -41,7 +41,7 @@ const passwordMatch = () => {
 
   if (password.val() !== passwordMatch.val()) {
     passwordMatchErrorMessage.css('display', 'block')
-    passwordMatchErrorMessage.text('비밀번호가 다릅니다')
+    passwordMatchErrorMessage.text('❌비밀번호가 다릅니다')
     return false
   }
 
@@ -67,13 +67,13 @@ const passwordValidation = () => {
 
   if (password.val().length < 8 || password.val().length > 20) {
     passwordErrorMessage.css('display', 'block')
-    passwordErrorMessage.text('8~20자 이내로 입력해주세요')
+    passwordErrorMessage.text('❌8~20자 이내로 입력해주세요')
     return false
   }
 
   if (password.val().search(/\s/) !== -1) {
     passwordErrorMessage.css('display', 'block')
-    passwordErrorMessage.text('비밀번호는 공백 없이 입력해주세요')
+    passwordErrorMessage.text('❌비밀번호는 공백 없이 입력해주세요')
     return false
   }
 
@@ -83,7 +83,7 @@ const passwordValidation = () => {
       password.val().search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi) < 0 // 특수문자
   ) {
     passwordErrorMessage.css('display', 'block')
-    passwordErrorMessage.text('영문, 숫자, 특수문자를 혼합하여 입력해주세요')
+    passwordErrorMessage.text('❌영문, 숫자, 특수문자를 혼합하여 입력해주세요')
     return false
   }
 
@@ -102,7 +102,7 @@ const nickNameValidation = () => {
 
   if (nickName.val().length < 2) {
     nickNameErrorMessage.css('display', 'block')
-    nickNameErrorMessage.text('닉네임을 2자 이상 입력해주세요')
+    nickNameErrorMessage.text('❌닉네임을 2자 이상 입력해주세요')
     return false
   }
 
@@ -116,7 +116,7 @@ const genderValidation = () => {
 
   if ($("input[name='gender']:radio:checked").length < 1) {
     genderErrorMessage.css('display', 'block')
-    genderErrorMessage.text('성별을 선택해주세요')
+    genderErrorMessage.text('❌성별을 선택해주세요')
     return false
   }
 
@@ -147,7 +147,7 @@ const phoneNumberLengthLimit = () => {
   for (let i = 0; i<phoneNumbers.length; i++) {
     if (phoneNumbers.eq(i).val().length === 0) {
       phoneErrorMessage.css('display', 'block')
-      phoneErrorMessage.text('필수 입력란 입니다')
+      phoneErrorMessage.text('❌필수 입력란 입니다')
       return false
     }
   }
@@ -173,7 +173,7 @@ const birthValidation = () => {
   let now = new Date()
   if (year < now.getFullYear() - 100 || inputValue > now) {
     birthErrorMessage.css('display', 'block')
-    birthErrorMessage.text('생년월일을 확인해주세요')
+    birthErrorMessage.text('❌생년월일을 확인해주세요')
     return false
   }
 
@@ -186,14 +186,14 @@ const previewProfile = (imgs) => {
   let reader = new FileReader();
   let profileImageErrorMessage = $('.Home_form_div_p').find('.error-message')
 
-  if (imgs !== undefined) {
+  if (imgs.files[0] !== undefined) {
     let imgSize = imgs.files[0].size // 이미지 사이즈
     let maxSize = 2 * 1024 *1024 // 2MB
     let fileExtension = imgs.files[0].name.split('\.').slice(-1)[0] // 파일 확장자
 
     if (imgSize > maxSize || (fileExtension !== 'png' && fileExtension !== 'jpg')) {
       profileImageErrorMessage.css('display', 'block')
-      profileImageErrorMessage.text('2MB 이하의 png, jpg 파일만 가능합니다')
+      profileImageErrorMessage.text('❌2MB 이하의 png, jpg 파일만 가능합니다')
       imgs = undefined
       return false
     }
@@ -208,6 +208,52 @@ const previewProfile = (imgs) => {
 
   profileImageErrorMessage.css('display', 'none')
   return true
+}
+
+// 이메일 중복 확인
+const checkEmail = () => {
+  let email = $('#email')
+  let emailErrorMessage = email.closest('.Home_form_div').find('.error-message')
+  let checkEmailButton = $('#checkEmail')
+  let submitMassage = $('.check-email-submit-message')
+
+  if (checkEmailButton.text() === '이메일 변경') {
+    submitMassage.css('display', 'none')
+    checkEmailButton.text('중복확인')
+    checkEmailButton.removeClass('change-email').addClass('check-email')
+    email.prop('disabled', false)
+    return false
+  }
+
+  if (!emailValidation()) {
+    return false
+  }
+
+  $.ajax({
+    url: '/api/v2/members/check-email',
+    method: 'GET',
+    data: {
+      email: email.val()
+    },
+    success: (response) => {
+      if (response.data) {
+        emailErrorMessage.css('display', 'block')
+        emailErrorMessage.text('❌이미 사용중인 이메일입니다')
+      } else {
+        emailErrorMessage.css('display', 'none')
+        email.prop('disabled', true)
+
+        checkEmailButton.text('이메일 변경')
+        checkEmailButton.removeClass('check-email').addClass('change-email')
+        submitMassage.css('display', 'block')
+      }
+    },
+    error: (e) => {
+      if (e.responseJSON.status === 500) {
+        alert("오류가 발생했습니다. 관리자에게 문의하세요.")
+      }
+    }
+  })
 }
 
 const requestJoinApi = () => {
@@ -241,7 +287,7 @@ const requestJoinApi = () => {
 
   $.ajax({
     url: '/api/v2/members',
-    method: 'post',
+    method: 'POST',
     enctype: 'multipart/form-data',
     processData: false,
     contentType: false,
@@ -249,7 +295,11 @@ const requestJoinApi = () => {
     success: (data) => {
       console.log(data)
     },
-    error: () => {}
+    error: (e) => {
+      if (e.responseJSON.status === 500) {
+        alert("오류가 발생했습니다. 관리자에게 문의하세요.")
+      }
+    }
   })
 }
 
@@ -257,6 +307,14 @@ const joinSubmit = () => {
 
   // 이메일
   if (!emailValidation()) {
+    return false
+  }
+
+  let email = $('#email')
+  if (!email.prop('disabled')) {
+    let emailErrorMessage = email.closest('.Home_form_div').find('.error-message')
+    emailErrorMessage.css('display', 'block')
+    emailErrorMessage.text('❌이메일 중복확인을 해주세요')
     return false
   }
 
