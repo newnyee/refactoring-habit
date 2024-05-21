@@ -1,5 +1,6 @@
 package com.refactoringhabit.member.domain.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -13,6 +14,7 @@ import com.refactoringhabit.member.domain.repository.MemberRepository;
 import com.refactoringhabit.member.dto.MemberJoinRequestDto;
 import java.io.IOException;
 import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,5 +75,35 @@ class MemberServiceTest {
             () -> memberService.memberJoin(memberJoinRequestDto, file));
         verify(customFileUtil, times(1)).saveFile(Optional.of(file));
         verify(memberRepository, never()).save(any());
+    }
+
+    @DisplayName("이메일 중복 확인 - 이메일이 존재하지 않음")
+    @Test
+    void emailCheck_NotExists() {
+        // Given
+        String testEmail = "nonexistent@example.com";
+        when(memberRepository.existsByEmail(testEmail)).thenReturn(false);
+
+        // When
+        boolean result = memberService.emailCheck(testEmail);
+
+        // Then
+        assertThat(result).isFalse();
+        verify(memberRepository, times(1)).existsByEmail(testEmail);
+    }
+
+    @DisplayName("이메일 중복 확인 - 이메일이 존재함")
+    @Test
+    void emailCheck_exists() {
+        // Given
+        String testEmail = "nonexistent@example.com";
+        when(memberRepository.existsByEmail(testEmail)).thenReturn(true);
+
+        // When
+        boolean result = memberService.emailCheck(testEmail);
+
+        // Then
+        assertThat(result).isTrue();
+        verify(memberRepository, times(1)).existsByEmail(testEmail);
     }
 }
