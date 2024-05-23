@@ -70,7 +70,7 @@ $(document).ready(()=>{
     let getButtonId = $(e.currentTarget).attr('id')
     let phone = $('#phone').val()
     let birth = $('#birth').val()
-    let errorMessage = $('#phone-error-message')
+    let errorMessage = $('#birth-error-message')
 
     $.ajax({
       url: '/api/v2/auth/find-email',
