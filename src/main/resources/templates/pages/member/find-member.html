@@ -14,15 +14,18 @@
       <div class="Home_wrapper">
         <div>
           <div class="Home_sub">아이디 / 비밀번호 찾기</div>
-          <div class="Home_ment">가입 시 사용한 이메일을 입력해주세요</div>
-          <form class="Home_form" method="post" name="UserCheckForm" onsubmit="return checkForm()">
-            <input type="text" placeholder="이메일 입력" class="Home_input" name="user_email" id="user_email">
-            <small class="error" id="email-small" hidden></small>
+          <div class="Home_ment">가입 시 입력한 휴대폰번호와 생년월일을 입력해주세요</div>
+          <div class="Home_form">
+            <input type="text" id="phone" class="Home_input" placeholder="휴대폰 번호 입력">
+            <div class="error-message" id="phone-error-message"></div>
+            <input type="date" id="birth" class="Home_input" onchange="birthValidation()">
+            <div class="error-message" id="birth-error-message"></div>
+            <div class="error-message" id="result-error-message"></div>
             <div class="center_sort">
-              <button type="submit" onclick="javascript:form.action='/findid/result'" class="Home_submit">아이디 찾기</button>
-              <button type="submit" onclick="javascript:form.action='/findpw'" class="Home_submit">비밀번호 찾기</button>
+              <button class="Home_submit" id="id">아이디 찾기</button>
+              <button class="Home_submit" id="password">비밀번호 찾기</button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
       <br>
