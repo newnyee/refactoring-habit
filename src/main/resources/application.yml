@@ -6,6 +6,17 @@ spring:
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
 
+  mail:
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail.smtp.debug: true
+      mail.smtp.connection-timeout: 1000 #1초
+      mail.starttls.enable: true
+      mail.smtp.auth: true
+
 file:
   storage-path: ${STORAGE_PATH}
   member-default-img: "member_default_img.png"
