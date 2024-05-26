@@ -10,6 +10,7 @@ import jakarta.mail.internet.MimeMessage;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,7 +47,7 @@ public class AuthService {
 
         try {
             sendEmail(email, newPassword);
-        } catch (MessagingException e) {
+        } catch (MessagingException | MailException e) {
             log.error("[{}] {}", e.getClass().getSimpleName(), e.getMessage());
             throw new EmailingException();
         }
@@ -73,7 +74,9 @@ public class AuthService {
         return springTemplateEngine.process(EMAIL_TEMPLATE_NAME, context);
     }
 
-    private void sendEmail(String email, String newPassword) throws MessagingException {
+    private void sendEmail(String email, String newPassword)
+        throws MessagingException, MailException {
+
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper
             = new MimeMessageHelper(mimeMessage, false, "UTF-8");
