@@ -25,7 +25,6 @@ public class AuthRestController {
 
     @PostMapping("/reset-password")
     public ApiResponse<String> resetPassword(@RequestBody String email) {
-        log.debug("request data email : {}", email);
         authService.resetPassword(email);
         return ApiResponse.noContent();
     }

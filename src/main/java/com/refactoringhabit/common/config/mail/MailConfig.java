@@ -23,11 +23,9 @@ public class MailConfig {
     @Value("${spring.mail.username}")
     private String username;
 
-    // 비밀번호
     @Value("${spring.mail.password}")
     private String password;
 
-    // 포트번호
     @Value("${spring.mail.port}")
     private int port;
 
