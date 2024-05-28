@@ -53,6 +53,11 @@ dependencies {
 
     // Bouncy Castle Provider
     implementation 'org.bouncycastle:bcprov-jdk18on:1.76'
+
+    // Mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    // Thymeleaf Layout Dialect(for email service)
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 }
 
 tasks.named('test') {

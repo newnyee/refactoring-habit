@@ -1,5 +1,6 @@
 package com.refactoringhabit.common.exception;
 
+import com.refactoringhabit.auth.domain.exception.EmailingException;
 import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
 import com.refactoringhabit.member.domain.exception.NotFoundEmailException;
 import java.util.Arrays;
@@ -17,7 +18,9 @@ public enum ErrorType {
     F001("F001", "파일 저장에 실패했습니다.",
         FileSaveFailedException.class, HttpStatus.INTERNAL_SERVER_ERROR),
     U001("U001", "이메일을 찾을 수 없습니다.",
-        NotFoundEmailException.class, HttpStatus.NOT_FOUND);
+        NotFoundEmailException.class, HttpStatus.NOT_FOUND),
+    A001("A001", "이메일 발송에 실패하였습니다.",
+        EmailingException.class, HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String code;
     private final String message;
