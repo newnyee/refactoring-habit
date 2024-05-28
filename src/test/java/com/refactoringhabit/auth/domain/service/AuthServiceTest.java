@@ -10,23 +10,20 @@ import static org.mockito.Mockito.when;
 
 import com.refactoringhabit.auth.domain.exception.EmailingException;
 import com.refactoringhabit.auth.dto.FindEmailRequestDto;
+import com.refactoringhabit.common.utils.EmailNewPasswordUtil;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.exception.NotFoundEmailException;
 import com.refactoringhabit.member.domain.repository.MemberRepository;
-import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.MessagingException;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mail.MailSendException;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.thymeleaf.spring6.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
@@ -35,32 +32,15 @@ class AuthServiceTest {
     private MemberRepository memberRepository;
 
     @Mock
-    private JavaMailSender javaMailSender;
-
+    private PasswordEncoder passwordEncoder;
 
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private EmailNewPasswordUtil emailNewPasswordUtil;
 
     @InjectMocks
     private AuthService authService;
 
     private static final String TEST_EMAIL_ADDRESS = "test@example.com";
-    private static final String ENCODED_PASSWORD = "encodedPassword";
-
-    @BeforeEach
-    void setUp() {
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setPrefix("/templates/");
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode("HTML5");
-        templateResolver.setCharacterEncoding("UTF-8");
-
-        SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
-        springTemplateEngine.setTemplateResolver(templateResolver);
-
-        authService = new AuthService(memberRepository, javaMailSender, springTemplateEngine,
-            passwordEncoder);
-    }
 
     @DisplayName("이메일찾기 - 성공")
     @Test
@@ -90,39 +70,46 @@ class AuthServiceTest {
 
     @DisplayName("임시 비밀번호 발급 - 성공")
     @Test
-    void testResetPassword_Successfully() {
-        String email = TEST_EMAIL_ADDRESS;
+    void testResetPassword_Successfully() throws MessagingException {
         Member member = mock(Member.class);
-        when(memberRepository.findByEmail(email)).thenReturn(member);
-        when(passwordEncoder.encode(anyString())).thenReturn(ENCODED_PASSWORD);
+        when(memberRepository.findByEmail(TEST_EMAIL_ADDRESS)).thenReturn(member);
 
-        MimeMessage mimeMessage = mock(MimeMessage.class);
-        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        ArgumentCaptor<String> passwordCaptor = ArgumentCaptor.forClass(String.class);
+        when(passwordEncoder.encode(passwordCaptor.capture()))
+            .thenAnswer(invocation -> invocation.getArgument(0));
 
-        authService.resetPassword(email);
+        authService.resetPassword(TEST_EMAIL_ADDRESS);
 
-        verify(member, times(1)).updatePassword(anyString());
-        verify(javaMailSender, times(1)).send(mimeMessage);
+        verify(memberRepository, times(1))
+            .findByEmail(TEST_EMAIL_ADDRESS);
+        verify(passwordEncoder, times(1))
+            .encode(anyString());
+        verify(emailNewPasswordUtil, times(1))
+            .sendEmail(TEST_EMAIL_ADDRESS, passwordCaptor.getValue());
     }
 
     @DisplayName("임시 비밀번호 발급 - 실패 : 이메일 발송 실패")
     @Test
-    void testResetPassword_EmailException() {
-        String email = TEST_EMAIL_ADDRESS;
+    void testResetPassword_EmailException() throws MessagingException {
         Member member = mock(Member.class);
-        when(memberRepository.findByEmail(email)).thenReturn(member);
-        when(passwordEncoder.encode(anyString())).thenReturn(ENCODED_PASSWORD);
+        when(memberRepository.findByEmail(TEST_EMAIL_ADDRESS)).thenReturn(member);
 
-        MimeMessage mimeMessage = mock(MimeMessage.class);
-        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        ArgumentCaptor<String> passwordCaptor = ArgumentCaptor.forClass(String.class);
+        when(passwordEncoder.encode(passwordCaptor.capture()))
+            .thenAnswer(invocation -> invocation.getArgument(0));
 
-        doThrow(MailSendException.class).when(javaMailSender).send(mimeMessage);
+        doThrow(new MessagingException()).when(emailNewPasswordUtil)
+            .sendEmail(anyString(), anyString());
 
         assertThrows(EmailingException.class, () -> {
-            authService.resetPassword(email);
+            authService.resetPassword(TEST_EMAIL_ADDRESS);
         });
 
-        verify(member, times(1)).updatePassword(anyString());
-        verify(javaMailSender, times(1)).send(mimeMessage);
+        verify(memberRepository, times(1))
+            .findByEmail(TEST_EMAIL_ADDRESS);
+        verify(passwordEncoder, times(1))
+            .encode(anyString());
+        verify(emailNewPasswordUtil, times(1))
+            .sendEmail(TEST_EMAIL_ADDRESS, passwordCaptor.getValue());
     }
 }
