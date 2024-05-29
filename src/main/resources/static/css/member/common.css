@@ -331,3 +331,9 @@ a:hover{
   color: red;
   font-size: small;
 }
+
+.warning-message {
+  margin: 30px 0 0;
+  color: gray;
+  font-size: small;
+}
