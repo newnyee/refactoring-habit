@@ -3,6 +3,7 @@
       th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
   <head>
     <link rel="stylesheet" th:href="@{/css/member/member-login.css}">
+    <script th:src="@{/js/member/member-login.js}"></script>
   </head>
 
   <title>로그인 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
@@ -12,13 +13,18 @@
       <h3>로그인</h3>
     </div>
     <div class="Home_loginForm">
-      <form action="">
-        <div class="Home_loginForm_input"><input type="text" placeholder="아이디(이메일)"></div>
-        <div class="Home_loginForm_input"><input type="text" placeholder="비밀번호"></div>
-        <a href="member-join.html" class="Home_find_a1">회원가입</a> |
-        <a href="find-member.html" class="Home_find_a2">아이디/비밀번호 찾기</a><br>
+      <div>
+        <div class="Home_loginForm_input">
+          <input type="text" id="email" placeholder="아이디(이메일)" onchange="emailValidation()">
+        </div>
+        <div class="Home_loginForm_input">
+          <input type="password" id="password" placeholder="비밀번호" onchange="passwordValidation()">
+        </div>
+        <a href="/join" class="Home_find_a1">회원가입</a> |
+        <a href="/find-member" class="Home_find_a2">아이디/비밀번호 찾기</a><br>
         <button class="Home_login_btn">로그인</button>
-      </form>
+        <div class="error-message"></div>
+      </div>
     </div>
   </section>
 </th:block>
