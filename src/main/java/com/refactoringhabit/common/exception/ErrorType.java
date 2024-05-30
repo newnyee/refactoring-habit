@@ -1,8 +1,12 @@
 package com.refactoringhabit.common.exception;
 
+import com.refactoringhabit.auth.domain.exception.AuthTokenExpiredException;
 import com.refactoringhabit.auth.domain.exception.EmailingException;
+import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
+import com.refactoringhabit.auth.domain.exception.NullTokenException;
 import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
 import com.refactoringhabit.member.domain.exception.NotFoundEmailException;
+import com.refactoringhabit.member.domain.exception.UserNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -17,10 +21,20 @@ public enum ErrorType {
             CustomException.class, HttpStatus.BAD_REQUEST),
     F001("F001", "파일 저장에 실패했습니다.",
         FileSaveFailedException.class, HttpStatus.INTERNAL_SERVER_ERROR),
+
     U001("U001", "이메일을 찾을 수 없습니다.",
         NotFoundEmailException.class, HttpStatus.NOT_FOUND),
+    U002("U002", "회원 정보를 찾을 수 없습니다.",
+        UserNotFoundException.class, HttpStatus.NOT_FOUND),
+
     A001("A001", "이메일 발송에 실패하였습니다.",
-        EmailingException.class, HttpStatus.INTERNAL_SERVER_ERROR);
+        EmailingException.class, HttpStatus.INTERNAL_SERVER_ERROR),
+    A002("T002", "토큰을 입력해주세요.",
+        NullTokenException.class, HttpStatus.BAD_REQUEST),
+    A003("T003", "유효하지 않은 토큰입니다.",
+        InvalidTokenException.class, HttpStatus.UNAUTHORIZED),
+    A004("T004", "만료된 토큰입니다.",
+        AuthTokenExpiredException.class, HttpStatus.UNAUTHORIZED);
 
     private final String code;
     private final String message;
