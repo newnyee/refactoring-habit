@@ -186,7 +186,7 @@ const previewProfile = (imgs) => {
   let reader = new FileReader();
   let profileImageErrorMessage = $('.Home_form_div_p').find('.error-message')
 
-  if (imgs.files[0] !== undefined) {
+  if (imgs !== undefined) {
     let imgSize = imgs.files[0].size // 이미지 사이즈
     let maxSize = 2 * 1024 *1024 // 2MB
     let fileExtension = imgs.files[0].name.split('\.').slice(-1)[0] // 파일 확장자
