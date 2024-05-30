@@ -58,6 +58,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     // Thymeleaf Layout Dialect(for email service)
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+    // Auth0 JWT
+    implementation 'com.auth0:java-jwt:4.4.0'
+
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {
