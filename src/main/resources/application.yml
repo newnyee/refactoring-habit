@@ -2,9 +2,13 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${HOST_IP}:3306/${DATABASE_NAME}?serverTimezone=Asia/Seoul&useUniCode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://${HOST_IP}:${MYSQL_PORT}/${DATABASE_NAME}?serverTimezone=Asia/Seoul&useUniCode=yes&characterEncoding=UTF-8
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
+  data:
+    redis:
+      host: ${HOST_IP}
+      port: ${REDIS_PORT}
 
   mail:
     host: ${EMAIL_HOST}
@@ -19,4 +23,13 @@ spring:
 
 file:
   storage-path: ${STORAGE_PATH}
-  member-default-img: "member_default_img.png"
+  member-default-img: ${MEMBER_DEFAULT_IMG_FILE_NAME}
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+
+token:
+  prefix-key-refresh-token: ${PREFIX_KEY_REFRESH_TOKEN}
+  expire-time:
+    access: ${EXPIRE_TIME_ACCESS_TOKEN} # 30분(30*60*1000)
+    refresh: ${EXPIRE_TIME_REFRESH_TOKEN} # 14일(60*60*24*14)
