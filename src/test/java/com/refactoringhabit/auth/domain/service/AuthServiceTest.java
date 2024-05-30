@@ -72,7 +72,8 @@ class AuthServiceTest {
     @Test
     void testResetPassword_Successfully() throws MessagingException {
         Member member = mock(Member.class);
-        when(memberRepository.findByEmail(TEST_EMAIL_ADDRESS)).thenReturn(member);
+        when(memberRepository.findByEmail(TEST_EMAIL_ADDRESS))
+            .thenReturn(Optional.ofNullable(member));
 
         ArgumentCaptor<String> passwordCaptor = ArgumentCaptor.forClass(String.class);
         when(passwordEncoder.encode(passwordCaptor.capture()))
@@ -92,7 +93,8 @@ class AuthServiceTest {
     @Test
     void testResetPassword_EmailException() throws MessagingException {
         Member member = mock(Member.class);
-        when(memberRepository.findByEmail(TEST_EMAIL_ADDRESS)).thenReturn(member);
+        when(memberRepository.findByEmail(TEST_EMAIL_ADDRESS))
+            .thenReturn(Optional.ofNullable(member));
 
         ArgumentCaptor<String> passwordCaptor = ArgumentCaptor.forClass(String.class);
         when(passwordEncoder.encode(passwordCaptor.capture()))
