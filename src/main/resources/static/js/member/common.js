@@ -1,4 +1,52 @@
+const reissueToken = async () => {
+    console.log("access reissue Token js")
+    try {
+        const response = await fetch('/api/v2/auth/tokens', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                'Content-Type': 'application/json',
+            },
+        })
 
+        if (response.ok) {
+            const data = await response.json()
+            localStorage.setItem('accessToken', data.data.accessToken)
+            console.log(data.data.accessToken)
+        } else {
+            alert("세션이 만료되었습니다.")
+            console.log("reissueToken error")
+            window.location.href = '/login'
+        }
+
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error)
+    }
+}
+
+const verifyToken = async () => {
+    try {
+        const response = await fetch('/api/v2/auth/verify-token', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            const data = await response.json()
+            if (data.code === 'T004') { // 토큰 재발급
+                await reissueToken();
+            } else {
+                alert("세션이 만료되었습니다.")
+                window.location.href = '/login'
+            }
+        }
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error)
+    }
+}
 
 $(document).ready(function(){
     if($.cookie("modal")!='check'){
