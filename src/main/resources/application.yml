@@ -33,3 +33,12 @@ token:
   expire-time:
     access: ${EXPIRE_TIME_ACCESS_TOKEN} # 30분(30*60*1000)
     refresh: ${EXPIRE_TIME_REFRESH_TOKEN} # 14일(60*60*24*14)
+
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    key-store: ${KEY_STORE_PATH}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-store-type: ${KEY_STORE_TYPE}
+    key-alias: ${KEY_STORE_NAME}
