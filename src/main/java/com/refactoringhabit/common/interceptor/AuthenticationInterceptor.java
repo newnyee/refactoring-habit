@@ -46,10 +46,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         }
 
         try {
+            /* 토큰 유효성 검사시 문제가 없고, 서버의 db에 해당 유저 아이디가 존재할 경우
+            api 핸들러를 거치지 않고 ok 상태를 response에 담아서 클라이언트에게 전달 */
             String altId = tokenUtil.verifyToken(token);
             if (Boolean.TRUE.equals(memberRepository.existsByAltId(altId))) {
-                request.setAttribute(MEMBER_ID_ATTRIBUTE, altId);
-                return true;
+                response.setStatus(HttpServletResponse.SC_OK);
+                return false;
             }
             throw new UserNotFoundException();
 
