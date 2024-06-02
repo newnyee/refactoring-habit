@@ -20,4 +20,9 @@ public class AuthController {
     public String findPassword() {
         return "/pages/member/find-password";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "/pages/member/member-login";
+    }
 }

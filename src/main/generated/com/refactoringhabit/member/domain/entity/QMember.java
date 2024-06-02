@@ -30,13 +30,13 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath email = createString("email");
 
+    public final StringPath encodedPassword = createString("encodedPassword");
+
     public final EnumPath<com.refactoringhabit.member.domain.enums.Gender> gender = createEnum("gender", com.refactoringhabit.member.domain.enums.Gender.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath nickName = createString("nickName");
-
-    public final StringPath password = createString("password");
 
     public final StringPath phone = createString("phone");
 
