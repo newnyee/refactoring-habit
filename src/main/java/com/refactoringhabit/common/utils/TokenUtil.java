@@ -16,22 +16,17 @@ public class TokenUtil {
 
     private final Algorithm algorithm;
     private final Long expiredAccessTokenMs;
-    private final Long expiredRefreshTokenMs;
 
     public TokenResponse createToken(String altId) {
         Date expiredTimeForAccessToken =
                 new Date(System.currentTimeMillis() + expiredAccessTokenMs);
-        Date expiredTimeForRefreshToken =
-                new Date(System.currentTimeMillis() + expiredRefreshTokenMs * 1000);
 
         return TokenResponse.builder()
                 .accessToken(JWT.create()
                         .withClaim(CLAIM_MEMBER_ID, altId)
                         .withExpiresAt(expiredTimeForAccessToken)
                         .sign(algorithm))
-                .expiredTimeForAccessToken(expiredTimeForAccessToken.toString())
                 .refreshToken(UUID.randomUUID().toString())
-                .expiredTimeForRefreshToken(expiredTimeForRefreshToken.toString())
                 .build();
     }
 

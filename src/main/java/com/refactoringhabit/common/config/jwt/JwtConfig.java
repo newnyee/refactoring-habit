@@ -15,15 +15,11 @@ public class JwtConfig {
     @Value("${token.expire-time.access}")
     private Long expiredAccessTokenMs;
 
-    @Value("${token.expire-time.refresh}")
-    private Long expiredRefreshTokenMs;
-
     @Bean
     public TokenUtil jwtUtil() {
         return new TokenUtil(
             Algorithm.HMAC256(jwtSecretKey),
-            expiredAccessTokenMs,
-            expiredRefreshTokenMs
+            expiredAccessTokenMs
         );
     }
 }
