@@ -1,11 +1,13 @@
 package com.refactoringhabit.auth.domain.service;
 
+import static com.refactoringhabit.common.utils.cookies.CookieAttributes.ACCESS_TOKEN_COOKIE_NAME;
+import static com.refactoringhabit.common.utils.cookies.CookieAttributes.REFRESH_TOKEN_COOKIE_NAME;
+
 import com.refactoringhabit.auth.domain.exception.EmailingException;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
 import com.refactoringhabit.auth.domain.repository.RedisRefreshTokenRepository;
 import com.refactoringhabit.auth.dto.FindEmailRequestDto;
 import com.refactoringhabit.auth.dto.SignInRequestDto;
-import com.refactoringhabit.auth.dto.SignInResponseDto;
 import com.refactoringhabit.common.annotation.Timer;
 import com.refactoringhabit.common.response.TokenResponse;
 import com.refactoringhabit.common.utils.cookies.CookieUtil;
@@ -63,7 +65,7 @@ public class AuthService {
     }
 
     @Transactional
-    public SignInResponseDto authenticationAndCreateToken(
+    public void authenticationAndCreateToken(
         HttpServletResponse response, SignInRequestDto signInRequestDto) {
 
         Member member = memberRepository.findByEmail(signInRequestDto.getEmail())
@@ -76,22 +78,18 @@ public class AuthService {
 
             redisRefreshTokenRepository.setRefreshToken(altId, createdRefreshToken);
 
-            cookieUtil.createRefreshTokenCookie(response, createdRefreshToken);
-
-            return SignInResponseDto.builder()
-                .tokenResponse(createdToken)
-                .nickName(member.getNickName())
-                .profileImage(member.getProfileImage())
-                .build();
+            cookieUtil.createTokenCookie(
+                response, REFRESH_TOKEN_COOKIE_NAME, createdRefreshToken);
+            cookieUtil.createTokenCookie(
+                response, ACCESS_TOKEN_COOKIE_NAME, createdToken.accessToken());
+        } else {
+            throw new UserNotFoundException();
         }
-        throw new UserNotFoundException();
     }
 
     @Transactional
-    public TokenResponse reissueToken(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        String altId) {
+    public void reissueToken(
+        HttpServletRequest request, HttpServletResponse response, String altId) {
 
         if (redisRefreshTokenRepository.getRefreshToken(altId)
             .equals(cookieUtil.getRefreshTokenInCookie(request))) {
@@ -100,10 +98,14 @@ public class AuthService {
             String createdRefreshToken = createdToken.refreshToken();
 
             redisRefreshTokenRepository.setRefreshToken(altId, createdRefreshToken);
-            cookieUtil.createRefreshTokenCookie(response, createdRefreshToken);
-            return createdToken;
+
+            cookieUtil.createTokenCookie(
+                response, REFRESH_TOKEN_COOKIE_NAME, createdRefreshToken);
+            cookieUtil.createTokenCookie(
+                response, ACCESS_TOKEN_COOKIE_NAME, createdToken.accessToken());
+        } else {
+            throw new InvalidTokenException();
         }
-        throw new InvalidTokenException();
     }
 
     private String createPassword() {

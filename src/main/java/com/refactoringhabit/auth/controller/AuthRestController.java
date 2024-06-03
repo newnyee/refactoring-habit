@@ -3,9 +3,7 @@ package com.refactoringhabit.auth.controller;
 import com.refactoringhabit.auth.domain.service.AuthService;
 import com.refactoringhabit.auth.dto.FindEmailRequestDto;
 import com.refactoringhabit.auth.dto.SignInRequestDto;
-import com.refactoringhabit.auth.dto.SignInResponseDto;
 import com.refactoringhabit.common.response.ApiResponse;
-import com.refactoringhabit.common.response.TokenResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -36,18 +34,17 @@ public class AuthRestController {
     }
 
     @PostMapping("/sign-in")
-    public ApiResponse<SignInResponseDto> signIn(
+    public ApiResponse<String> signIn(
         HttpServletResponse response, @RequestBody SignInRequestDto signInRequestDto) {
-        return ApiResponse
-            .ok(authService.authenticationAndCreateToken(response, signInRequestDto));
+        authService.authenticationAndCreateToken(response, signInRequestDto);
+        return ApiResponse.noContent();
     }
 
     @PostMapping("/tokens")
-    public ApiResponse<TokenResponse> reissueToken(
-        HttpServletRequest request,
-        HttpServletResponse response,
+    public ApiResponse<String> reissueToken(
+        HttpServletRequest request, HttpServletResponse response,
         @RequestAttribute("altId") String altId) {
-
-        return ApiResponse.ok(authService.reissueToken(request, response, altId));
+        authService.reissueToken(request, response, altId);
+        return ApiResponse.noContent();
     }
 }
