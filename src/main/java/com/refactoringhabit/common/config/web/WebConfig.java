@@ -1,8 +1,12 @@
 package com.refactoringhabit.common.config.web;
 
+import com.refactoringhabit.common.interceptor.MemberInfoInterceptor;
+import com.refactoringhabit.common.interceptor.PublicAccessInterceptor;
+import com.refactoringhabit.common.interceptor.HostAccessInterceptor;
+import com.refactoringhabit.common.interceptor.MemberAccessInterceptor;
+import com.refactoringhabit.common.interceptor.GuestOnlyAccessInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -10,31 +14,61 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final HandlerInterceptor authenticationInterceptor;
+    private final GuestOnlyAccessInterceptor guestOnlyAccessInterceptor;
+    private final PublicAccessInterceptor publicAccessInterceptor;
+    private final MemberAccessInterceptor memberAccessInterceptor;
+    private final HostAccessInterceptor hostAccessInterceptor;
+    private final MemberInfoInterceptor memberInfoInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authenticationInterceptor)
+        registry.addInterceptor(guestOnlyAccessInterceptor)
+            .order(1)
             .addPathPatterns(
-                "/api/v2/auth/verify-token",
-                "/api/v2/auth/tokens")
-
-            .excludePathPatterns(
-                "/css/**",
-                "/js/**",
-                "/img/**",
-                "/storage/**",
+                // api
+                "/api/v2/auth/**",
+                "/api/v2/members",
+                "/api/v2/members/check-email",
                 // view
-                "/",
-                "/join",
-                "/find-member/**",
-                "/login",
-                //api
+                "/join", "/find-member/**", "/login")
+            .excludePathPatterns("/api/v2/auth/sign-out");
+
+        registry.addInterceptor(publicAccessInterceptor)
+            .order(2)
+            .addPathPatterns(
+                // api
+                "/api/v2/products/**", "/api/v2/large-categories/**",
+                // view
+                "/", "/category/**", "/product/**", "/search");
+
+        registry.addInterceptor(memberAccessInterceptor)
+            .order(3)
+            .addPathPatterns(
+                // api
+                "/api/v2/**",
+                // view
+                "/mypage/**", "/wish/list", "/cart", "/order/**", "/host/**")
+            .excludePathPatterns(
+                "/api/v2/auth/sign-in",
                 "/api/v2/auth/find-email",
                 "/api/v2/auth/reset-password",
-                "/api/v2/auth/sign-in",
                 "/api/v2/members",
-                "/api/v2/members/check-email"
-            );
+                "/api/v2/members/check-email",
+                "/api/v2/products/**",
+                "/api/v2/large-categories/**");
+
+        registry.addInterceptor(hostAccessInterceptor)
+            .order(4)
+            .addPathPatterns(
+                "/api/v2/hosts/**",
+                "/host/**")
+            .excludePathPatterns(
+                "/api/v2/hosts",
+                "/host/join");
+
+        registry.addInterceptor(memberInfoInterceptor)
+            .order(5)
+            .addPathPatterns("/**")
+            .excludePathPatterns("/api/v2/**");
     }
 }
