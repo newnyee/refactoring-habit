@@ -1,5 +1,6 @@
 package com.refactoringhabit.member.domain.mapper;
 
+import com.refactoringhabit.common.response.MemberInfoDto;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.dto.MemberJoinRequestDto;
 import java.util.UUID;
@@ -16,6 +17,8 @@ public interface MemberEntityMapper {
     @Mapping(target = "altId", qualifiedByName = "generateUuid")
     @Mapping(source = "memberJoinRequestDto.encodedPassword", target = "password")
     Member toEntity(MemberJoinRequestDto memberJoinRequestDto, String altId);
+
+    MemberInfoDto toMemberInfoDto(Member member);
 
     @Named("generateUuid")
     default String generateUuid(String value) {
