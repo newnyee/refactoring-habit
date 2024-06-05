@@ -39,11 +39,11 @@ public class CookieUtil {
                 .toString());
     }
 
-    public String getRefreshTokenInCookie(HttpServletRequest request) {
+    public String getTokenInCookie(HttpServletRequest request, String cookieName) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(REFRESH_TOKEN_COOKIE_NAME)) {
+                if (cookie.getName().equals(cookieName)) {
                     return cookie.getValue();
                 }
             }

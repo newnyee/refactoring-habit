@@ -92,7 +92,7 @@ public class AuthService {
         HttpServletRequest request, HttpServletResponse response, String altId) {
 
         if (redisRefreshTokenRepository.getRefreshToken(altId)
-            .equals(cookieUtil.getRefreshTokenInCookie(request))) {
+            .equals(cookieUtil.getTokenInCookie(request, REFRESH_TOKEN_COOKIE_NAME))) {
 
             TokenResponse createdToken = tokenUtil.createToken(altId);
             String createdRefreshToken = createdToken.refreshToken();
