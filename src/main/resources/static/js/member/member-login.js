@@ -64,14 +64,6 @@ const passwordValidation = () => {
   return true
 }
 
-// response data 저장
-const saveData = (data) => {
-  localStorage.setItem('nickName', data.nickName)
-  localStorage.setItem('profileImage', data.profileImage)
-  localStorage.setItem('accessToken', data.tokenResponse.accessToken)
-  window.location.href = '/'
-}
-
 $(document).ready(() => {
 
   // 로그인 api 호출
@@ -93,8 +85,8 @@ $(document).ready(() => {
         email: $('#email').val(),
         password: $('#password').val()
       }),
-      success: (response) => {
-        saveData(response.data)
+      success: () => {
+        window.location.href = '/'
       },
       error: (error) => {
         if (error.responseJSON.code === 'U002') {
