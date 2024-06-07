@@ -5,6 +5,7 @@ import static com.refactoringhabit.common.utils.cookies.CookieAttributes.REFRESH
 
 import com.refactoringhabit.auth.domain.exception.EmailingException;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
+import com.refactoringhabit.auth.domain.exception.PasswordNotMatchException;
 import com.refactoringhabit.auth.domain.repository.RedisRefreshTokenRepository;
 import com.refactoringhabit.auth.dto.FindEmailRequestDto;
 import com.refactoringhabit.auth.dto.SignInRequestDto;
@@ -83,7 +84,7 @@ public class AuthService {
             cookieUtil.createTokenCookie(
                 response, ACCESS_TOKEN_COOKIE_NAME, createdToken.accessToken());
         } else {
-            throw new UserNotFoundException();
+            throw new PasswordNotMatchException();
         }
     }
 

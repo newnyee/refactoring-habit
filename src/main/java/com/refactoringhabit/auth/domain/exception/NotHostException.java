@@ -1,4 +1,4 @@
-package com.refactoringhabit.member.domain.exception;
+package com.refactoringhabit.auth.domain.exception;
 
 import com.refactoringhabit.common.exception.CustomException;
 
