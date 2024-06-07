@@ -1,6 +1,6 @@
-package com.refactoringhabit.common.interceptor;
+package com.refactoringhabit.common.interceptor.view;
 
-import static com.refactoringhabit.common.enums.AttributeNames.ALT_ID;
+import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
 import static com.refactoringhabit.common.enums.UrlMappings.*;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -27,7 +27,7 @@ public class HostAccessInterceptor implements HandlerInterceptor {
 
         boolean isApiUrl = interceptorUtils.isApiUrl(request);
         try {
-            String altId = (String) request.getAttribute(ALT_ID.getName());
+            String altId = (String) request.getAttribute(MEMBER_ALT_ID.getName());
 
             // 호스트인 경우 controller 진입
             if (interceptorUtils.isMemberHostById(altId)) {

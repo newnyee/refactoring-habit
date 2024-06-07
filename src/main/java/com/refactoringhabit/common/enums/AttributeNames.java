@@ -1,8 +1,8 @@
 package com.refactoringhabit.common.enums;
 
 public enum AttributeNames {
-    
-    ALT_ID("altId"),
+
+    MEMBER_ALT_ID("memberAltId"),
     REDIRECT_URL("redirectURL"),
     MEMBER_INFO("memberInfo");
 

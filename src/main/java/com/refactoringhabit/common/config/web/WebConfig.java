@@ -1,10 +1,10 @@
 package com.refactoringhabit.common.config.web;
 
-import com.refactoringhabit.common.interceptor.MemberInfoInterceptor;
-import com.refactoringhabit.common.interceptor.PublicAccessInterceptor;
-import com.refactoringhabit.common.interceptor.HostAccessInterceptor;
-import com.refactoringhabit.common.interceptor.MemberAccessInterceptor;
-import com.refactoringhabit.common.interceptor.GuestOnlyAccessInterceptor;
+import com.refactoringhabit.common.interceptor.view.GuestOnlyAccessInterceptor;
+import com.refactoringhabit.common.interceptor.view.HostAccessInterceptor;
+import com.refactoringhabit.common.interceptor.view.MemberAccessInterceptor;
+import com.refactoringhabit.common.interceptor.view.MemberInfoInterceptor;
+import com.refactoringhabit.common.interceptor.view.PublicAccessInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

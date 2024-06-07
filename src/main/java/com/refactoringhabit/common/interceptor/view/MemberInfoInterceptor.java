@@ -1,6 +1,6 @@
-package com.refactoringhabit.common.interceptor;
+package com.refactoringhabit.common.interceptor.view;
 
-import static com.refactoringhabit.common.enums.AttributeNames.ALT_ID;
+import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
 
 import com.refactoringhabit.common.utils.interceptor.InterceptorUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class MemberInfoInterceptor implements HandlerInterceptor {
         Object handler, ModelAndView modelAndView) {
 
         // 회원인 경우 request attribute에 아이디가 저장 되어있음
-        String altId = (String) request.getAttribute(ALT_ID.getName());
+        String altId = (String) request.getAttribute(MEMBER_ALT_ID.getName());
         interceptorUtils.addMemberInfoToModel(modelAndView, altId);
     }
 }

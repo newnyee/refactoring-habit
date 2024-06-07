@@ -1,8 +1,9 @@
 package com.refactoringhabit.common.interceptor;
 
-import static com.refactoringhabit.common.enums.AttributeNames.ALT_ID;
+import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
 import static org.mockito.Mockito.*;
 
+import com.refactoringhabit.common.interceptor.view.MemberInfoInterceptor;
 import com.refactoringhabit.common.utils.interceptor.InterceptorUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,10 +39,10 @@ class MemberInfoInterceptorTest {
     @DisplayName("MemberInfoInterceptor 접근 - 회원")
     @Test
     void testInterceptorAccess_Member() {
-        when(request.getAttribute(ALT_ID.getName())).thenReturn(ALT_ID.getName());
+        when(request.getAttribute(MEMBER_ALT_ID.getName())).thenReturn(MEMBER_ALT_ID.getName());
 
         memberInfoInterceptor.postHandle(request, response, handler, modelAndView);
 
-        verify(interceptorUtils).addMemberInfoToModel(modelAndView, ALT_ID.getName());
+        verify(interceptorUtils).addMemberInfoToModel(modelAndView, MEMBER_ALT_ID.getName());
     }
 }

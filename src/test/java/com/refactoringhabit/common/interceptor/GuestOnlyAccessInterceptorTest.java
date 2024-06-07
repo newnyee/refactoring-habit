@@ -5,6 +5,7 @@ import static com.refactoringhabit.common.utils.cookies.CookieAttributes.ACCESS_
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.refactoringhabit.common.interceptor.view.GuestOnlyAccessInterceptor;
 import com.refactoringhabit.common.utils.cookies.CookieUtil;
 import com.refactoringhabit.common.utils.interceptor.InterceptorUtils;
 import java.io.IOException;

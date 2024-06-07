@@ -1,12 +1,13 @@
 package com.refactoringhabit.common.interceptor;
 
-import static com.refactoringhabit.common.enums.AttributeNames.ALT_ID;
+import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
 import static com.refactoringhabit.common.enums.UrlMappings.VIEW_HOST_JOIN;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+import com.refactoringhabit.common.interceptor.view.HostAccessInterceptor;
 import com.refactoringhabit.common.utils.interceptor.InterceptorUtils;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,8 +40,8 @@ class HostAccessInterceptorTest {
     @DisplayName("HostAccessInterceptor 접근 - 호스트")
     @Test
     void testInterceptorAccess_Host() throws IOException {
-        when(request.getAttribute(ALT_ID.getName())).thenReturn(ALT_ID.getName());
-        when(interceptorUtils.isMemberHostById(ALT_ID.getName())).thenReturn(true);
+        when(request.getAttribute(MEMBER_ALT_ID.getName())).thenReturn(MEMBER_ALT_ID.getName());
+        when(interceptorUtils.isMemberHostById(MEMBER_ALT_ID.getName())).thenReturn(true);
 
         assertTrue(hostAccessInterceptor.preHandle(request, response, handler));
         verify(interceptorUtils).isApiUrl(request);
@@ -50,8 +51,8 @@ class HostAccessInterceptorTest {
     @Test
     void testInterceptorAccess_MemberAndCallApi() throws IOException {
         when(interceptorUtils.isApiUrl(request)).thenReturn(true);
-        when(request.getAttribute(ALT_ID.getName())).thenReturn(ALT_ID.getName());
-        when(interceptorUtils.isMemberHostById(ALT_ID.getName())).thenReturn(false);
+        when(request.getAttribute(MEMBER_ALT_ID.getName())).thenReturn(MEMBER_ALT_ID.getName());
+        when(interceptorUtils.isMemberHostById(MEMBER_ALT_ID.getName())).thenReturn(false);
 
         assertFalse(hostAccessInterceptor.preHandle(request, response, handler));
         verify(response).setStatus(HttpStatus.FORBIDDEN.value());
@@ -61,8 +62,8 @@ class HostAccessInterceptorTest {
     @Test
     void testInterceptorAccess_MemberAndCallView() throws IOException {
         when(interceptorUtils.isApiUrl(request)).thenReturn(false);
-        when(request.getAttribute(ALT_ID.getName())).thenReturn(ALT_ID.getName());
-        when(interceptorUtils.isMemberHostById(ALT_ID.getName())).thenReturn(false);
+        when(request.getAttribute(MEMBER_ALT_ID.getName())).thenReturn(MEMBER_ALT_ID.getName());
+        when(interceptorUtils.isMemberHostById(MEMBER_ALT_ID.getName())).thenReturn(false);
         when(interceptorUtils.redirectToUrl(response, VIEW_HOST_JOIN.getUrl()))
             .thenReturn(false);
 
@@ -72,8 +73,8 @@ class HostAccessInterceptorTest {
     @DisplayName("HostAccessInterceptor 접근 - 찾을 수 없는 회원, api 호출")
     @Test
     void testInterceptorAccess_MemberNotFoundAndCallApi() throws IOException {
-        when(request.getAttribute(ALT_ID.getName())).thenReturn(ALT_ID.getName());
-        when(interceptorUtils.isMemberHostById(ALT_ID.getName()))
+        when(request.getAttribute(MEMBER_ALT_ID.getName())).thenReturn(MEMBER_ALT_ID.getName());
+        when(interceptorUtils.isMemberHostById(MEMBER_ALT_ID.getName()))
             .thenThrow(UserNotFoundException.class);
         when(interceptorUtils.isApiUrl(request)).thenReturn(true);
 
@@ -84,8 +85,8 @@ class HostAccessInterceptorTest {
     @DisplayName("HostAccessInterceptor 접근 - 찾을 수 없는 회원, view 호출")
     @Test
     void testInterceptorAccess_MemberNotFoundAndCallView() throws IOException {
-        when(request.getAttribute(ALT_ID.getName())).thenReturn(ALT_ID.getName());
-        when(interceptorUtils.isMemberHostById(ALT_ID.getName()))
+        when(request.getAttribute(MEMBER_ALT_ID.getName())).thenReturn(MEMBER_ALT_ID.getName());
+        when(interceptorUtils.isMemberHostById(MEMBER_ALT_ID.getName()))
             .thenThrow(UserNotFoundException.class);
         when(interceptorUtils.isApiUrl(request)).thenReturn(false);
         when(interceptorUtils.redirectToLogin(request, response)).thenReturn(false);

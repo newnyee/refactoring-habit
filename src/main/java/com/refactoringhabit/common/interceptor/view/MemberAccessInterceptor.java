@@ -1,4 +1,4 @@
-package com.refactoringhabit.common.interceptor;
+package com.refactoringhabit.common.interceptor.view;
 
 import static com.refactoringhabit.common.utils.cookies.CookieAttributes.ACCESS_TOKEN_COOKIE_NAME;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;

@@ -27,7 +27,7 @@ public class InterceptorUtils {
     public void validateUserInDatabase(HttpServletRequest request, String altId) {
 
         if (Boolean.TRUE.equals(memberRepository.existsByAltId(altId))) {
-            request.setAttribute(ALT_ID.name(), altId);
+            request.setAttribute(MEMBER_ALT_ID.name(), altId);
         } else {
             throw new UserNotFoundException();
         }
@@ -37,7 +37,7 @@ public class InterceptorUtils {
         String altId) {
 
         authService.reissueToken(request, response, altId);
-        request.setAttribute(ALT_ID.name(), altId);
+        request.setAttribute(MEMBER_ALT_ID.name(), altId);
     }
 
     public boolean redirectToUrl(HttpServletResponse response, String redirectURL)

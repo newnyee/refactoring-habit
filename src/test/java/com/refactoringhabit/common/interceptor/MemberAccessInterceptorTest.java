@@ -1,6 +1,6 @@
 package com.refactoringhabit.common.interceptor;
 
-import static com.refactoringhabit.common.enums.AttributeNames.ALT_ID;
+import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
 import static com.refactoringhabit.common.utils.cookies.CookieAttributes.ACCESS_TOKEN_COOKIE_NAME;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -9,6 +9,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
 import com.refactoringhabit.auth.domain.exception.NullTokenException;
+import com.refactoringhabit.common.interceptor.view.MemberAccessInterceptor;
 import com.refactoringhabit.common.utils.TokenUtil;
 import com.refactoringhabit.common.utils.cookies.CookieUtil;
 import com.refactoringhabit.common.utils.interceptor.InterceptorUtils;
@@ -77,10 +78,10 @@ class MemberAccessInterceptorTest {
     void testInterceptorAccess_TokenIsNotNull() throws IOException {
         when(cookieUtil.getTokenInCookie(request, ACCESS_TOKEN_COOKIE_NAME))
             .thenReturn(ACCESS_TOKEN);
-        when(tokenUtil.verifyToken(ACCESS_TOKEN)).thenReturn(ALT_ID.getName());
+        when(tokenUtil.verifyToken(ACCESS_TOKEN)).thenReturn(MEMBER_ALT_ID.getName());
 
         assertTrue(memberAccessInterceptor.preHandle(request, response, handler));
-        verify(interceptorUtils).validateUserInDatabase(request, ALT_ID.getName());
+        verify(interceptorUtils).validateUserInDatabase(request, MEMBER_ALT_ID.getName());
     }
 
     @DisplayName("MemberAccessInterceptor 접근 - token(not null, expired)")
@@ -90,10 +91,11 @@ class MemberAccessInterceptorTest {
             .thenReturn(ACCESS_TOKEN);
         when(tokenUtil.verifyToken(ACCESS_TOKEN)).thenThrow(TokenExpiredException.class);
         when(tokenUtil.getTokenNumber(ACCESS_TOKEN)).thenReturn(ACCESS_TOKEN_NUMBER);
-        when(tokenUtil.getClaimMemberId(ACCESS_TOKEN_NUMBER)).thenReturn(ALT_ID.getName());
+        when(tokenUtil.getClaimMemberId(ACCESS_TOKEN_NUMBER))
+            .thenReturn(MEMBER_ALT_ID.getName());
 
         assertTrue(memberAccessInterceptor.preHandle(request, response, handler));
-        verify(interceptorUtils).handleExpiredToken(request, response, ALT_ID.getName());
+        verify(interceptorUtils).handleExpiredToken(request, response, MEMBER_ALT_ID.getName());
     }
 
     @DisplayName("MemberAccessInterceptor 접근 - token(not null, invalid), api 호출")

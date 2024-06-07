@@ -1,6 +1,6 @@
 package com.refactoringhabit.auth.domain.service;
 
-import static com.refactoringhabit.common.enums.AttributeNames.ALT_ID;
+import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
 import static com.refactoringhabit.common.utils.cookies.CookieAttributes.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -138,15 +138,15 @@ class AuthServiceTest {
             .build();
         when(memberRepository.findByEmail(signInRequestDto.getEmail()))
             .thenReturn(Optional.of(member));
-        when(member.getAltId()).thenReturn(ALT_ID.getName());
+        when(member.getAltId()).thenReturn(MEMBER_ALT_ID.getName());
         when(passwordEncoder.matches(signInRequestDto.getPassword(), member.getEncodedPassword()))
             .thenReturn(true);
-        when(tokenUtil.createToken(ALT_ID.getName())).thenReturn(createdToken);
+        when(tokenUtil.createToken(MEMBER_ALT_ID.getName())).thenReturn(createdToken);
 
         authService.authenticationAndCreateToken(response, signInRequestDto);
 
         verify(redisRefreshTokenRepository)
-            .setRefreshToken(ALT_ID.getName(), NEW_REFRESH_TOKEN);
+            .setRefreshToken(MEMBER_ALT_ID.getName(), NEW_REFRESH_TOKEN);
         verify(cookieUtil)
             .createTokenCookie(response, REFRESH_TOKEN_COOKIE_NAME, NEW_REFRESH_TOKEN);
         verify(cookieUtil)
@@ -171,16 +171,16 @@ class AuthServiceTest {
             .refreshToken(NEW_REFRESH_TOKEN)
             .accessToken(NEW_ACCESS_TOKEN)
             .build();
-        when(redisRefreshTokenRepository.getRefreshToken(ALT_ID.getName()))
+        when(redisRefreshTokenRepository.getRefreshToken(MEMBER_ALT_ID.getName()))
             .thenReturn(OLD_REFRESH_TOKEN);
         when(cookieUtil.getTokenInCookie(request, REFRESH_TOKEN_COOKIE_NAME))
             .thenReturn(OLD_REFRESH_TOKEN);
-        when(tokenUtil.createToken(ALT_ID.getName())).thenReturn(createdToken);
+        when(tokenUtil.createToken(MEMBER_ALT_ID.getName())).thenReturn(createdToken);
 
-        authService.reissueToken(request, response, ALT_ID.getName());
+        authService.reissueToken(request, response, MEMBER_ALT_ID.getName());
 
         verify(redisRefreshTokenRepository)
-            .setRefreshToken(ALT_ID.getName(), NEW_REFRESH_TOKEN);
+            .setRefreshToken(MEMBER_ALT_ID.getName(), NEW_REFRESH_TOKEN);
         verify(cookieUtil)
             .createTokenCookie(response, REFRESH_TOKEN_COOKIE_NAME, NEW_REFRESH_TOKEN);
         verify(cookieUtil)
@@ -190,13 +190,13 @@ class AuthServiceTest {
     @DisplayName("토큰 재발급 - 실패 : 유효하지 않은 리프래시 토큰")
     @Test
     void testReissueToken_InvalidToken() {
-        when(redisRefreshTokenRepository.getRefreshToken(ALT_ID.getName()))
+        when(redisRefreshTokenRepository.getRefreshToken(MEMBER_ALT_ID.getName()))
             .thenReturn(OLD_REFRESH_TOKEN);
         when(cookieUtil.getTokenInCookie(request, REFRESH_TOKEN_COOKIE_NAME))
             .thenReturn(INVALID_REFRESH_TOKEN);
 
         assertThrows(InvalidTokenException.class, () -> {
-            authService.reissueToken(request, response, ALT_ID.getName());
+            authService.reissueToken(request, response, MEMBER_ALT_ID.getName());
         });
     }
 }

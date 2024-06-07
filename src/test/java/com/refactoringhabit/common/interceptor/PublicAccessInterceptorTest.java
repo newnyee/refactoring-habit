@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.refactoringhabit.auth.domain.exception.NullTokenException;
+import com.refactoringhabit.common.interceptor.view.PublicAccessInterceptor;
 import com.refactoringhabit.common.utils.TokenUtil;
 import com.refactoringhabit.common.utils.cookies.CookieUtil;
 import com.refactoringhabit.common.utils.interceptor.InterceptorUtils;
@@ -59,10 +60,10 @@ class PublicAccessInterceptorTest {
     void testInterceptorAccess_TokenIsNotNull() {
         when(cookieUtil.getTokenInCookie(request, ACCESS_TOKEN_COOKIE_NAME))
             .thenReturn(ACCESS_TOKEN);
-        when(tokenUtil.verifyToken(ACCESS_TOKEN)).thenReturn(ALT_ID.getName());
+        when(tokenUtil.verifyToken(ACCESS_TOKEN)).thenReturn(MEMBER_ALT_ID.getName());
 
         assertTrue(publicAccessInterceptor.preHandle(request, response, handler));
-        verify(interceptorUtils).validateUserInDatabase(request, ALT_ID.getName());
+        verify(interceptorUtils).validateUserInDatabase(request, MEMBER_ALT_ID.getName());
     }
 
     @DisplayName("PublicAccessInterceptor 접근 - token(not null, expired)")
@@ -72,10 +73,11 @@ class PublicAccessInterceptorTest {
             .thenReturn(ACCESS_TOKEN);
         when(tokenUtil.verifyToken(ACCESS_TOKEN)).thenThrow(TokenExpiredException.class);
         when(tokenUtil.getTokenNumber(ACCESS_TOKEN)).thenReturn(ACCESS_TOKEN_NUMBER);
-        when(tokenUtil.getClaimMemberId(ACCESS_TOKEN_NUMBER)).thenReturn(ALT_ID.getName());
+        when(tokenUtil.getClaimMemberId(ACCESS_TOKEN_NUMBER))
+            .thenReturn(MEMBER_ALT_ID.getName());
 
         assertTrue(publicAccessInterceptor.preHandle(request, response, handler));
-        verify(interceptorUtils).handleExpiredToken(request, response, ALT_ID.getName());
+        verify(interceptorUtils).handleExpiredToken(request, response, MEMBER_ALT_ID.getName());
     }
 
     @DisplayName("PublicAccessInterceptor 접근 - token(not null, invalid)")
