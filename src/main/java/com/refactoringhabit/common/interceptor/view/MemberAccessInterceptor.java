@@ -1,9 +1,11 @@
 package com.refactoringhabit.common.interceptor.view;
 
-import static com.refactoringhabit.common.utils.cookies.CookieAttributes.ACCESS_TOKEN_COOKIE_NAME;
+import static com.refactoringhabit.common.enums.AttributeNames.SESSION_COOKIE_NAME;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.refactoringhabit.auth.domain.exception.NullTokenException;
+import com.refactoringhabit.common.response.Session;
 import com.refactoringhabit.common.utils.TokenUtil;
 import com.refactoringhabit.common.utils.cookies.CookieUtil;
 import com.refactoringhabit.common.utils.interceptor.InterceptorUtils;
@@ -28,15 +30,22 @@ public class MemberAccessInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
         Object handler) throws IOException {
 
-        String accessToken = cookieUtil.getTokenInCookie(request, ACCESS_TOKEN_COOKIE_NAME);
+        Session sessionCookie =
+            cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class);
+
         try { // 토큰 검증 성공 - api or view 컨트롤러 진입
-            interceptorUtils.validateUserInDatabase(request, tokenUtil.verifyToken(accessToken));
-            return true;
+            if (sessionCookie != null) {
+                interceptorUtils.validateUserInDatabase(request,
+                    tokenUtil.verifyToken(sessionCookie.accessToken()));
+                return true;
+            }
+
+            throw new NullTokenException();
 
         } catch (TokenExpiredException e) { // 만료된 토큰 - 토큰 재발급 후 api or view 컨트롤러 진입
             log.error("[{}] ex", e.getClass().getSimpleName(), e);
             interceptorUtils.handleExpiredToken(request, response, tokenUtil.getClaimMemberId(
-                    tokenUtil.getTokenNumber(accessToken)));
+                    tokenUtil.getTokenNumber(sessionCookie.accessToken())));
             return true;
 
         } catch (Exception e) { // 유효하지 않은 토큰

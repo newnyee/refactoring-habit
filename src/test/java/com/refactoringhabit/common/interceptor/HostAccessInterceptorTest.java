@@ -33,10 +33,12 @@ class HostAccessInterceptorTest {
     @Mock
     private HttpServletResponse response;
 
+    @Mock
+    private Object handler;
+
     @InjectMocks
     private HostAccessInterceptor hostAccessInterceptor;
 
-    private final Object handler = new Object();
     @DisplayName("HostAccessInterceptor 접근 - 호스트")
     @Test
     void testInterceptorAccess_Host() throws IOException {

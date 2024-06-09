@@ -1,5 +1,6 @@
 package com.refactoringhabit.auth.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.refactoringhabit.auth.domain.service.AuthService;
 import com.refactoringhabit.auth.dto.FindEmailRequestDto;
 import com.refactoringhabit.auth.dto.SignInRequestDto;
@@ -35,7 +36,8 @@ public class AuthRestController {
 
     @PostMapping("/sign-in")
     public ApiResponse<String> signIn(
-        HttpServletResponse response, @RequestBody SignInRequestDto signInRequestDto) {
+        HttpServletResponse response, @RequestBody SignInRequestDto signInRequestDto)
+        throws JsonProcessingException {
         authService.authenticationAndCreateToken(response, signInRequestDto);
         return ApiResponse.noContent();
     }
@@ -43,7 +45,7 @@ public class AuthRestController {
     @PostMapping("/tokens")
     public ApiResponse<String> reissueToken(
         HttpServletRequest request, HttpServletResponse response,
-        @RequestAttribute("altId") String altId) {
+        @RequestAttribute("altId") String altId) throws JsonProcessingException {
         authService.reissueToken(request, response, altId);
         return ApiResponse.noContent();
     }

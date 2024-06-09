@@ -3,6 +3,7 @@ package com.refactoringhabit.common.utils.interceptor;
 import static com.refactoringhabit.common.enums.AttributeNames.*;
 import static com.refactoringhabit.common.enums.UrlMappings.PREFIX_API;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.refactoringhabit.auth.domain.service.AuthService;
 import com.refactoringhabit.common.enums.UrlMappings;
 import com.refactoringhabit.member.domain.entity.Member;
@@ -34,7 +35,7 @@ public class InterceptorUtils {
     }
 
     public void handleExpiredToken(HttpServletRequest request, HttpServletResponse response,
-        String altId) {
+        String altId) throws JsonProcessingException {
 
         authService.reissueToken(request, response, altId);
         request.setAttribute(MEMBER_ALT_ID.name(), altId);

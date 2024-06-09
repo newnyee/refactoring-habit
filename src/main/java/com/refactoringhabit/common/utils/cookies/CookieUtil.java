@@ -1,10 +1,12 @@
 package com.refactoringhabit.common.utils.cookies;
 
+import static com.refactoringhabit.common.enums.AttributeNames.SESSION_COOKIE_NAME;
 import static com.refactoringhabit.common.utils.cookies.CookieAttributes.COOKIE_PATH;
-import static com.refactoringhabit.common.utils.cookies.CookieAttributes.REFRESH_TOKEN_COOKIE_NAME;
 import static com.refactoringhabit.common.utils.cookies.CookieAttributes.SESSION_EXPIRE_TIME_ZERO;
 import static com.refactoringhabit.common.utils.cookies.CookieAttributes.SET_COOKIE;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,33 +20,29 @@ public class CookieUtil {
     @Value("${token.expire-time.refresh}")
     private long expireSecRefreshToken;
 
-    @Value("${token.expire-time.access}")
-    private long expireMsAccessToken;
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void createTokenCookie(HttpServletResponse response, String cookieName, String token) {
-
-        long expireTime
-            = cookieName.equals(REFRESH_TOKEN_COOKIE_NAME)
-            ? expireSecRefreshToken
-            : expireMsAccessToken / 1000;
+    public void createSessionCookie(HttpServletResponse response, Object value)
+        throws JsonProcessingException {
 
         response.addHeader(SET_COOKIE,
-            ResponseCookie.from(cookieName, token)
+            ResponseCookie.from(SESSION_COOKIE_NAME.getName(), serializeToJson(value))
                 .path(COOKIE_PATH)
                 .sameSite("None")
                 .httpOnly(true)
                 .secure(true)
-                .maxAge(expireTime)
+                .maxAge(expireSecRefreshToken)
                 .build()
                 .toString());
     }
 
-    public String getTokenInCookie(HttpServletRequest request, String cookieName) {
+    public <T> T getValueInCookie(HttpServletRequest request, String cookieName,
+        Class<T> valueType) throws JsonProcessingException {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(cookieName)) {
-                    return cookie.getValue();
+                    return deserializeFromJson(cookie.getValue(), valueType);
                 }
             }
         }
@@ -61,5 +59,14 @@ public class CookieUtil {
                 .maxAge(SESSION_EXPIRE_TIME_ZERO)
                 .build()
                 .toString());
+    }
+
+    public static String serializeToJson(Object value) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(value);
+    }
+
+    public static <T> T deserializeFromJson(String json, Class<T> valueType)
+        throws JsonProcessingException {
+        return objectMapper.readValue(json, valueType);
     }
 }

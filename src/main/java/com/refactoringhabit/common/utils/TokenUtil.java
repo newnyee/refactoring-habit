@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
 import com.refactoringhabit.auth.domain.exception.NullTokenException;
-import com.refactoringhabit.common.response.TokenResponse;
+import com.refactoringhabit.common.response.Session;
 import java.util.Date;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +20,11 @@ public class TokenUtil {
     private final Algorithm algorithm;
     private final Long expiredAccessTokenMs;
 
-    public TokenResponse createToken(String altId) {
+    public Session createToken(String altId) {
         Date expiredTimeForAccessToken =
                 new Date(System.currentTimeMillis() + expiredAccessTokenMs);
 
-        return TokenResponse.builder()
+        return Session.builder()
                 .accessToken(JWT.create()
                         .withClaim(CLAIM_MEMBER_ID, altId)
                         .withExpiresAt(expiredTimeForAccessToken)

@@ -1,9 +1,10 @@
 package com.refactoringhabit.common.interceptor.view;
 
+import static com.refactoringhabit.common.enums.AttributeNames.SESSION_COOKIE_NAME;
 import static com.refactoringhabit.common.enums.UrlMappings.VIEW_HOME;
-import static com.refactoringhabit.common.utils.cookies.CookieAttributes.ACCESS_TOKEN_COOKIE_NAME;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
+import com.refactoringhabit.common.response.Session;
 import com.refactoringhabit.common.utils.cookies.CookieUtil;
 import com.refactoringhabit.common.utils.interceptor.InterceptorUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,8 +25,9 @@ public class GuestOnlyAccessInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
         Object handler) throws IOException {
 
-        String getAccessToken = cookieUtil.getTokenInCookie(request, ACCESS_TOKEN_COOKIE_NAME);
-        if (getAccessToken == null) {
+        Session sessionCookie =
+            cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class);
+        if (sessionCookie == null) {
             return true;
         }
 

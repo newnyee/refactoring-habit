@@ -1,16 +1,17 @@
 package com.refactoringhabit.auth.domain.service;
 
 import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
-import static com.refactoringhabit.common.utils.cookies.CookieAttributes.*;
+import static com.refactoringhabit.common.enums.AttributeNames.SESSION_COOKIE_NAME;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.refactoringhabit.auth.domain.exception.EmailingException;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
 import com.refactoringhabit.auth.domain.repository.RedisRefreshTokenRepository;
 import com.refactoringhabit.auth.dto.FindEmailRequestDto;
 import com.refactoringhabit.auth.dto.SignInRequestDto;
-import com.refactoringhabit.common.response.TokenResponse;
+import com.refactoringhabit.common.response.Session;
 import com.refactoringhabit.common.utils.EmailNewPasswordUtil;
 import com.refactoringhabit.common.utils.TokenUtil;
 import com.refactoringhabit.common.utils.cookies.CookieUtil;
@@ -72,6 +73,7 @@ class AuthServiceTest {
 
     private static final String TEST_EMAIL_ADDRESS = "test@example.com";
     private static final String OLD_REFRESH_TOKEN = "oldRefreshToken";
+    private static final String OLD_ACCESS_TOKEN = "oldAccessToken";
     private static final String NEW_REFRESH_TOKEN = "newRefreshToken";
     private static final String NEW_ACCESS_TOKEN = "newAccessToken";
     private static final String INVALID_REFRESH_TOKEN = "invalidRefreshToken";
@@ -131,8 +133,8 @@ class AuthServiceTest {
 
     @DisplayName("사용자 인증 후 토큰 발급 - 성공")
     @Test
-    void testAuthenticationAndCreateToken_Success() {
-        TokenResponse createdToken = TokenResponse.builder()
+    void testAuthenticationAndCreateToken_Success() throws JsonProcessingException {
+        Session createdToken = Session.builder()
             .refreshToken(NEW_REFRESH_TOKEN)
             .accessToken(NEW_ACCESS_TOKEN)
             .build();
@@ -147,10 +149,7 @@ class AuthServiceTest {
 
         verify(redisRefreshTokenRepository)
             .setRefreshToken(MEMBER_ALT_ID.getName(), NEW_REFRESH_TOKEN);
-        verify(cookieUtil)
-            .createTokenCookie(response, REFRESH_TOKEN_COOKIE_NAME, NEW_REFRESH_TOKEN);
-        verify(cookieUtil)
-            .createTokenCookie(response, ACCESS_TOKEN_COOKIE_NAME, NEW_ACCESS_TOKEN);
+        verify(cookieUtil).createSessionCookie(response, createdToken);
     }
 
     @DisplayName("사용자 인증 후 토큰 발급 - 실패 : 사용자를 찾을 수 없음")
@@ -166,34 +165,40 @@ class AuthServiceTest {
 
    @DisplayName("토큰 재발급 - 성공")
     @Test
-    void testReissueToken_Success() {
-        TokenResponse createdToken = TokenResponse.builder()
+    void testReissueToken_Success() throws JsonProcessingException {
+        Session oldSession = Session.builder()
+            .refreshToken(OLD_REFRESH_TOKEN)
+            .accessToken(OLD_ACCESS_TOKEN)
+            .build();
+        Session newSession = Session.builder()
             .refreshToken(NEW_REFRESH_TOKEN)
             .accessToken(NEW_ACCESS_TOKEN)
             .build();
+
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(),
+           Session.class)).thenReturn(oldSession);
         when(redisRefreshTokenRepository.getRefreshToken(MEMBER_ALT_ID.getName()))
             .thenReturn(OLD_REFRESH_TOKEN);
-        when(cookieUtil.getTokenInCookie(request, REFRESH_TOKEN_COOKIE_NAME))
-            .thenReturn(OLD_REFRESH_TOKEN);
-        when(tokenUtil.createToken(MEMBER_ALT_ID.getName())).thenReturn(createdToken);
+        when(tokenUtil.createToken(MEMBER_ALT_ID.getName())).thenReturn(newSession);
 
         authService.reissueToken(request, response, MEMBER_ALT_ID.getName());
 
         verify(redisRefreshTokenRepository)
             .setRefreshToken(MEMBER_ALT_ID.getName(), NEW_REFRESH_TOKEN);
-        verify(cookieUtil)
-            .createTokenCookie(response, REFRESH_TOKEN_COOKIE_NAME, NEW_REFRESH_TOKEN);
-        verify(cookieUtil)
-            .createTokenCookie(response, ACCESS_TOKEN_COOKIE_NAME, NEW_ACCESS_TOKEN);
+        verify(cookieUtil).createSessionCookie(response, newSession);
     }
 
     @DisplayName("토큰 재발급 - 실패 : 유효하지 않은 리프래시 토큰")
     @Test
-    void testReissueToken_InvalidToken() {
+    void testReissueToken_InvalidToken() throws JsonProcessingException {
+        Session oldSession = Session.builder()
+            .refreshToken(INVALID_REFRESH_TOKEN)
+            .accessToken(OLD_ACCESS_TOKEN)
+            .build();
         when(redisRefreshTokenRepository.getRefreshToken(MEMBER_ALT_ID.getName()))
             .thenReturn(OLD_REFRESH_TOKEN);
-        when(cookieUtil.getTokenInCookie(request, REFRESH_TOKEN_COOKIE_NAME))
-            .thenReturn(INVALID_REFRESH_TOKEN);
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(),
+            Session.class)).thenReturn(oldSession);
 
         assertThrows(InvalidTokenException.class, () -> {
             authService.reissueToken(request, response, MEMBER_ALT_ID.getName());
