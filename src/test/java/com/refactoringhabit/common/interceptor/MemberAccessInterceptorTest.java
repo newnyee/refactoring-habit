@@ -51,7 +51,6 @@ class MemberAccessInterceptorTest {
     private Session session;
     private static final String ACCESS_TOKEN = "accessToken";
     private static final String REFRESH_TOKEN = "refreshToken";
-    private static final String ACCESS_TOKEN_NUMBER = "accessTokenNumber";
 
     @BeforeEach
     void setUp() {
@@ -100,8 +99,7 @@ class MemberAccessInterceptorTest {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(session);
         when(tokenUtil.verifyToken(session.accessToken())).thenThrow(TokenExpiredException.class);
-        when(tokenUtil.getTokenNumber(session.accessToken())).thenReturn(ACCESS_TOKEN_NUMBER);
-        when(tokenUtil.getClaimMemberId(ACCESS_TOKEN_NUMBER))
+        when(tokenUtil.getClaimMemberId(ACCESS_TOKEN))
             .thenReturn(MEMBER_ALT_ID.getName());
 
         assertTrue(memberAccessInterceptor.preHandle(request, response, handler));

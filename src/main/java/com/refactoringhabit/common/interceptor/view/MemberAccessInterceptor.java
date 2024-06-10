@@ -44,8 +44,8 @@ public class MemberAccessInterceptor implements HandlerInterceptor {
 
         } catch (TokenExpiredException e) { // 만료된 토큰 - 토큰 재발급 후 api or view 컨트롤러 진입
             log.error("[{}] ex", e.getClass().getSimpleName(), e);
-            interceptorUtils.handleExpiredToken(request, response, tokenUtil.getClaimMemberId(
-                    tokenUtil.getTokenNumber(sessionCookie.accessToken())));
+            interceptorUtils.handleExpiredToken(request, response,
+                tokenUtil.getClaimMemberId(sessionCookie.accessToken()));
             return true;
 
         } catch (Exception e) { // 유효하지 않은 토큰

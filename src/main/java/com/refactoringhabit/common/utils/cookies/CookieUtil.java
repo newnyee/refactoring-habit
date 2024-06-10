@@ -10,10 +10,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Base64;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class CookieUtil {
 
@@ -24,6 +27,8 @@ public class CookieUtil {
 
     public void createSessionCookie(HttpServletResponse response, Object value)
         throws JsonProcessingException {
+
+        log.debug("serialization To Json = {}", serializeToJson(value));
 
         response.addHeader(SET_COOKIE,
             ResponseCookie.from(SESSION_COOKIE_NAME.getName(), serializeToJson(value))
@@ -62,11 +67,12 @@ public class CookieUtil {
     }
 
     public static String serializeToJson(Object value) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(value);
+        return Base64.getEncoder().encodeToString(
+            objectMapper.writeValueAsString(value).getBytes());
     }
 
     public static <T> T deserializeFromJson(String json, Class<T> valueType)
         throws JsonProcessingException {
-        return objectMapper.readValue(json, valueType);
+        return objectMapper.readValue(new String(Base64.getDecoder().decode(json)), valueType);
     }
 }
