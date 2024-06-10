@@ -39,12 +39,11 @@ public class ViewAuthInterceptor implements HandlerInterceptor {
         if (handler instanceof HandlerMethod) {
             Session sessionCookie =
                 cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class);
-            String nowUrI = request.getRequestURI();
+            String nowUri = request.getRequestURI();
 
             try {
                 // null session only URIs
-                if (NULL_SESSION_ONLY_URI.getUriMappingsList().stream()
-                    .anyMatch(uriMappings -> nowUrI.startsWith(uriMappings.getUri()))) {
+                if (interceptorUtils.isNullSessionOnlyUri(nowUri)) {
                     if (sessionCookie == null) {
                         return true;
                     }
@@ -69,13 +68,9 @@ public class ViewAuthInterceptor implements HandlerInterceptor {
 
             } catch (Exception e) { // invalid token
                 log.error("[{}] ex ", e.getClass().getSimpleName(), e);
-
-                // public URIs
-                if (nowUrI.equals(VIEW_HOME.getUri()) || PUBLIC_URI.getUriMappingsList().stream()
-                    .anyMatch(uriMappings -> nowUrI.startsWith(uriMappings.getUri()))) {
+                if (interceptorUtils.isPublicUri(nowUri)) {
                     return true;
                 }
-                // required authentication URIs
                 return interceptorUtils.redirectToLogin(request, response);
             }
         }

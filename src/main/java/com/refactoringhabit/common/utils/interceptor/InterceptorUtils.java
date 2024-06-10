@@ -1,7 +1,9 @@
 package com.refactoringhabit.common.utils.interceptor;
 
 import static com.refactoringhabit.common.enums.AttributeNames.*;
-import static com.refactoringhabit.common.enums.UriMappings.PREFIX_API;
+import static com.refactoringhabit.common.enums.UriAccessLevel.NULL_SESSION_ONLY_URI;
+import static com.refactoringhabit.common.enums.UriAccessLevel.PUBLIC_URI;
+import static com.refactoringhabit.common.enums.UriMappings.VIEW_HOME;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.refactoringhabit.auth.domain.service.AuthService;
@@ -62,10 +64,6 @@ public class InterceptorUtils {
         return MemberType.HOST.equals(member.getType());
     }
 
-    public boolean isApiUrl(HttpServletRequest request) {
-        return request.getRequestURI().startsWith(PREFIX_API.getUri());
-    }
-
     public void addMemberInfoToModel(ModelAndView modelAndView, String altId) {
         if (altId != null) {
             memberRepository.findByAltId(altId).ifPresent(member ->
@@ -73,5 +71,15 @@ public class InterceptorUtils {
                     MEMBER_INFO.getName(), MemberEntityMapper.INSTANCE.toMemberInfoDto(member))
             );
         }
+    }
+
+    public boolean isNullSessionOnlyUri(String nowUri) {
+        return NULL_SESSION_ONLY_URI.getUriMappingsList().stream()
+            .anyMatch(uriMappings -> nowUri.startsWith(uriMappings.getUri()));
+    }
+
+    public boolean isPublicUri(String nowUri) {
+        return nowUri.equals(VIEW_HOME.getUri()) || PUBLIC_URI.getUriMappingsList().stream()
+            .anyMatch(uriMappings -> nowUri.startsWith(uriMappings.getUri()));
     }
 }

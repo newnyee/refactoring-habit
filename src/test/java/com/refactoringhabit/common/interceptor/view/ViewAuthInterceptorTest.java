@@ -68,6 +68,7 @@ class ViewAuthInterceptorTest {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(null);
         when(request.getRequestURI()).thenReturn(VIEW_JOIN.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_JOIN.getUri())).thenReturn(true);
 
         assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
     }
@@ -78,6 +79,7 @@ class ViewAuthInterceptorTest {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(session);
         when(request.getRequestURI()).thenReturn(VIEW_JOIN.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_JOIN.getUri())).thenReturn(true);
 
         assertFalse(viewAuthInterceptor.preHandle(request, response, handler));
         verify(response).sendRedirect(VIEW_HOME.getUri());
@@ -89,6 +91,8 @@ class ViewAuthInterceptorTest {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(null);
         when(request.getRequestURI()).thenReturn(VIEW_HOME.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOME.getUri())).thenReturn(false);
+        when(interceptorUtils.isPublicUri(VIEW_HOME.getUri())).thenReturn(true);
 
         assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
     }
@@ -99,6 +103,7 @@ class ViewAuthInterceptorTest {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(session);
         when(request.getRequestURI()).thenReturn(VIEW_HOME.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOME.getUri())).thenReturn(false);
         when(tokenUtil.verifyToken(session.accessToken())).thenReturn(MEMBER_ALT_ID.getName());
 
         assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
@@ -111,6 +116,7 @@ class ViewAuthInterceptorTest {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(session);
         when(request.getRequestURI()).thenReturn(VIEW_HOME.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOME.getUri())).thenReturn(false);
         when(tokenUtil.verifyToken(session.accessToken())).thenThrow(TokenExpiredException.class);
         when(tokenUtil.getClaimMemberId(session.accessToken()))
             .thenReturn(MEMBER_ALT_ID.getName());
@@ -125,7 +131,9 @@ class ViewAuthInterceptorTest {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(session);
         when(request.getRequestURI()).thenReturn(VIEW_HOME.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOME.getUri())).thenReturn(false);
         when(tokenUtil.verifyToken(session.accessToken())).thenThrow(InvalidTokenException.class);
+        when(interceptorUtils.isPublicUri(VIEW_HOME.getUri())).thenReturn(true);
 
         assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
     }
@@ -136,6 +144,8 @@ class ViewAuthInterceptorTest {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(null);
         when(request.getRequestURI()).thenReturn(VIEW_HOST_JOIN.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOST_JOIN.getUri()))
+            .thenReturn(false);
         when(interceptorUtils.redirectToLogin(request, response)).thenReturn(false);
 
         assertFalse(viewAuthInterceptor.preHandle(request, response, handler));
@@ -147,6 +157,8 @@ class ViewAuthInterceptorTest {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(session);
         when(request.getRequestURI()).thenReturn(VIEW_HOST_JOIN.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOST_JOIN.getUri()))
+            .thenReturn(false);
         when(tokenUtil.verifyToken(session.accessToken())).thenReturn(MEMBER_ALT_ID.getName());
 
         assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
@@ -159,6 +171,8 @@ class ViewAuthInterceptorTest {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(session);
         when(request.getRequestURI()).thenReturn(VIEW_HOST_JOIN.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOST_JOIN.getUri()))
+            .thenReturn(false);
         when(tokenUtil.verifyToken(session.accessToken())).thenThrow(TokenExpiredException.class);
         when(tokenUtil.getClaimMemberId(session.accessToken()))
             .thenReturn(MEMBER_ALT_ID.getName());
@@ -173,7 +187,10 @@ class ViewAuthInterceptorTest {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(session);
         when(request.getRequestURI()).thenReturn(VIEW_HOST_JOIN.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOST_JOIN.getUri()))
+            .thenReturn(false);
         when(tokenUtil.verifyToken(session.accessToken())).thenThrow(InvalidTokenException.class);
+        when(interceptorUtils.isPublicUri(VIEW_HOST_JOIN.getUri())).thenReturn(false);
         when(interceptorUtils.redirectToLogin(request, response)).thenReturn(false);
 
         assertFalse(viewAuthInterceptor.preHandle(request, response, handler));
