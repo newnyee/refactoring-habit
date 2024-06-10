@@ -1,13 +1,16 @@
 package com.refactoringhabit.auth.domain.service;
 
+import static com.refactoringhabit.common.enums.AttributeNames.SESSION_COOKIE_NAME;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.refactoringhabit.auth.domain.exception.EmailingException;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
+import com.refactoringhabit.auth.domain.exception.PasswordNotMatchException;
 import com.refactoringhabit.auth.domain.repository.RedisRefreshTokenRepository;
 import com.refactoringhabit.auth.dto.FindEmailRequestDto;
 import com.refactoringhabit.auth.dto.SignInRequestDto;
-import com.refactoringhabit.auth.dto.SignInResponseDto;
 import com.refactoringhabit.common.annotation.Timer;
-import com.refactoringhabit.common.response.TokenResponse;
+import com.refactoringhabit.common.response.Session;
 import com.refactoringhabit.common.utils.cookies.CookieUtil;
 import com.refactoringhabit.common.utils.EmailNewPasswordUtil;
 import com.refactoringhabit.common.utils.TokenUtil;
@@ -41,6 +44,11 @@ public class AuthService {
     private final Random random = new Random();
 
     @Transactional(readOnly = true)
+    public boolean emailCheck(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
+    @Transactional(readOnly = true)
     public String findEmail(FindEmailRequestDto findEmailRequestDto) {
         return memberRepository.findEmailByPhoneAndBirth(findEmailRequestDto)
             .orElseThrow(NotFoundEmailException::new);
@@ -63,47 +71,46 @@ public class AuthService {
     }
 
     @Transactional
-    public SignInResponseDto authenticationAndCreateToken(
-        HttpServletResponse response, SignInRequestDto signInRequestDto) {
+    public void authenticationAndCreateToken(
+        HttpServletResponse response, SignInRequestDto signInRequestDto)
+        throws JsonProcessingException {
 
         Member member = memberRepository.findByEmail(signInRequestDto.getEmail())
                 .orElseThrow(UserNotFoundException::new);
         String altId = member.getAltId();
 
         if (passwordEncoder.matches(signInRequestDto.getPassword(), member.getEncodedPassword())) {
-            TokenResponse createdToken = tokenUtil.createToken(altId);
+            Session createdToken = tokenUtil.createToken(altId);
             String createdRefreshToken = createdToken.refreshToken();
 
             redisRefreshTokenRepository.setRefreshToken(altId, createdRefreshToken);
 
-            cookieUtil.createRefreshTokenCookie(response, createdRefreshToken);
-
-            return SignInResponseDto.builder()
-                .tokenResponse(createdToken)
-                .nickName(member.getNickName())
-                .profileImage(member.getProfileImage())
-                .build();
+            cookieUtil.createSessionCookie(response, createdToken);
+        } else {
+            throw new PasswordNotMatchException();
         }
-        throw new UserNotFoundException();
     }
 
     @Transactional
-    public TokenResponse reissueToken(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        String altId) {
+    public void reissueToken(
+        HttpServletRequest request, HttpServletResponse response, String altId)
+        throws JsonProcessingException {
+
+        Session valueInCookie =
+            cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class);
 
         if (redisRefreshTokenRepository.getRefreshToken(altId)
-            .equals(cookieUtil.getRefreshTokenInCookie(request))) {
+            .equals(valueInCookie.refreshToken())) {
 
-            TokenResponse createdToken = tokenUtil.createToken(altId);
+            Session createdToken = tokenUtil.createToken(altId);
             String createdRefreshToken = createdToken.refreshToken();
 
             redisRefreshTokenRepository.setRefreshToken(altId, createdRefreshToken);
-            cookieUtil.createRefreshTokenCookie(response, createdRefreshToken);
-            return createdToken;
+
+            cookieUtil.createSessionCookie(response, createdToken);
+        } else {
+            throw new InvalidTokenException();
         }
-        throw new InvalidTokenException();
     }
 
     private String createPassword() {

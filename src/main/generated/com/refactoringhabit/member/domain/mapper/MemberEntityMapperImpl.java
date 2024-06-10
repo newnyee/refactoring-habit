@@ -1,5 +1,6 @@
 package com.refactoringhabit.member.domain.mapper;
 
+import com.refactoringhabit.common.response.MemberInfoDto;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.enums.Gender;
 import com.refactoringhabit.member.dto.MemberJoinRequestDto;
@@ -7,7 +8,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-20T14:20:32+0900",
+    date = "2024-06-04T17:11:42+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class MemberEntityMapperImpl implements MemberEntityMapper {
@@ -34,5 +35,22 @@ public class MemberEntityMapperImpl implements MemberEntityMapper {
         member.altId( generateUuid( altId ) );
 
         return member.build();
+    }
+
+    @Override
+    public MemberInfoDto toMemberInfoDto(Member member) {
+        if ( member == null ) {
+            return null;
+        }
+
+        MemberInfoDto.MemberInfoDtoBuilder memberInfoDto = MemberInfoDto.builder();
+
+        if ( member.getType() != null ) {
+            memberInfoDto.type( member.getType().name() );
+        }
+        memberInfoDto.profileImage( member.getProfileImage() );
+        memberInfoDto.nickName( member.getNickName() );
+
+        return memberInfoDto.build();
     }
 }

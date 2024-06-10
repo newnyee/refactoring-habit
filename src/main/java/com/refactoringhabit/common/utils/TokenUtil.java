@@ -1,10 +1,13 @@
 package com.refactoringhabit.common.utils;
 
+import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.refactoringhabit.common.response.TokenResponse;
+import com.refactoringhabit.auth.domain.exception.NullTokenException;
+import com.refactoringhabit.common.response.Session;
 import java.util.Date;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -12,37 +15,34 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TokenUtil {
 
-    private static final String CLAIM_MEMBER_ID = "altId";
-
     private final Algorithm algorithm;
     private final Long expiredAccessTokenMs;
-    private final Long expiredRefreshTokenMs;
 
-    public TokenResponse createToken(String altId) {
+    public Session createToken(String memberAltId) {
         Date expiredTimeForAccessToken =
                 new Date(System.currentTimeMillis() + expiredAccessTokenMs);
-        Date expiredTimeForRefreshToken =
-                new Date(System.currentTimeMillis() + expiredRefreshTokenMs * 1000);
 
-        return TokenResponse.builder()
+        return Session.builder()
                 .accessToken(JWT.create()
-                        .withClaim(CLAIM_MEMBER_ID, altId)
+                        .withClaim(MEMBER_ALT_ID.getName(), memberAltId)
                         .withExpiresAt(expiredTimeForAccessToken)
                         .sign(algorithm))
-                .expiredTimeForAccessToken(expiredTimeForAccessToken.toString())
                 .refreshToken(UUID.randomUUID().toString())
-                .expiredTimeForRefreshToken(expiredTimeForRefreshToken.toString())
                 .build();
     }
 
     public String verifyToken(String token) {
+        if (token == null) {
+            throw new NullTokenException();
+        }
+
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT verified = verifier.verify(token);
-        return verified.getClaim(CLAIM_MEMBER_ID).asString();
+        return verified.getClaim(MEMBER_ALT_ID.getName()).asString();
     }
 
     public String getClaimMemberId(String token) {
         DecodedJWT decodeToken = JWT.decode(token);
-        return decodeToken.getClaim(CLAIM_MEMBER_ID).asString();
+        return decodeToken.getClaim(MEMBER_ALT_ID.getName()).asString();
     }
 }
