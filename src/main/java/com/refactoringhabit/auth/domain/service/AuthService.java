@@ -44,6 +44,11 @@ public class AuthService {
     private final Random random = new Random();
 
     @Transactional(readOnly = true)
+    public boolean emailCheck(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
+    @Transactional(readOnly = true)
     public String findEmail(FindEmailRequestDto findEmailRequestDto) {
         return memberRepository.findEmailByPhoneAndBirth(findEmailRequestDto)
             .orElseThrow(NotFoundEmailException::new);

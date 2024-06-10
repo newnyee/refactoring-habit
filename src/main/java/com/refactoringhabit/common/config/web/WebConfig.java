@@ -28,7 +28,6 @@ public class WebConfig implements WebMvcConfigurer {
                 // api
                 "/api/v2/auth/**",
                 "/api/v2/members",
-                "/api/v2/members/check-email",
                 // view
                 "/join", "/find-member/**", "/login")
             .excludePathPatterns("/api/v2/auth/sign-out");
@@ -49,11 +48,8 @@ public class WebConfig implements WebMvcConfigurer {
                 // view
                 "/mypage/**", "/wish/list", "/cart", "/order/**", "/host/**")
             .excludePathPatterns(
-                "/api/v2/auth/sign-in",
-                "/api/v2/auth/find-email",
-                "/api/v2/auth/reset-password",
                 "/api/v2/members",
-                "/api/v2/members/check-email",
+                "/api/v2/auth/**",
                 "/api/v2/products/**",
                 "/api/v2/large-categories/**");
 

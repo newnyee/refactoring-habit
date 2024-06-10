@@ -230,7 +230,7 @@ const checkEmail = () => {
   }
 
   $.ajax({
-    url: '/api/v2/members/check-email',
+    url: '/api/v2/auth/check-email',
     method: 'GET',
     data: {
       email: email.val()

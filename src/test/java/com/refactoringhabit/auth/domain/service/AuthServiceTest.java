@@ -78,6 +78,26 @@ class AuthServiceTest {
     private static final String NEW_ACCESS_TOKEN = "newAccessToken";
     private static final String INVALID_REFRESH_TOKEN = "invalidRefreshToken";
 
+    @DisplayName("이메일 중복 확인 - 이메일이 존재하지 않음")
+    @Test
+    void emailCheck_NotExists() {
+        String testEmail = "nonexistent@example.com";
+        when(memberRepository.existsByEmail(testEmail)).thenReturn(false);
+
+        assertFalse(authService.emailCheck(testEmail));
+        verify(memberRepository, times(1)).existsByEmail(testEmail);
+    }
+
+    @DisplayName("이메일 중복 확인 - 이메일이 존재함")
+    @Test
+    void emailCheck_exists() {
+        String testEmail = "nonexistent@example.com";
+        when(memberRepository.existsByEmail(testEmail)).thenReturn(true);
+
+        assertTrue(authService.emailCheck(testEmail));
+        verify(memberRepository, times(1)).existsByEmail(testEmail);
+    }
+
     @DisplayName("이메일찾기 - 성공")
     @Test
     void testFindEmail_Success() {

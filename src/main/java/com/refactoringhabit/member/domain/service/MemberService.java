@@ -42,9 +42,4 @@ public class MemberService {
             throw new FileSaveFailedException();
         }
     }
-
-    @Transactional(readOnly = true)
-    public boolean emailCheck(String email) {
-        return memberRepository.existsByEmail(email);
-    }
 }
