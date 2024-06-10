@@ -1,11 +1,11 @@
 package com.refactoringhabit.common.utils.interceptor;
 
 import static com.refactoringhabit.common.enums.AttributeNames.*;
-import static com.refactoringhabit.common.enums.UrlMappings.PREFIX_API;
+import static com.refactoringhabit.common.enums.UriMappings.PREFIX_API;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.refactoringhabit.auth.domain.service.AuthService;
-import com.refactoringhabit.common.enums.UrlMappings;
+import com.refactoringhabit.common.enums.UriMappings;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.enums.MemberType;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
@@ -52,7 +52,7 @@ public class InterceptorUtils {
         throws IOException {
 
         request.setAttribute(REDIRECT_URL.name(), request.getRequestURI());
-        response.sendRedirect(UrlMappings.VIEW_LOGIN.getUrl());
+        response.sendRedirect(UriMappings.VIEW_LOGIN.getUri());
         return false;
     }
 
@@ -63,7 +63,7 @@ public class InterceptorUtils {
     }
 
     public boolean isApiUrl(HttpServletRequest request) {
-        return request.getRequestURI().startsWith(PREFIX_API.getUrl());
+        return request.getRequestURI().startsWith(PREFIX_API.getUri());
     }
 
     public void addMemberInfoToModel(ModelAndView modelAndView, String altId) {
