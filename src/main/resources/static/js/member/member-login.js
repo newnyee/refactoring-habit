@@ -64,11 +64,32 @@ const passwordValidation = () => {
   return true
 }
 
+const callLoginApi = () => {
+  $.ajax({
+    url: '/api/v2/auth/sign-in',
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify({
+      email: $('#email').val(),
+      password: $('#password').val()
+    }),
+    success: () => {
+      window.location.href = '/'
+    },
+    error: (error) => {
+      if (error.responseJSON.code === 'U002') {
+        alert("아이디 또는 비밀번호가 맞지 않습니다.");
+      } else {
+        alert("오류가 발생했습니다. 관리자에게 문의하세요.")
+      }
+    }
+  })
+}
+
 $(document).ready(() => {
 
   // 로그인 api 호출
   $('.Home_login_btn').on('click', ()=>{
-
     if (!emailValidation()) {
       return false
     }
@@ -77,24 +98,21 @@ $(document).ready(() => {
       return false
     }
 
-    $.ajax({
-      url: '/api/v2/auth/sign-in',
-      method: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify({
-        email: $('#email').val(),
-        password: $('#password').val()
-      }),
-      success: () => {
-        window.location.href = '/'
-      },
-      error: (error) => {
-        if (error.responseJSON.code === 'U002') {
-          alert("아이디 또는 비밀번호가 맞지 않습니다.");
-        } else {
-          alert("오류가 발생했습니다. 관리자에게 문의하세요.")
-        }
+    callLoginApi()
+  })
+
+  // 엔터 키 누를 시 로그인 api 호출
+  $('.Home_loginForm').on('keypress', (e) => {
+    if (e.key === 'Enter') {
+      if (!emailValidation()) {
+        return false
       }
-    })
+
+      if (!passwordValidation()) {
+        return false
+      }
+
+      callLoginApi()
+    }
   })
 })
