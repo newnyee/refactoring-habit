@@ -58,8 +58,8 @@ public class AuthService {
     @Transactional
     public void resetPassword(String email) {
         String newPassword = createPassword();
-        Member member =
-            memberRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        Member member = memberRepository.findByEmail(email)
+            .orElseThrow(UserNotFoundException::new);
         member.changePassword(passwordEncoder.encode(newPassword));
 
         try {
@@ -71,45 +71,52 @@ public class AuthService {
     }
 
     @Transactional
-    public void authenticationAndCreateToken(
+    public void authenticationAndCreateSession(
         HttpServletResponse response, SignInRequestDto signInRequestDto)
         throws JsonProcessingException {
 
         Member member = memberRepository.findByEmail(signInRequestDto.getEmail())
                 .orElseThrow(UserNotFoundException::new);
-        String altId = member.getAltId();
 
         if (passwordEncoder.matches(signInRequestDto.getPassword(), member.getEncodedPassword())) {
-            Session createdToken = tokenUtil.createToken(altId);
-            String createdRefreshToken = createdToken.refreshToken();
-
-            redisRefreshTokenRepository.setRefreshToken(altId, createdRefreshToken);
-
-            cookieUtil.createSessionCookie(response, createdToken);
+            createAndSaveSession(response, member.getAltId());
         } else {
             throw new PasswordNotMatchException();
         }
     }
 
     @Transactional
-    public void reissueToken(
-        HttpServletRequest request, HttpServletResponse response, String altId)
+    public void reissueSession(
+        HttpServletRequest request, HttpServletResponse response, String memberAltId)
         throws JsonProcessingException {
 
         Session valueInCookie =
             cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class);
 
-        if (redisRefreshTokenRepository.getRefreshToken(altId)
+        if (redisRefreshTokenRepository.getRefreshToken(memberAltId)
             .equals(valueInCookie.refreshToken())) {
-
-            Session createdToken = tokenUtil.createToken(altId);
-            String createdRefreshToken = createdToken.refreshToken();
-
-            redisRefreshTokenRepository.setRefreshToken(altId, createdRefreshToken);
-
-            cookieUtil.createSessionCookie(response, createdToken);
+            createAndSaveSession(response, memberAltId);
         } else {
             throw new InvalidTokenException();
+        }
+    }
+
+    @Transactional
+    public void removeSession(HttpServletRequest request, HttpServletResponse response) {
+
+        try {
+            Session sessionCookie =
+                getSessionFromRequest(request, SESSION_COOKIE_NAME.getName());
+
+            if (sessionCookie != null) {
+                String memberAltId = tokenUtil.getClaimMemberId(sessionCookie.accessToken());
+                redisRefreshTokenRepository.deleteRefreshTokenById(memberAltId);
+            }
+
+        } catch (Exception e) {
+            log.error("[{}] ex", e.getClass().getSimpleName(), e);
+        } finally {
+            cookieUtil.removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
         }
     }
 
@@ -126,5 +133,20 @@ public class AuthService {
             }
         }
         return newPassword.toString();
+    }
+
+    private void createAndSaveSession(HttpServletResponse response, String memberAltId)
+        throws JsonProcessingException {
+        Session createdToken = tokenUtil.createToken(memberAltId);
+        String createdRefreshToken = createdToken.refreshToken();
+
+        redisRefreshTokenRepository.setRefreshToken(memberAltId, createdRefreshToken);
+
+        cookieUtil.createSessionCookie(response, createdToken);
+    }
+
+    private Session getSessionFromRequest(HttpServletRequest request, String cookieName)
+        throws JsonProcessingException {
+        return cookieUtil.getValueInCookie(request, cookieName, Session.class);
     }
 }

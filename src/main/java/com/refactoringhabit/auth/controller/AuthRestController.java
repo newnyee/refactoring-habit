@@ -45,15 +45,21 @@ public class AuthRestController {
     public ApiResponse<String> signIn(
         HttpServletResponse response, @RequestBody SignInRequestDto signInRequestDto)
         throws JsonProcessingException {
-        authService.authenticationAndCreateToken(response, signInRequestDto);
+        authService.authenticationAndCreateSession(response, signInRequestDto);
         return ApiResponse.noContent();
     }
 
     @PostMapping("/tokens")
     public ApiResponse<String> reissueToken(
         HttpServletRequest request, HttpServletResponse response,
-        @RequestAttribute("altId") String altId) throws JsonProcessingException {
-        authService.reissueToken(request, response, altId);
+        @RequestAttribute("memberAltId") String memberAltId) throws JsonProcessingException {
+        authService.reissueSession(request, response, memberAltId);
+        return ApiResponse.noContent();
+    }
+
+    @PostMapping("/sign-out")
+    public ApiResponse<String> signOut(HttpServletRequest request, HttpServletResponse response) {
+        authService.removeSession(request, response);
         return ApiResponse.noContent();
     }
 }
