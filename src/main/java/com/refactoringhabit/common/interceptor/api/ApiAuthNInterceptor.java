@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.refactoringhabit.auth.domain.exception.NullTokenException;
 import com.refactoringhabit.common.response.Session;
 import com.refactoringhabit.common.utils.TokenUtil;
@@ -22,7 +23,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ApiAuthInterceptor implements HandlerInterceptor {
+public class ApiAuthNInterceptor implements HandlerInterceptor {
 
     private final CookieUtil cookieUtil;
     private final TokenUtil tokenUtil;
@@ -33,8 +34,17 @@ public class ApiAuthInterceptor implements HandlerInterceptor {
         Object handler) throws IOException {
 
         if (handler instanceof HandlerMethod) {
-            Session sessionCookie = cookieUtil.getValueInCookie(
-                request, SESSION_COOKIE_NAME.getName(), Session.class);
+            Session sessionCookie = null;
+
+            try {
+                sessionCookie = cookieUtil.getValueInCookie(
+                    request, SESSION_COOKIE_NAME.getName(), Session.class);
+
+            // 이상이 있는 세션일 경우 해당 세션 네임의 쿠키를 리셋 시킴
+            } catch (JsonMappingException e) {
+                log.error("[{}] ex", e.getClass().getSimpleName(), e);
+                cookieUtil.removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+            }
 
             try { // 토큰 검증 성공
                 if (sessionCookie != null) {

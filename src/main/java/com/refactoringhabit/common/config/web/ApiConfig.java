@@ -1,6 +1,6 @@
 package com.refactoringhabit.common.config.web;
 
-import com.refactoringhabit.common.interceptor.api.ApiAuthInterceptor;
+import com.refactoringhabit.common.interceptor.api.ApiAuthNInterceptor;
 import com.refactoringhabit.common.interceptor.api.ApiAuthZInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -11,13 +11,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class ApiConfig implements WebMvcConfigurer {
 
-    private final ApiAuthInterceptor apiAuthInterceptor;
+    private final ApiAuthNInterceptor apiAuthNInterceptor;
     private final ApiAuthZInterceptor apiAuthZInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 인증
-        registry.addInterceptor(apiAuthInterceptor)
+        registry.addInterceptor(apiAuthNInterceptor)
             .addPathPatterns("/api/v2/**")
             .excludePathPatterns(
                 "/api/v2/auth/**",

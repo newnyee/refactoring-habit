@@ -27,7 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.method.HandlerMethod;
 
 @ExtendWith(MockitoExtension.class)
-class ViewAuthInterceptorTest {
+class ViewAuthNInterceptorTest {
 
     @Mock
     private CookieUtil cookieUtil;
@@ -48,7 +48,7 @@ class ViewAuthInterceptorTest {
     private HandlerMethod handler;
 
     @InjectMocks
-    private ViewAuthInterceptor viewAuthInterceptor;
+    private ViewAuthNInterceptor viewAuthNInterceptor;
 
     private Session session;
     private static final String ACCESS_TOKEN = "accessToken";
@@ -70,7 +70,7 @@ class ViewAuthInterceptorTest {
         when(request.getRequestURI()).thenReturn(VIEW_JOIN.getUri());
         when(interceptorUtils.isNullSessionOnlyUri(VIEW_JOIN.getUri())).thenReturn(true);
 
-        assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
+        assertTrue(viewAuthNInterceptor.preHandle(request, response, handler));
     }
 
     @DisplayName("ViewAuthInterceptor 접근 - token(not null), uri(null session only)")
@@ -81,7 +81,7 @@ class ViewAuthInterceptorTest {
         when(request.getRequestURI()).thenReturn(VIEW_JOIN.getUri());
         when(interceptorUtils.isNullSessionOnlyUri(VIEW_JOIN.getUri())).thenReturn(true);
 
-        assertFalse(viewAuthInterceptor.preHandle(request, response, handler));
+        assertFalse(viewAuthNInterceptor.preHandle(request, response, handler));
         verify(response).sendRedirect(VIEW_HOME.getUri());
     }
 
@@ -94,7 +94,7 @@ class ViewAuthInterceptorTest {
         when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOME.getUri())).thenReturn(false);
         when(interceptorUtils.isPublicUri(VIEW_HOME.getUri())).thenReturn(true);
 
-        assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
+        assertTrue(viewAuthNInterceptor.preHandle(request, response, handler));
     }
 
     @DisplayName("ViewAuthInterceptor 접근 - token(not null), uri(public)")
@@ -106,7 +106,7 @@ class ViewAuthInterceptorTest {
         when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOME.getUri())).thenReturn(false);
         when(tokenUtil.verifyToken(session.accessToken())).thenReturn(MEMBER_ALT_ID.getName());
 
-        assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
+        assertTrue(viewAuthNInterceptor.preHandle(request, response, handler));
         verify(interceptorUtils).validateUserInDatabase(request, MEMBER_ALT_ID.getName());
     }
 
@@ -121,7 +121,7 @@ class ViewAuthInterceptorTest {
         when(tokenUtil.getClaimMemberId(session.accessToken()))
             .thenReturn(MEMBER_ALT_ID.getName());
 
-        assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
+        assertTrue(viewAuthNInterceptor.preHandle(request, response, handler));
         verify(interceptorUtils).handleExpiredToken(request, response, MEMBER_ALT_ID.getName());
     }
 
@@ -135,7 +135,7 @@ class ViewAuthInterceptorTest {
         when(tokenUtil.verifyToken(session.accessToken())).thenThrow(InvalidTokenException.class);
         when(interceptorUtils.isPublicUri(VIEW_HOME.getUri())).thenReturn(true);
 
-        assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
+        assertTrue(viewAuthNInterceptor.preHandle(request, response, handler));
     }
 
     @DisplayName("ViewAuthInterceptor 접근 - token(null), uri(required authentication)")
@@ -148,7 +148,7 @@ class ViewAuthInterceptorTest {
             .thenReturn(false);
         when(interceptorUtils.redirectToLogin(request, response)).thenReturn(false);
 
-        assertFalse(viewAuthInterceptor.preHandle(request, response, handler));
+        assertFalse(viewAuthNInterceptor.preHandle(request, response, handler));
     }
 
     @DisplayName("ViewAuthInterceptor 접근 - token(not null), uri(required authentication)")
@@ -161,7 +161,7 @@ class ViewAuthInterceptorTest {
             .thenReturn(false);
         when(tokenUtil.verifyToken(session.accessToken())).thenReturn(MEMBER_ALT_ID.getName());
 
-        assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
+        assertTrue(viewAuthNInterceptor.preHandle(request, response, handler));
         verify(interceptorUtils).validateUserInDatabase(request, MEMBER_ALT_ID.getName());
     }
 
@@ -177,7 +177,7 @@ class ViewAuthInterceptorTest {
         when(tokenUtil.getClaimMemberId(session.accessToken()))
             .thenReturn(MEMBER_ALT_ID.getName());
 
-        assertTrue(viewAuthInterceptor.preHandle(request, response, handler));
+        assertTrue(viewAuthNInterceptor.preHandle(request, response, handler));
         verify(interceptorUtils).handleExpiredToken(request, response, MEMBER_ALT_ID.getName());
     }
 
@@ -193,6 +193,6 @@ class ViewAuthInterceptorTest {
         when(interceptorUtils.isPublicUri(VIEW_HOST_JOIN.getUri())).thenReturn(false);
         when(interceptorUtils.redirectToLogin(request, response)).thenReturn(false);
 
-        assertFalse(viewAuthInterceptor.preHandle(request, response, handler));
+        assertFalse(viewAuthNInterceptor.preHandle(request, response, handler));
     }
 }
