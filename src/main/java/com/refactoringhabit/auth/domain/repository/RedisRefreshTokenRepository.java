@@ -28,4 +28,8 @@ public class RedisRefreshTokenRepository {
     public String getRefreshToken(String id) {
         return redisTemplate.opsForValue().get(refreshTokenIdPrefix + id);
     }
+
+    public void deleteRefreshTokenById(String id) {
+        redisTemplate.delete(refreshTokenIdPrefix + id);
+    }
 }
