@@ -21,7 +21,7 @@ public class ViewConfig implements WebMvcConfigurer {
         registry.addInterceptor(viewAuthNInterceptor)
             .addPathPatterns(
                 "/", "/join", "/find-member/**", "/login", "/category/**", "/product/**",
-                "/search-list", "/mypage/**", "/wish/list", "/cart", "/order/**", "/host/**");
+                "/search-list", "/my-page/**", "/wish/list", "/cart", "/order/**", "/host/**");
 
         // 인가
         registry.addInterceptor(viewAuthZInterceptor)
