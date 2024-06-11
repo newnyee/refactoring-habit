@@ -27,9 +27,6 @@ public class CookieUtil {
 
     public void createSessionCookie(HttpServletResponse response, Object value)
         throws JsonProcessingException {
-
-        log.debug("serialization To Json = {}", serializeToJson(value));
-
         response.addHeader(SET_COOKIE,
             ResponseCookie.from(SESSION_COOKIE_NAME.getName(), serializeToJson(value))
                 .path(COOKIE_PATH)
@@ -54,7 +51,7 @@ public class CookieUtil {
         return null;
     }
 
-    public void deleteRefreshTokenCookie(HttpServletResponse response, String cookieName) {
+    public void removeSessionCookie(HttpServletResponse response, String cookieName) {
         response.addHeader(SET_COOKIE,
             ResponseCookie.from(cookieName, "")
                 .path(COOKIE_PATH)
