@@ -337,3 +337,11 @@ a:hover{
   color: gray;
   font-size: small;
 }
+
+.nick-name {
+  font-weight: bold;
+}
+
+.logout_button:hover {
+  cursor: pointer;
+}

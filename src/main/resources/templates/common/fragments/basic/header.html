@@ -1,12 +1,19 @@
 <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="basic-header-fragment">
-    <div class="global1">
+    <div class="global1" th:object="${memberInfo}">
       <div class="global_topbar">
         <div class="global_topbar_menu1">
-          <a href="../host/join.html"><div class="global_topbar_menu1_menu">호스트지원</div></a>
+          <a th:if="${memberInfo == null}" href='/login'><div class="global_topbar_menu1_menu">호스트지원</div></a>
+          <a th:if="${memberInfo != null}" th:href='${#strings.equals(memberInfo.type, "HOST") ? "/host" : "/host/join"}'>
+            <div class="global_topbar_menu1_menu" th:text='${#strings.equals(memberInfo.type, "HOST") ? "호스트센터" : "호스트지원"}'></div>
+          </a>
         </div>
-        <div class="global_topbar_menu2">
-          <a href="join.html" class="global_topbar_menu2_menu"><div class="global_topbar_menu2_menu">회원가입</div></a>
-          <a href="login.html" class="global_topbar_menu2_menu"><div class="global_topbar_menu2_menu">로그인</div></a>
+        <div th:if="${memberInfo == null}" class="global_topbar_menu2">
+          <a href="/join" class="global_topbar_menu2_menu"><div class="global_topbar_menu2_menu">회원가입</div></a>
+          <a href="/login" class="global_topbar_menu2_menu"><div class="global_topbar_menu2_menu">로그인</div></a>
+        </div>
+        <div th:if="${memberInfo != null}" class="global_topbar_menu2">
+          <a href="/my-page" class="global_topbar_menu2_menu"><div class="global_topbar_menu2_menu"><span class="nick-name" th:text="${memberInfo.nickName}"></span> 님</div></a>
+          <a class="global_topbar_menu2_menu logout_button"><div class="global_topbar_menu2_menu">로그아웃</div></a>
         </div>
       </div>
     </div>
@@ -14,47 +21,47 @@
     <div class="global2">
       <div class="global_topbar2">
         <div class="global_topbar2_menu1">
-          <a href="../product/category-list.html" class="global_topbar2_menu1_a">
+          <a href="/category" class="global_topbar2_menu1_a">
             <div>
-              <img src="../../img/cate.png" alt="" width="25px">
+              <img src="/img/cate.png" alt="" width="25px">
               <span>카테고리</span>
             </div>
           </a>
-          <a href="home.html" class="global_topbar2_menu1_a_log">
+          <a href="/" class="global_topbar2_menu1_a_log">
             <div class="global_topbar2_menu1_a_div">
-              <img src="../../img/habit_logo.png" alt="로고" width="70px">
+              <img src="/img/habit_logo.png" alt="로고" width="70px">
             </div>
           </a>
           <div class="global_topbar2_menu1_search">
             <div>
               <form action="">
-                <img src="../../img/search.png" alt="로고" >
+                <img src="/img/search.png" alt="로고" >
                 <input type="text" class="global_topbar2_menu1_search_input search_input" placeholder="지금 생각나는 취미를 검색하세요.">
               </form>
             </div>
           </div>
         </div>
         <div class="global_topbar2_menu2">
-          <a href="wish.html">
+          <a th:href='${memberInfo != null ? "/wish/list" : "/login"}'>
             <div class="global_topbar2_menu2_menu">
               <div>
-                <img src="../../img/heartforpage.png" alt="로고" width="25px" >
+                <img src="/img/heartforpage.png" alt="로고" width="25px">
               </div>
               <span>찜</span>
             </div>
           </a>
-          <a href="cart.html">
+          <a th:href='${memberInfo != null ? "/cart" : "/login"}'>
             <div class="global_topbar2_menu2_menu">
               <div>
-                <img src="../../img/cart2.png" alt="로고" width="25px" >
+                <img src="/img/cart2.png" alt="로고" width="25px">
               </div>
               <span>장바구니</span>
             </div>
           </a>
-          <a href="mypage.html">
+          <a th:href='${memberInfo != null ? "/my-page" : "/login"}'>
             <div class="global_topbar2_menu2_menu">
               <div>
-                <img src="../../img/ME.png" alt="로고" width="25px">
+                <img src="/img/ME.png" alt="로고" width="25px">
               </div>
               <span>마이</span>
             </div>

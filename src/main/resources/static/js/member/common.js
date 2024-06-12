@@ -1,3 +1,15 @@
+// 로그아웃 api 호출
+const callLogoutApi = () => {
+    $.ajax({
+        method: "POST",
+        url: "/api/v2/auth/sign-out",
+        success: () => {
+            alert("로그아웃 되었습니다.")
+            location.href = "/"
+        }
+    })
+}
+
 $(document).ready(function(){
     if($.cookie("modal")!='check'){
         $('.intro_modal').css('display','block');
@@ -46,9 +58,11 @@ $(document).ready(function(){
                 $(".hot_search").append(html);
             }
         });
-
-
     });
+
+    $('.logout_button').on('click', () => {
+        callLogoutApi()
+    })
 })
 
 function setCookie( name, value, exDay ) {

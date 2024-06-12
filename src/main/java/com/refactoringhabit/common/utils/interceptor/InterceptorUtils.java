@@ -27,20 +27,20 @@ public class InterceptorUtils {
     private final MemberRepository memberRepository;
     private final AuthService authService;
 
-    public void validateUserInDatabase(HttpServletRequest request, String altId) {
+    public void validateUserInDatabase(HttpServletRequest request, String memberAltId) {
 
-        if (Boolean.TRUE.equals(memberRepository.existsByAltId(altId))) {
-            request.setAttribute(MEMBER_ALT_ID.name(), altId);
+        if (Boolean.TRUE.equals(memberRepository.existsByAltId(memberAltId))) {
+            request.setAttribute(MEMBER_ALT_ID.getName(), memberAltId);
         } else {
             throw new UserNotFoundException();
         }
     }
 
     public void handleExpiredToken(HttpServletRequest request, HttpServletResponse response,
-        String altId) throws JsonProcessingException {
+        String memberAltId) throws JsonProcessingException {
 
-        authService.reissueToken(request, response, altId);
-        request.setAttribute(MEMBER_ALT_ID.name(), altId);
+        authService.reissueSession(request, response, memberAltId);
+        request.setAttribute(MEMBER_ALT_ID.getName(), memberAltId);
     }
 
     public boolean redirectToUrl(HttpServletResponse response, String redirectURL)
@@ -58,15 +58,15 @@ public class InterceptorUtils {
         return false;
     }
 
-    public boolean isMemberHostById(String altId) {
-        Member member = memberRepository.findByAltId(altId)
+    public boolean isMemberHostById(String memberAltId) {
+        Member member = memberRepository.findByAltId(memberAltId)
             .orElseThrow(UserNotFoundException::new);
         return MemberType.HOST.equals(member.getType());
     }
 
-    public void addMemberInfoToModel(ModelAndView modelAndView, String altId) {
-        if (altId != null) {
-            memberRepository.findByAltId(altId).ifPresent(member ->
+    public void addMemberInfoToModel(ModelAndView modelAndView, String memberAltId) {
+        if (memberAltId != null) {
+            memberRepository.findByAltId(memberAltId).ifPresent(member ->
                 modelAndView.addObject(
                     MEMBER_INFO.getName(), MemberEntityMapper.INSTANCE.toMemberInfoDto(member))
             );

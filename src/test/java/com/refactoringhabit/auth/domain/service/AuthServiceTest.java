@@ -5,7 +5,9 @@ import static com.refactoringhabit.common.enums.AttributeNames.SESSION_COOKIE_NA
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.refactoringhabit.auth.domain.exception.EmailingException;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
 import com.refactoringhabit.auth.domain.repository.RedisRefreshTokenRepository;
@@ -165,7 +167,7 @@ class AuthServiceTest {
             .thenReturn(true);
         when(tokenUtil.createToken(MEMBER_ALT_ID.getName())).thenReturn(createdToken);
 
-        authService.authenticationAndCreateToken(response, signInRequestDto);
+        authService.authenticationAndCreateSession(response, signInRequestDto);
 
         verify(redisRefreshTokenRepository)
             .setRefreshToken(MEMBER_ALT_ID.getName(), NEW_REFRESH_TOKEN);
@@ -179,7 +181,7 @@ class AuthServiceTest {
             .thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> {
-            authService.authenticationAndCreateToken(response, signInRequestDto);
+            authService.authenticationAndCreateSession(response, signInRequestDto);
         });
     }
 
@@ -201,7 +203,7 @@ class AuthServiceTest {
             .thenReturn(OLD_REFRESH_TOKEN);
         when(tokenUtil.createToken(MEMBER_ALT_ID.getName())).thenReturn(newSession);
 
-        authService.reissueToken(request, response, MEMBER_ALT_ID.getName());
+        authService.reissueSession(request, response, MEMBER_ALT_ID.getName());
 
         verify(redisRefreshTokenRepository)
             .setRefreshToken(MEMBER_ALT_ID.getName(), NEW_REFRESH_TOKEN);
@@ -221,7 +223,50 @@ class AuthServiceTest {
             Session.class)).thenReturn(oldSession);
 
         assertThrows(InvalidTokenException.class, () -> {
-            authService.reissueToken(request, response, MEMBER_ALT_ID.getName());
+            authService.reissueSession(request, response, MEMBER_ALT_ID.getName());
         });
+    }
+
+    @DisplayName("세션 삭제 - 성공")
+    @Test
+    void testRemoveSession_Success() throws JsonProcessingException {
+        Session oldSession = Session.builder()
+            .refreshToken(OLD_REFRESH_TOKEN)
+            .accessToken(OLD_ACCESS_TOKEN)
+            .build();
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
+            .thenReturn(oldSession);
+        when(tokenUtil.getClaimMemberId(oldSession.accessToken()))
+            .thenReturn(MEMBER_ALT_ID.getName());
+
+        authService.removeSession(request, response);
+        verify(redisRefreshTokenRepository).deleteRefreshTokenById(MEMBER_ALT_ID.getName());
+        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+    }
+
+    @DisplayName("세션 삭제 - 실패 : 유효하지 않은 세션")
+    @Test
+    void testRemoveSession_InvalidSession() throws JsonProcessingException {
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
+            .thenThrow(JsonMappingException.class);
+
+        authService.removeSession(request, response);
+        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+    }
+
+    @DisplayName("세션 삭제 - 실패 : 유효하지 않은 AccessToken")
+    @Test
+    void testRemoveSession_InvalidAccessToken() throws JsonProcessingException {
+        Session oldSession = Session.builder()
+            .refreshToken(OLD_REFRESH_TOKEN)
+            .accessToken(OLD_ACCESS_TOKEN)
+            .build();
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
+            .thenReturn(oldSession);
+        when(tokenUtil.getClaimMemberId(oldSession.accessToken()))
+            .thenThrow(JWTDecodeException.class);
+
+        authService.removeSession(request, response);
+        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
     }
 }

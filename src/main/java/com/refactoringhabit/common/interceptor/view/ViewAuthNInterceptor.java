@@ -2,12 +2,11 @@ package com.refactoringhabit.common.interceptor.view;
 
 import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
 import static com.refactoringhabit.common.enums.AttributeNames.SESSION_COOKIE_NAME;
-import static com.refactoringhabit.common.enums.UriAccessLevel.NULL_SESSION_ONLY_URI;
-import static com.refactoringhabit.common.enums.UriAccessLevel.PUBLIC_URI;
 import static com.refactoringhabit.common.enums.UriMappings.VIEW_HOME;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.refactoringhabit.auth.domain.exception.NullTokenException;
 import com.refactoringhabit.common.response.Session;
 import com.refactoringhabit.common.utils.TokenUtil;
@@ -26,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ViewAuthInterceptor implements HandlerInterceptor {
+public class ViewAuthNInterceptor implements HandlerInterceptor {
 
     private final CookieUtil cookieUtil;
     private final TokenUtil tokenUtil;
@@ -37,9 +36,18 @@ public class ViewAuthInterceptor implements HandlerInterceptor {
         Object handler) throws IOException {
 
         if (handler instanceof HandlerMethod) {
-            Session sessionCookie =
-                cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class);
             String nowUri = request.getRequestURI();
+            Session sessionCookie = null;
+
+            try {
+                sessionCookie = cookieUtil.getValueInCookie(
+                    request, SESSION_COOKIE_NAME.getName(), Session.class);
+
+            // 이상이 있는 세션일 경우 해당 세션 네임의 쿠키를 리셋 시킴
+            } catch (JsonMappingException e) {
+                log.error("[{}] ex", e.getClass().getSimpleName(), e);
+                cookieUtil.removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+            }
 
             try {
                 // null session only URIs
@@ -68,9 +76,13 @@ public class ViewAuthInterceptor implements HandlerInterceptor {
 
             } catch (Exception e) { // invalid token
                 log.error("[{}] ex ", e.getClass().getSimpleName(), e);
+
+                // public URIs
                 if (interceptorUtils.isPublicUri(nowUri)) {
                     return true;
                 }
+
+                // required authentication URIs
                 return interceptorUtils.redirectToLogin(request, response);
             }
         }
