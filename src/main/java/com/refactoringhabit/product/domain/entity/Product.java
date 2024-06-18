@@ -1,8 +1,8 @@
 package com.refactoringhabit.product.domain.entity;
 
-import com.refactoringhabit.category.domain.entity.Category;
+import com.refactoringhabit.category.domain.entity.CategoryMiddle;
 import com.refactoringhabit.common.domain.entity.BaseCreateTimeEntity;
-import com.refactoringhabit.member.domain.entity.Member;
+import com.refactoringhabit.host.domain.entity.Host;
 import com.refactoringhabit.product.domain.enums.ProductStatus;
 import com.refactoringhabit.product.domain.enums.ProductType;
 import jakarta.persistence.Column;
@@ -14,7 +14,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 
 @Table(name = "products")
 @Entity
@@ -60,10 +62,13 @@ public class Product extends BaseCreateTimeEntity {
     private ProductStatus status; // default 'OPENED'
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @JoinColumn(name = "category_middle_id")
+    private CategoryMiddle categoryMiddle;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "host_id")
+    private Host host;
+
+    @OneToMany(mappedBy = "product")
+    private List<Option> options;
 }
