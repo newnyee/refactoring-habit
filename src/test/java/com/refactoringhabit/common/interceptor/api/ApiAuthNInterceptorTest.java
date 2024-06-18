@@ -4,11 +4,14 @@ import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
 import static com.refactoringhabit.common.enums.AttributeNames.SESSION_COOKIE_NAME;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
 import com.refactoringhabit.common.response.Session;
 import com.refactoringhabit.common.utils.TokenUtil;
@@ -60,6 +63,26 @@ class ApiAuthNInterceptorTest {
             .accessToken(ACCESS_TOKEN)
             .refreshToken(REFRESH_TOKEN)
             .build();
+    }
+
+    @DisplayName("ApiAuthInterceptor 접근 - handler(not HandlerMethod type)")
+    @Test
+    void testInterceptorAccess_NotHandlerMethodType() throws IOException {
+        Object handler = mock(Object.class);
+
+        assertFalse(apiAuthNInterceptor.preHandle(request, response, handler));
+        verify(response).setStatus(NOT_FOUND.value());
+    }
+
+    @DisplayName("ApiAuthInterceptor 접근 - session(invalid)")
+    @Test
+    void testInterceptorAccess_InvalidSession() throws IOException {
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
+            .thenThrow(JsonMappingException.class);
+
+        assertFalse(apiAuthNInterceptor.preHandle(request, response, handler));
+        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+        verify(response).setStatus(UNAUTHORIZED.value());
     }
 
     @DisplayName("ApiAuthInterceptor 접근 - token(null)")

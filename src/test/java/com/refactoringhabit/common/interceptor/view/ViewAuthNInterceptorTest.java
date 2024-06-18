@@ -7,8 +7,10 @@ import static com.refactoringhabit.common.enums.UriMappings.VIEW_HOST_JOIN;
 import static com.refactoringhabit.common.enums.UriMappings.VIEW_JOIN;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
 import com.refactoringhabit.common.response.Session;
 import com.refactoringhabit.common.utils.TokenUtil;
@@ -25,6 +27,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @ExtendWith(MockitoExtension.class)
 class ViewAuthNInterceptorTest {
@@ -60,6 +63,27 @@ class ViewAuthNInterceptorTest {
             .accessToken(ACCESS_TOKEN)
             .refreshToken(REFRESH_TOKEN)
             .build();
+    }
+
+    @DisplayName("ViewAuthInterceptor 접근 - handler(not HandlerMethod type)")
+    @Test
+    void testInterceptorAccess_NotHandlerMethodType() throws IOException {
+        Object handler = mock(Object.class);
+
+        assertFalse(viewAuthNInterceptor.preHandle(request, response, handler));
+        verify(response).setStatus(NOT_FOUND.value());
+    }
+
+    @DisplayName("ViewAuthInterceptor 접근 - session(invalid), uri(null session only)")
+    @Test
+    void testInterceptorAccess_InvalidSession() throws IOException {
+        when(request.getRequestURI()).thenReturn(VIEW_JOIN.getUri());
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
+            .thenThrow(JsonMappingException.class);
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_JOIN.getUri())).thenReturn(true);
+
+        assertTrue(viewAuthNInterceptor.preHandle(request, response, handler));
+        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
     }
 
     @DisplayName("ViewAuthInterceptor 접근 - token(null), uri(null session only)")
@@ -194,5 +218,15 @@ class ViewAuthNInterceptorTest {
         when(interceptorUtils.redirectToLogin(request, response)).thenReturn(false);
 
         assertFalse(viewAuthNInterceptor.preHandle(request, response, handler));
+    }
+
+    @DisplayName("ViewAuthInterceptor postHandle 접근")
+    @Test
+    void testInterceptorAccess_postHandleMethod() {
+        ModelAndView modelAndView = mock(ModelAndView.class);
+        when(request.getAttribute(MEMBER_ALT_ID.getName())).thenReturn(MEMBER_ALT_ID.getName());
+
+        viewAuthNInterceptor.postHandle(request, response, handler, modelAndView);
+        verify(interceptorUtils).addMemberInfoToModel(modelAndView, MEMBER_ALT_ID.getName());
     }
 }

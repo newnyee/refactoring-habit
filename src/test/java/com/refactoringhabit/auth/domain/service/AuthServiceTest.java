@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.refactoringhabit.auth.domain.exception.EmailingException;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
+import com.refactoringhabit.auth.domain.exception.PasswordNotMatchException;
 import com.refactoringhabit.auth.domain.repository.RedisRefreshTokenRepository;
 import com.refactoringhabit.auth.dto.FindEmailRequestDto;
 import com.refactoringhabit.auth.dto.SignInRequestDto;
@@ -185,6 +186,19 @@ class AuthServiceTest {
         });
     }
 
+    @DisplayName("사용자 인증 후 토큰 발급 - 실패 : 패스워드가 일치하지 않음")
+    @Test
+    void testAuthenticationAndCreateToken_PasswordNotMatch() {
+        when(memberRepository.findByEmail(signInRequestDto.getEmail()))
+            .thenReturn(Optional.of(member));
+        when(passwordEncoder.matches(signInRequestDto.getPassword(), member.getEncodedPassword()))
+            .thenReturn(false);
+
+        assertThrows(PasswordNotMatchException.class, () -> {
+            authService.authenticationAndCreateSession(response, signInRequestDto);
+        });
+    }
+
    @DisplayName("토큰 재발급 - 성공")
     @Test
     void testReissueToken_Success() throws JsonProcessingException {
@@ -241,6 +255,16 @@ class AuthServiceTest {
 
         authService.removeSession(request, response);
         verify(redisRefreshTokenRepository).deleteRefreshTokenById(MEMBER_ALT_ID.getName());
+        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+    }
+
+    @DisplayName("세션 삭제 - 실패 : 쿠키가 없는 경우")
+    @Test
+    void testRemoveSession_SessionCookieIsNull() throws JsonProcessingException {
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
+            .thenReturn(null);
+
+        authService.removeSession(request, response);
         verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
     }
 
