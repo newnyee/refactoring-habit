@@ -200,6 +200,10 @@
   font-weight: 600;
 }
 
+.Home_product_recommend_font1:hover {
+  cursor: pointer;
+}
+
 .Home_product_recommend_font2{
   display: inline-block;
   float: right;

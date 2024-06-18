@@ -30,7 +30,7 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final StringPath altId = createString("altId");
 
-    public final com.refactoringhabit.category.domain.entity.QCategory category;
+    public final com.refactoringhabit.category.domain.entity.QCategoryMiddle categoryMiddle;
 
     public final StringPath closedAt = createString("closedAt");
 
@@ -41,13 +41,15 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final StringPath extraAddress = createString("extraAddress");
 
+    public final com.refactoringhabit.host.domain.entity.QHost host;
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath image = createString("image");
 
-    public final com.refactoringhabit.member.domain.entity.QMember member;
-
     public final StringPath name = createString("name");
+
+    public final ListPath<Option, QOption> options = this.<Option, QOption>createList("options", Option.class, QOption.class, PathInits.DIRECT2);
 
     public final EnumPath<com.refactoringhabit.product.domain.enums.ProductStatus> status = createEnum("status", com.refactoringhabit.product.domain.enums.ProductStatus.class);
 
@@ -81,8 +83,8 @@ public class QProduct extends EntityPathBase<Product> {
 
     public QProduct(Class<? extends Product> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.category = inits.isInitialized("category") ? new com.refactoringhabit.category.domain.entity.QCategory(forProperty("category")) : null;
-        this.member = inits.isInitialized("member") ? new com.refactoringhabit.member.domain.entity.QMember(forProperty("member")) : null;
+        this.categoryMiddle = inits.isInitialized("categoryMiddle") ? new com.refactoringhabit.category.domain.entity.QCategoryMiddle(forProperty("categoryMiddle"), inits.get("categoryMiddle")) : null;
+        this.host = inits.isInitialized("host") ? new com.refactoringhabit.host.domain.entity.QHost(forProperty("host"), inits.get("host")) : null;
     }
 
 }
