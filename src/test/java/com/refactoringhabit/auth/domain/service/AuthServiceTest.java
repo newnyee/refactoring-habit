@@ -80,6 +80,7 @@ class AuthServiceTest {
     private static final String NEW_REFRESH_TOKEN = "newRefreshToken";
     private static final String NEW_ACCESS_TOKEN = "newAccessToken";
     private static final String INVALID_REFRESH_TOKEN = "invalidRefreshToken";
+    private static final String PASSWORD = "password";
 
     @DisplayName("이메일 중복 확인 - 이메일이 존재하지 않음")
     @Test
@@ -292,5 +293,40 @@ class AuthServiceTest {
 
         authService.removeSession(request, response);
         verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+    }
+
+    @DisplayName("비밀번호 확인 - 성공")
+    @Test
+    void testVerifyPassword_Success() {
+        when(memberRepository.findByAltId(MEMBER_ALT_ID.getName()))
+            .thenReturn(Optional.of(member));
+        when(passwordEncoder.matches(PASSWORD, member.getEncodedPassword()))
+            .thenReturn(true);
+
+        authService.verifyPassword(MEMBER_ALT_ID.getName(), PASSWORD);
+    }
+
+    @DisplayName("비밀번호 확인 - 실패 : 회원을 찾을 수 없음")
+    @Test
+    void testVerifyPassword_UserNotFound() {
+        when(memberRepository.findByAltId(MEMBER_ALT_ID.getName()))
+            .thenThrow(UserNotFoundException.class);
+
+        assertThrows(UserNotFoundException.class, () -> {
+            authService.verifyPassword(MEMBER_ALT_ID.getName(), PASSWORD);
+        });
+    }
+
+    @DisplayName("비밀번호 확인 - 실패 : 매칭되지않는 비밀번호")
+    @Test
+    void testVerifyPassword_NotMatchedPassword() {
+        when(memberRepository.findByAltId(MEMBER_ALT_ID.getName()))
+            .thenReturn(Optional.of(member));
+        when(passwordEncoder.matches(PASSWORD, member.getEncodedPassword()))
+            .thenReturn(false);
+
+        assertThrows(PasswordNotMatchException.class, () -> {
+            authService.verifyPassword(MEMBER_ALT_ID.getName(), PASSWORD);
+        });
     }
 }
