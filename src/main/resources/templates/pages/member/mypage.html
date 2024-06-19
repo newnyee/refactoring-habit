@@ -3,19 +3,23 @@
       th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
   <head>
     <link rel="stylesheet" th:href="@{/css/member/mypage.css}">
+    <script th:src="@{/js/member/mypage.js}"></script>
   </head>
 
   <title>마이페이지 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
 
-  <section class="Home">
+  <section class="Home" th:object="${memberInfo}">
     <h1 style="font-size: 20px; font-weight: bold; margin-top: 20px">
       마이페이지
     </h1>
     <hr style="border-width: 1.5px"/>
     <div class="Home_myinfo">
-      <div class="Home_myinfo_img"><img src="../../img/ang.png" alt="프로필 이미지"></div>
-      <div class="Home_myinfo_name">user-1</div>
-      <a href="mypage-edit.html"><div class="Home_myinfo_name2">내 정보 수정 ></div></a>
+      <div class="Home_myinfo_img">
+        <img th:if='${#strings.equals(memberInfo.profileImage, "member_default_img.png")}' th:src="@{/img/{fileName}(fileName=${memberInfo.profileImage})}">
+        <img th:unless='${#strings.equals(memberInfo.profileImage, "member_default_img.png")}' th:src="@{/storage/{fileName}(fileName=${memberInfo.profileImage})}">
+      </div>
+      <div class="Home_myinfo_name" th:text="${memberInfo.nickName}"></div>
+      <div class="Home_myinfo_name2 update-my-info">내 정보 수정 ></div>
     </div>
     <hr>
     <div class="Home_myact">
@@ -31,6 +35,25 @@
           호스트 지원
         </div>
       </a>
+    </div>
+
+    <!-- 비밀번호 확인 모달창 -->
+    <div class="modal-background">
+      <div class="modal-container">
+        <form class="modal-content1">
+          <div class="modal-title1">비밀번호 확인</div>
+          <div>
+            회원님의 소중한 정보 보호를 위해, 해빗 계정의 현재 비밀번호를 확인해주세요.
+          </div>
+          <div>
+            <input class="Home_form_input" id="password" type="password" placeholder="비밀번호">
+            <div class="error-message"></div>
+          </div>
+          <div>
+            <button type="button" class="check-password-button">확인</button>
+          </div>
+        </form>
+      </div>
     </div>
   </section>
 </th:block>
