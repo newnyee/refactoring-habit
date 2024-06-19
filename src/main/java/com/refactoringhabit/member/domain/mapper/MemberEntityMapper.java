@@ -28,8 +28,8 @@ public interface MemberEntityMapper {
     MemberInfoResponseDto toMemberInfoResponseDto(Member member);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEntityFromDto(MemberUpdateInfoRequestDto memberUpdateInfoRequestDto, String encodedPassword,
-        String profileImage, @MappingTarget Member member);
+    void updateEntityFromDto(MemberUpdateInfoRequestDto memberUpdateInfoRequestDto,
+        String encodedPassword, String profileImage, @MappingTarget Member member);
 
     @Named("generateUuid")
     default String generateUuid(String value) {

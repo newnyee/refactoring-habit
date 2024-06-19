@@ -48,7 +48,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void memberUpdate(String memberAltId, MemberUpdateInfoRequestDto memberUpdateInfoRequestDto, MultipartFile multipartFile) {
+    public void memberUpdate(
+        String memberAltId, MemberUpdateInfoRequestDto memberUpdateInfoRequestDto,
+        MultipartFile multipartFile) {
 
         Member member = memberRepository.findByAltId(memberAltId)
             .orElseThrow(UserNotFoundException::new);
@@ -73,6 +75,7 @@ public class MemberService {
         }
     }
 
+    @Transactional(readOnly = true)
     public MemberInfoResponseDto getMemberInfo(String memberAltId) {
         return MemberEntityMapper.INSTANCE.toMemberInfoResponseDto(
             memberRepository.findByAltId(memberAltId).orElseThrow(UserNotFoundException::new));
