@@ -53,7 +53,7 @@ public class InterceptorUtils {
     public boolean redirectToLogin(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
 
-        request.setAttribute(REDIRECT_URL.name(), request.getRequestURI());
+        request.setAttribute(REDIRECT_URL.getName(), request.getRequestURI());
         response.sendRedirect(UriMappings.VIEW_LOGIN.getUri());
         return false;
     }
