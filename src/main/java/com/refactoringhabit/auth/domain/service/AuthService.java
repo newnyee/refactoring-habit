@@ -60,7 +60,7 @@ public class AuthService {
         String newPassword = createPassword();
         Member member = memberRepository.findByEmail(email)
             .orElseThrow(UserNotFoundException::new);
-        member.changePassword(passwordEncoder.encode(newPassword));
+        member.setEncodedPassword(passwordEncoder.encode(newPassword));
 
         try {
             emailNewPasswordUtil.sendEmail(email, newPassword);
@@ -77,8 +77,7 @@ public class AuthService {
 
         Member member = memberRepository.findByEmail(signInRequestDto.getEmail())
                 .orElseThrow(UserNotFoundException::new);
-
-        if (passwordEncoder.matches(signInRequestDto.getPassword(), member.getEncodedPassword())) {
+        if (isPasswordMatched(signInRequestDto.getPassword(), member.getEncodedPassword())) {
             createAndSaveSession(response, member.getAltId());
         } else {
             throw new PasswordNotMatchException();
@@ -120,6 +119,16 @@ public class AuthService {
         }
     }
 
+    @Transactional
+    public void verifyPassword(String memberAltId, String password) {
+        Member member =
+            memberRepository.findByAltId(memberAltId).orElseThrow(UserNotFoundException::new);
+
+        if (!isPasswordMatched(password, member.getEncodedPassword())) {
+            throw new PasswordNotMatchException();
+        }
+    }
+
     private String createPassword() {
         StringBuilder newPassword = new StringBuilder();
         boolean run = true;
@@ -148,5 +157,9 @@ public class AuthService {
     private Session getSessionFromRequest(HttpServletRequest request, String cookieName)
         throws JsonProcessingException {
         return cookieUtil.getValueInCookie(request, cookieName, Session.class);
+    }
+
+    private boolean isPasswordMatched(String password, String encodedPassword) {
+        return passwordEncoder.matches(password, encodedPassword);
     }
 }
