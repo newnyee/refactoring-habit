@@ -63,13 +63,13 @@
         <div class="Home_form">
           <div class="Home_form_div">
             <div>새로운 비밀번호 입력</div>
-            <input type="text" name="password" class="Home_form_input" placeholder="띄어쓰기 미포함 8자 이상">
-            <div class="error"></div>
+            <input type="password" name="password" id="password" class="Home_form_input" placeholder="띄어쓰기 미포함 8자 이상" onchange="passwordValidation()">
+            <div class="error-message"></div>
           </div>
           <div class="Home_form_div">
             <div>비밀번호 재입력</div>
-            <input type="text" name="checkPassword" class="Home_form_input" placeholder="비밀번호 재입력">
-            <div class="error"></div>
+            <input type="password" name="checkPassword" id="password_match" class="Home_form_input" placeholder="비밀번호 재입력" onchange="passwordMatch()">
+            <div class="error-message"></div>
           </div>
           <div>
             <button type="button" id="updatePasswordButton" class="Home_new_btn">비밀번호 재설정</button>
