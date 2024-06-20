@@ -43,7 +43,7 @@ public class ApiAuthNInterceptor implements HandlerInterceptor {
             // 이상이 있는 세션일 경우 해당 세션 네임의 쿠키를 리셋 시킴
             } catch (JsonMappingException e) {
                 log.error("[{}] ex", e.getClass().getSimpleName(), e);
-                cookieUtil.removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+                cookieUtil.removeSessionCookie(response);
             }
 
             try { // 토큰 검증 성공

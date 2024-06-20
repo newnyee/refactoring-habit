@@ -256,7 +256,7 @@ class AuthServiceTest {
 
         authService.removeSession(request, response);
         verify(redisRefreshTokenRepository).deleteRefreshTokenById(MEMBER_ALT_ID.getName());
-        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+        verify(cookieUtil).removeSessionCookie(response);
     }
 
     @DisplayName("세션 삭제 - 실패 : 쿠키가 없는 경우")
@@ -266,7 +266,7 @@ class AuthServiceTest {
             .thenReturn(null);
 
         authService.removeSession(request, response);
-        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+        verify(cookieUtil).removeSessionCookie(response);
     }
 
     @DisplayName("세션 삭제 - 실패 : 유효하지 않은 세션")
@@ -276,7 +276,7 @@ class AuthServiceTest {
             .thenThrow(JsonMappingException.class);
 
         authService.removeSession(request, response);
-        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+        verify(cookieUtil).removeSessionCookie(response);
     }
 
     @DisplayName("세션 삭제 - 실패 : 유효하지 않은 AccessToken")
@@ -292,7 +292,7 @@ class AuthServiceTest {
             .thenThrow(JWTDecodeException.class);
 
         authService.removeSession(request, response);
-        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+        verify(cookieUtil).removeSessionCookie(response);
     }
 
     @DisplayName("비밀번호 확인 - 성공")

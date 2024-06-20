@@ -81,7 +81,7 @@ class ApiAuthNInterceptorTest {
             .thenThrow(JsonMappingException.class);
 
         assertFalse(apiAuthNInterceptor.preHandle(request, response, handler));
-        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+        verify(cookieUtil).removeSessionCookie(response);
         verify(response).setStatus(UNAUTHORIZED.value());
     }
 

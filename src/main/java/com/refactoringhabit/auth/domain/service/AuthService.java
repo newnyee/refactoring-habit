@@ -115,7 +115,7 @@ public class AuthService {
         } catch (Exception e) {
             log.error("[{}] ex", e.getClass().getSimpleName(), e);
         } finally {
-            cookieUtil.removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+            cookieUtil.removeSessionCookie(response);
         }
     }
 
