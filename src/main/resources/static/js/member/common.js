@@ -61,15 +61,32 @@ $(document).ready(function(){
     });
 
     $('.logout_button').on('click', () => {
-        callLogoutApi()
+        if (confirm("로그아웃 하시겠습니까?")) {
+            $(window).off("beforeunload");
+            callLogoutApi();
+        }
     })
 })
 
-function setCookie( name, value, exDay ) {
-    var todayDate = new Date();
-    todayDate.setDate( todayDate.getDate() + exDay ); 
-    document.cookie = name+ "=" +  value + "; path=/; expires=" + todayDate.toGMTString() + ";"
-    
+const setCookie = (name, value, minutesToLive) => {
+    let expirationDate = new Date()
+    expirationDate.setTime(expirationDate.getTime() + (minutesToLive * 60 * 1000))
+    let expires = "expires=" + expirationDate.toUTCString()
+    document.cookie = name + "=" + value + ";" + expires + ";path=/"
+}
+
+const getCookie = (name) => {
+    let cookieName = name + "="
+    let decodedCookie = decodeURIComponent(document.cookie)
+    let cookieArray = decodedCookie.split(';')
+
+    for (let i = 0; i < cookieArray.length; i++) {
+        let cookie = cookieArray[i].trim()
+        if (cookie.indexOf(cookieName) === 0) {
+            return cookie.substring(cookieName.length, cookie.length)
+        }
+    }
+    return null
 }
 
 function checkSearch(){

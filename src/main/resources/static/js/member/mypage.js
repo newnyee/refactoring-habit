@@ -35,6 +35,24 @@ const passwordValidation = () => {
   return true
 }
 
+const verifyPasswordModalOpen = () => {
+  let passwordCheck = getCookie('password_check')
+  let passwordCheckSession = getCookie('password_check_session')
+
+  if (passwordCheck !== null && passwordCheckSession !== null) {
+    if (passwordCheck === 'ok' && passwordCheckSession === 'ok') {
+      window.location.href = '/my-page/info'
+      return
+    }
+  }
+  $('.modal-background').css('display', 'flex')
+}
+
+const verifyPasswordModalClose = () => {
+  $('#password').val('')
+  $('.modal-background').css('display','none')
+}
+
 const callVerifyPasswordApi = () => {
   $.ajax({
     url: '/api/v2/auth/verify-password',
@@ -43,6 +61,9 @@ const callVerifyPasswordApi = () => {
       password: $('#password').val()
     },
     success: () => {
+      verifyPasswordModalClose()
+      setCookie('password_check', 'ok', 30)
+      setCookie('password_check_session', 'ok')
       window.location.href = '/my-page/info'
     },
     error: (error) => {
@@ -57,21 +78,26 @@ const callVerifyPasswordApi = () => {
 
 $(document).ready(() => {
   $('.update-my-info').on('click', () => {
-    $('.modal-background').css('display', 'flex')
+    verifyPasswordModalOpen()
   })
 
   $('.check-password-button').on('click', () => {
-    if (!passwordValidation()) {
-      return
+    if (passwordValidation()) {
+      callVerifyPasswordApi();
     }
-    callVerifyPasswordApi();
+  })
+
+  $('.modal-background').on('keypress', (e) => {
+    if (e.key === 'Enter') {
+      if (passwordValidation()) {
+        callVerifyPasswordApi();
+      }
+    }
   })
 })
 
 $(document).mousedown((e) => {
-  let container = $('.modal-background')
-  if(container.has(e.target).length === 0){
-    $(e.target).find('form')[0].reset()
-    container.css('display','none')
+  if($('.modal-background').has(e.target).length === 0){
+    verifyPasswordModalClose()
   }
 })

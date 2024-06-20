@@ -15,32 +15,30 @@
     <hr style="border-width: 1.5px"/>
     <div class="Home_myinfo">
       <div class="Home_myinfo_img">
-        <img th:if='${#strings.equals(memberInfo.profileImage, "member_default_img.png")}' th:src="@{/img/{fileName}(fileName=${memberInfo.profileImage})}">
-        <img th:unless='${#strings.equals(memberInfo.profileImage, "member_default_img.png")}' th:src="@{/storage/{fileName}(fileName=${memberInfo.profileImage})}">
+        <img class="update-my-info" th:if='${#strings.equals(memberInfo.profileImage, "member_default_img.png")}' th:src="@{/img/{fileName}(fileName=${memberInfo.profileImage})}">
+        <img class="update-my-info" th:unless='${#strings.equals(memberInfo.profileImage, "member_default_img.png")}' th:src="@{/storage/{fileName}(fileName=${memberInfo.profileImage})}">
       </div>
-      <div class="Home_myinfo_name" th:text="${memberInfo.nickName}"></div>
-      <div class="Home_myinfo_name2 update-my-info">내 정보 수정 ></div>
+      <div class="Home_myinfo_name"><span class="update-my-info nick-name" th:text="${memberInfo.nickName}"></span> 님</div>
+      <div class="Home_myinfo_name2"><span class="update-my-info">내 정보 수정 ></span></div>
     </div>
     <hr>
     <div class="Home_myact">
       <div class="Home_myact_name">내 활동</div>
-      <a href="member-review-list.html"><div class="Home_myact_order">리뷰 관리</div></a>
-      <a href="../order/order-list.html"><div class="Home_myact_order">결제 내역</div></a>
+      <a href="/my-page/review/list"><div class="Home_myact_order">리뷰 관리</div></a>
+      <a href="/my-page/order/list"><div class="Home_myact_order">결제 내역</div></a>
     </div>
     <hr>
     <div class="Home_myact">
       <div class="Home_myact_name">호스트</div>
-      <a>
-        <div class="Home_myact_order">
-          호스트 지원
-        </div>
+      <a th:href='${#strings.equals(memberInfo.type, "HOST") ? "/host" : "/host/join"}'>
+        <div class="Home_myact_order" th:text='${#strings.equals(memberInfo.type, "HOST") ? "호스트 센터" : "호스트 지원"}'></div>
       </a>
     </div>
 
     <!-- 비밀번호 확인 모달창 -->
     <div class="modal-background">
       <div class="modal-container">
-        <form class="modal-content1">
+        <div class="modal-content1">
           <div class="modal-title1">비밀번호 확인</div>
           <div>
             회원님의 소중한 정보 보호를 위해, 해빗 계정의 현재 비밀번호를 확인해주세요.
@@ -52,7 +50,7 @@
           <div>
             <button type="button" class="check-password-button">확인</button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </section>

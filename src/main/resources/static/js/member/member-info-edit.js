@@ -84,7 +84,7 @@ const birthValidation = () => {
         return false
     }
 
-    let year = birth.val().split('-')[0];
+    let year = birth.val().split('-')[0]
     let month = birth.val().split('-')[1]
     let date = birth.val().split('-')[2]
 
@@ -272,11 +272,32 @@ const updatePasswordSubmit = () => {
 }
 
 $(document).ready(() => {
+    let passwordCheck = getCookie('password_check')
+    let passwordCheckSession = getCookie('password_check_session')
+
+    if (!(passwordCheck === 'ok' && passwordCheckSession === 'ok')) {
+        alert('비밀번호 확인 후 접근 가능합니다.')
+        window.location.href = '/my-page'
+    }
+
+    let isFormSubmitted = false
+
     $('#memberInfoUpdateButton').on('click', () => {
         updateInfoSubmit()
+        isFormSubmitted = true
     })
 
     $('#updatePasswordButton').on('click', () => {
         updatePasswordSubmit()
+        isFormSubmitted = true
+    })
+
+    $(window).on('beforeunload', (e) => {
+        if (!isFormSubmitted) {
+            // 사용자 정의 메시지를 설정하더라도 최신 브라우저에서는 무시됨
+            let message = "변경사항이 저장되지 않을 수 있습니다."
+            e.returnValue = message
+            return message
+        }
     })
 })
