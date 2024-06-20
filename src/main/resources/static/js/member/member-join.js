@@ -119,13 +119,21 @@ const phoneValidation = () => {
     return false
   }
 
-  let phoneCheck = /^(010)[0-9]{3,4}[0-9]{4}$/
-  if (!phoneCheck.test(phone.val())) {
+  let containsSpecialChars = /-/
+  if (containsSpecialChars.test(phone.val())) {
+    phoneErrorMessage.css('display', 'block')
+    phoneErrorMessage.text('❌"-"기호를 제외한 번호를 입력해주세요')
+    return false
+  }
+
+  let phoneNumberCheck = /^(010)[0-9]{3,4}[0-9]{4}$/
+  if (!phoneNumberCheck.test(phone.val())) {
     phoneErrorMessage.css('display', 'block')
     phoneErrorMessage.text('❌휴대폰 번호를 확인해주세요')
     return false
   }
-  phoneErrorMessage.css('display', 'none')
+
+  phoneErrorMessage.css('display', 'none');
   return true
 }
 
@@ -157,7 +165,7 @@ const birthValidation = () => {
 // 이미지 파일 검증
 const previewProfile = (imgs) => {
   let reader = new FileReader();
-  let profileImageErrorMessage = $('.Home_form_div_p').find('.error-message')
+  let profileImageErrorMessage = $('.Home_form_profile').closest('.Home_form_div').find('.error-message')
 
   if (imgs !== undefined && imgs.files.length > 0) {
     let imgSize = imgs.files[0].size // 이미지 사이즈
@@ -231,16 +239,11 @@ const checkEmail = () => {
 
 const requestJoinApi = () => {
 
-  let phoneNumbers = []
-  for (let i = 0; i < 3; i++) {
-    phoneNumbers[i] = $("input[name='phone']").eq(i).val()
-  }
-
   let memberInfo = {
     'email' : $('#email').val(),
     'password' : $('#password').val(),
     'nickName' : $('#nick_name').val(),
-    'phone' : phoneNumbers.join('-'),
+    'phone' : $('#phone').val(),
     'birth' : $('#birth').val(),
     'gender' : $("input[name='gender']:radio:checked").val()
   }
@@ -265,8 +268,9 @@ const requestJoinApi = () => {
     processData: false,
     contentType: false,
     data: formData,
-    success: (data) => {
-      console.log(data)
+    success: () => {
+      alert("회원가입이 완료되었습니다. 로그인 해주세요.")
+      window.location.replace("/login")
     },
     error: (e) => {
       if (e.responseJSON.status === 500) {
