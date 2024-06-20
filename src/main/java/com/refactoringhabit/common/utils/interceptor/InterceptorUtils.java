@@ -8,6 +8,7 @@ import static com.refactoringhabit.common.enums.UriMappings.VIEW_HOME;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.refactoringhabit.auth.domain.service.AuthService;
 import com.refactoringhabit.common.enums.UriMappings;
+import com.refactoringhabit.common.utils.cookies.CookieUtil;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.enums.MemberType;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
@@ -26,6 +27,7 @@ public class InterceptorUtils {
 
     private final MemberRepository memberRepository;
     private final AuthService authService;
+    private final CookieUtil cookieUtil;
 
     public void validateUserInDatabase(HttpServletRequest request, String memberAltId) {
 
@@ -53,7 +55,7 @@ public class InterceptorUtils {
     public boolean redirectToLogin(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
 
-        request.setAttribute(REDIRECT_URL.getName(), request.getRequestURI());
+        cookieUtil.addCookie(response, REDIRECT_URL.getName(), request.getRequestURI());
         response.sendRedirect(UriMappings.VIEW_LOGIN.getUri());
         return false;
     }
