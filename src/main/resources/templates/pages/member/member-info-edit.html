@@ -30,7 +30,7 @@
           </div>
           <div class="Home_form_div">
             <div>닉네임</div>
-            <input type="text" class="Home_form_input" placeholder="3자이상 입력" th:field="*{nickName}" onchange="nickNameValidation()">
+            <input type="text" class="Home_form_input" placeholder="닉네임 (2자 이상)" th:field="*{nickName}" onchange="nickNameValidation()">
             <div class="error-message"></div>
           </div>
           <div class="Home_form_div">
@@ -44,7 +44,7 @@
           </div>
           <div class="Home_form_div">
             <div>휴대폰 번호</div>
-            <input type="text" class="Home_form_input" th:field="*{phone}" onchange="phoneValidation()">
+            <input type="text" class="Home_form_input" placeholder='휴대폰 번호 ("-" 제외하고 입력)' th:field="*{phone}" onchange="phoneValidation()">
             <div class="error-message"></div>
           </div>
           <div class="Home_form_div">
@@ -63,12 +63,12 @@
         <div class="Home_form">
           <div class="Home_form_div">
             <div>새로운 비밀번호 입력</div>
-            <input type="password" name="password" id="password" class="Home_form_input" placeholder="띄어쓰기 미포함 8자 이상" onchange="passwordValidation()">
+            <input type="password" name="password" id="password" class="Home_form_input" placeholder="비밀번호 (8자리 이상)" onchange="passwordValidation()">
             <div class="error-message"></div>
           </div>
           <div class="Home_form_div">
             <div>비밀번호 재입력</div>
-            <input type="password" name="checkPassword" id="password_match" class="Home_form_input" placeholder="비밀번호 재입력" onchange="passwordMatch()">
+            <input type="password" name="checkPassword" id="password_match" class="Home_form_input" placeholder="비밀번호 확인 (8자리 이상)" onchange="passwordMatch()">
             <div class="error-message"></div>
           </div>
           <div>
