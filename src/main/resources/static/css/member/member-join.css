@@ -128,23 +128,21 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .Home_form_profile{
-    display: inline-block;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
     width: 80px;
     margin-top: 10px;
 }
 
 .Home_proimg{
-    width: 70px;
-    height: 70px;
+    width: 100px;
+    height: 100px;
     display: inline-block;
     --border: 1px solid black;
     border-radius: 100%; 
     
-}
-
-.Home_form_div_p{
-    margin-top: 20px;
-    margin-bottom: 8px;
 }
 
 .Home_form_file{
@@ -173,7 +171,7 @@ input:focus{
 }
 
 .Home_new_btn{
-    margin-top: 60px;
+    margin-top: 50px;
     margin-bottom: 30px;
     width: 100%;
     height: 50px;

@@ -110,48 +110,21 @@ const nickNameValidation = () => {
   return true
 }
 
-// 성별 검증
-const genderValidation = () => {
-  let genderErrorMessage = $('#gender_male').closest('.Home_form_div').find('.error-message')
+// 휴대폰 번호 검증
+const phoneValidation = () => {
+  let phone = $('#phone')
+  let phoneErrorMessage = phone.closest('.Home_form_div').find('.error-message')
 
-  if ($("input[name='gender']:radio:checked").length < 1) {
-    genderErrorMessage.css('display', 'block')
-    genderErrorMessage.text('❌성별을 선택해주세요')
+  if (!isNotBlank(phone.val(), phoneErrorMessage)) {
     return false
   }
 
-  genderErrorMessage.css('display', 'none')
-  return true
-}
-
-// 휴대폰 번호 검증
-const phoneNumberLengthLimit = () => {
-  let phoneNumbers = $("input[name='phone']")
-  let firstNumber = phoneNumbers.eq(0)
-  let middleNumber = phoneNumbers.eq(1)
-  let lastNumber = phoneNumbers.eq(2)
-  let phoneErrorMessage = firstNumber.closest('.Home_form_div').find('.error-message')
-
-  if(firstNumber.val().length !== 3){
-    firstNumber.val(firstNumber.val().slice(0,3));
+  let phoneCheck = /^(010)[0-9]{3,4}[0-9]{4}$/
+  if (!phoneCheck.test(phone.val())) {
+    phoneErrorMessage.css('display', 'block')
+    phoneErrorMessage.text('❌휴대폰 번호를 확인해주세요')
+    return false
   }
-
-  if(middleNumber.val().length !== 4){
-    middleNumber.val(middleNumber.val().slice(0,4));
-  }
-
-  if(lastNumber.val().length !== 4){
-    lastNumber.val(lastNumber.val().slice(0,4));
-  }
-
-  for (let i = 0; i<phoneNumbers.length; i++) {
-    if (phoneNumbers.eq(i).val().length === 0) {
-      phoneErrorMessage.css('display', 'block')
-      phoneErrorMessage.text('❌필수 입력란 입니다')
-      return false
-    }
-  }
-
   phoneErrorMessage.css('display', 'none')
   return true
 }
@@ -333,13 +306,8 @@ const joinSubmit = () => {
     return false
   }
 
-  //성별
-  if (!genderValidation()) {
-    return false
-  }
-
   // 휴대폰 번호
-  if (!phoneNumberLengthLimit()) {
+  if (!phoneValidation()) {
     return false
   }
 
@@ -356,3 +324,23 @@ const joinSubmit = () => {
   // 회원가입 api 호출
   requestJoinApi()
 }
+
+$(document).ready(() => {
+  let isFormSubmitted = false
+
+  $('#join-submit-button').on('click', () => {
+    if (confirm("회원가입을 하시겠습니까?")) {
+      joinSubmit();
+      isFormSubmitted = true
+    }
+  })
+
+  $(window).on('beforeunload', (e) => {
+    if (!isFormSubmitted) {
+      // 사용자 정의 메시지를 설정하더라도 최신 브라우저에서는 무시됨
+      let message = "변경사항이 저장되지 않을 수 있습니다.";
+      e.returnValue = message;
+      return message;
+    }
+  })
+})
