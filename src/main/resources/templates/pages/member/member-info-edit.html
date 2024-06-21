@@ -24,6 +24,9 @@
             <input type="file" id="profileImageFile" name="profileImageFile" class="Home_pro_imgFile" accept="image/*" style="display: none" onchange="previewProfile(this)">
             <div class="error-message"></div>
           </div>
+          <hr>
+          <div class="Home_form_div"><span class="password-change">비밀번호 변경 ></span></div>
+          <hr>
           <div class="Home_form_div">
             <div>아이디</div>
             <input type="text" class="Home_form_input" th:field="*{email}" disabled>
@@ -57,28 +60,27 @@
           </div>
         </div>
       </form>
-      <hr>
-      <form>
-        <h3 class="Home_top">비밀번호 재설정</h3>
-        <div class="Home_form">
-          <div class="Home_form_div">
-            <div>새로운 비밀번호 입력</div>
-            <input type="password" name="password" id="password" class="Home_form_input" placeholder="비밀번호 (8자리 이상)" onchange="passwordValidation()">
-            <div class="error-message"></div>
-          </div>
-          <div class="Home_form_div">
-            <div>비밀번호 재입력</div>
-            <input type="password" name="checkPassword" id="password_match" class="Home_form_input" placeholder="비밀번호 확인 (8자리 이상)" onchange="passwordMatch()">
-            <div class="error-message"></div>
+    </div>
+    <!-- 비밀번호 확인 모달창 -->
+    <div class="modal-background">
+      <div class="modal-container">
+        <div class="modal-content1">
+          <div class="modal-title1">비밀번호 확인</div>
+          <div>
+            회원님의 소중한 정보 보호를 위해, 해빗 계정의 현재 비밀번호를 확인해주세요.
           </div>
           <div>
-            <button type="button" id="updatePasswordButton" class="Home_new_btn">비밀번호 재설정</button>
+            <input class="Home_form_input" id="password" type="password" placeholder="비밀번호">
+            <div class="error-message modal-password-error-message"></div>
+          </div>
+          <div>
+            <button type="button" class="check-password-button">확인</button>
           </div>
         </div>
-      </form>
+      </div>
     </div>
     <script th:inline="javascript">
-      var altId = [[${updateInfoDto.altId}]]
+      let altId = [[${updateInfoDto.altId}]]
     </script>
   </section>
 </th:block>

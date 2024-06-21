@@ -100,37 +100,13 @@ const birthValidation = () => {
     return true
 }
 
-// 비밀번호 확인 검증
-const passwordMatch = () => {
-    let password = $('#password')
-    let passwordMatch = $('#password_match')
-    let passwordMatchErrorMessage
-        = passwordMatch.closest('.Home_form_div').find('.error-message')
-
-    if (password.val() !== passwordMatch.val()) {
-        passwordMatchErrorMessage.css('display', 'block')
-        passwordMatchErrorMessage.text('❌비밀번호가 다릅니다')
-        return false
-    }
-
-    passwordMatchErrorMessage.css('display', 'none')
-    return true
-}
-
 // 비밀번호 검증
 const passwordValidation = () => {
     let password = $('#password')
-    let passwordErrorMessage
-        = password.closest('.Home_form_div')
-    .find('.error-message')
+    let passwordErrorMessage = $('.modal-password-error-message')
 
     if (!isNotBlank(password.val(), passwordErrorMessage)) {
         return false
-    }
-
-    let match = $('#password_match')
-    if (match.val().length > 0) {
-        passwordMatch()
     }
 
     if (password.val().length < 8 || password.val().length > 20) {
@@ -226,60 +202,49 @@ const updateInfoSubmit = () => {
     callUpdateInfoApi()
 }
 
-const callUpdatePasswordApi = () => {
+const verifyPasswordModalOpen = () => {
+    let passwordCheck = getCookie('password_check')
+    let passwordCheckSession = getCookie('password_check_session')
 
-    let updateInfo = {
-        password: $('#password').val()
+    if (passwordCheck !== null && passwordCheckSession !== null) {
+        if (passwordCheck === 'ok' && passwordCheckSession === 'ok') {
+            window.location.href = '/my-page/password'
+            return
+        }
     }
+    $('.modal-background').css('display', 'flex')
+}
 
-    let formData = new FormData()
-    let blob = new Blob([JSON.stringify(updateInfo)], {type: "application/json"})
-    formData.append("updateInfo", blob)
 
+const verifyPasswordModalClose = () => {
+    $('#password').val('')
+    $('.modal-background').css('display','none')
+}
+
+const callVerifyPasswordApi = () => {
     $.ajax({
-        url: '/api/v2/members/' + altId,
-        method: 'PATCH',
-        enctype: 'multipart/form-data',
-        processData: false,
-        contentType: false,
-        data: formData,
-        success: (response) => {
-            alert("회원 정보가 수정되었습니다.")
-            $('#password').val('')
-            $('#password_match').val('')
+        url: '/api/v2/auth/verify-password',
+        method: 'POST',
+        data: {
+            password: $('#password').val()
         },
-        error: (e) => {
-            if (e.responseJSON.status === 500) {
-                alert("오류가 발생했습니다. 관리자에게 문의하세요.")
+        success: () => {
+            verifyPasswordModalClose()
+            setCookie('password_check', 'ok', 5)
+            setCookie('password_check_session', 'ok')
+            window.location.href = '/my-page/password'
+        },
+        error: (error) => {
+            if (error.responseJSON.code === 'A005') {
+                alert("입력하신 비밀번호가 올바르지 않습니다. 다시 확인해주세요.");
+            } else {
+                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
             }
         }
     })
 }
 
-const updatePasswordSubmit = () => {
-
-    // 비밀번호
-    if (!passwordValidation()) {
-        return false
-    }
-
-    // 비밀번호 확인
-    if (!passwordMatch()) {
-        return false
-    }
-
-    callUpdatePasswordApi()
-}
-
 $(document).ready(() => {
-    let passwordCheck = getCookie('password_check')
-    let passwordCheckSession = getCookie('password_check_session')
-
-    if (!(passwordCheck === 'ok' && passwordCheckSession === 'ok')) {
-        alert('비밀번호 확인 후 접근 가능합니다.')
-        window.location.href = '/my-page'
-    }
-
     let isFormSubmitted = false
 
     $('#memberInfoUpdateButton').on('click', () => {
@@ -300,4 +265,29 @@ $(document).ready(() => {
             return message
         }
     })
+
+    // 모달 창 오픈
+    $('.password-change').on('click', () => {
+        verifyPasswordModalOpen()
+    })
+
+    $('.check-password-button').on('click', () => {
+        if (passwordValidation()) {
+            callVerifyPasswordApi();
+        }
+    })
+
+    $('.modal-background').on('keypress', (e) => {
+        if (e.key === 'Enter') {
+            if (passwordValidation()) {
+                callVerifyPasswordApi();
+            }
+        }
+    })
+})
+
+$(document).mousedown((e) => {
+    if($('.modal-background').has(e.target).length === 0){
+        verifyPasswordModalClose()
+    }
 })
