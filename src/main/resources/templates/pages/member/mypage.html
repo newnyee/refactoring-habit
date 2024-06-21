@@ -19,7 +19,7 @@
         <img class="update-my-info" th:unless='${#strings.equals(memberInfo.profileImage, "member_default_img.png")}' th:src="@{/storage/{fileName}(fileName=${memberInfo.profileImage})}">
       </div>
       <div class="Home_myinfo_name"><span class="update-my-info nick-name" th:text="${memberInfo.nickName}"></span> 님</div>
-      <div class="Home_myinfo_name2"><span class="update-my-info">내 정보 수정 ></span></div>
+      <div class="Home_myinfo_name2"><span class="update-my-info" id="memberInfoButton">내 정보 수정 ></span></div>
     </div>
     <hr>
     <div class="Home_myact">
@@ -33,25 +33,6 @@
       <a th:href='${#strings.equals(memberInfo.type, "HOST") ? "/host" : "/host/join"}'>
         <div class="Home_myact_order" th:text='${#strings.equals(memberInfo.type, "HOST") ? "호스트 센터" : "호스트 지원"}'></div>
       </a>
-    </div>
-
-    <!-- 비밀번호 확인 모달창 -->
-    <div class="modal-background">
-      <div class="modal-container">
-        <div class="modal-content1">
-          <div class="modal-title1">비밀번호 확인</div>
-          <div>
-            회원님의 소중한 정보 보호를 위해, 해빗 계정의 현재 비밀번호를 확인해주세요.
-          </div>
-          <div>
-            <input class="Home_form_input" id="password" type="password" placeholder="비밀번호">
-            <div class="error-message"></div>
-          </div>
-          <div>
-            <button type="button" class="check-password-button">확인</button>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 </th:block>
