@@ -1,5 +1,7 @@
 package com.refactoringhabit.member.domain.service;
 
+import static com.refactoringhabit.member.domain.enums.MemberType.MEMBER;
+
 import com.refactoringhabit.common.utils.CustomFileUtil;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
@@ -27,7 +29,7 @@ public class MemberService {
     private final CustomFileUtil customFileUtil;
     private final PasswordEncoder passwordEncoder;
 
-    public static final String MID = null;
+    public static final String MEMBER_ALT_ID = null;
 
     @Transactional
     public void memberJoin(
@@ -37,10 +39,10 @@ public class MemberService {
             memberJoinRequestDto.setEncodedPassword(
                 passwordEncoder.encode(memberJoinRequestDto.getPassword()));
             memberJoinRequestDto.setProfileImage(
-                customFileUtil.saveFile(Optional.ofNullable(multipartFile)));
+                customFileUtil.saveProfileImage(Optional.ofNullable(multipartFile), MEMBER));
 
             memberRepository
-                .save(MemberEntityMapper.INSTANCE.toEntity(memberJoinRequestDto, MID));
+                .save(MemberEntityMapper.INSTANCE.toEntity(memberJoinRequestDto, MEMBER_ALT_ID));
         } catch (IOException e) {
             log.error("[{}] {}", e.getClass().getSimpleName(), e.getMessage());
             throw new FileSaveFailedException();
@@ -63,7 +65,7 @@ public class MemberService {
 
             String profileImage =
                 multipartFile != null
-                    ? customFileUtil.saveFile(Optional.of(multipartFile))
+                    ? customFileUtil.saveProfileImage(Optional.of(multipartFile), MEMBER)
                     : null;
 
             MemberEntityMapper.INSTANCE.updateEntityFromDto(

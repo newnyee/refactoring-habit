@@ -1,6 +1,7 @@
 package com.refactoringhabit.member.domain.service;
 
 import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
+import static com.refactoringhabit.member.domain.enums.MemberType.MEMBER;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -8,25 +9,20 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.refactoringhabit.common.enums.AttributeNames;
 import com.refactoringhabit.common.utils.CustomFileUtil;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
-import com.refactoringhabit.member.domain.mapper.MemberEntityMapper;
-import com.refactoringhabit.member.domain.mapper.MemberEntityMapperImpl;
 import com.refactoringhabit.member.domain.repository.MemberRepository;
 import com.refactoringhabit.member.dto.MemberJoinRequestDto;
 import com.refactoringhabit.member.dto.MemberUpdateInfoRequestDto;
 import java.io.IOException;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -65,13 +61,15 @@ class MemberServiceTest {
 
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg",
             "image/jpeg", "test data".getBytes());
-        when(customFileUtil.saveFile(Optional.of(file))).thenReturn("rename_profile.jpg");
+        when(customFileUtil.saveProfileImage(Optional.of(file), MEMBER))
+            .thenReturn("rename_profile.jpg");
 
         // when
         memberService.memberJoin(memberJoinRequestDto, file);
 
         //then
-        verify(customFileUtil, times(1)).saveFile(Optional.of(file));
+        verify(customFileUtil, times(1))
+            .saveProfileImage(Optional.of(file), MEMBER);
         verify(memberRepository, times(1)).save(any());
     }
 
@@ -85,12 +83,13 @@ class MemberServiceTest {
 
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg",
             "image/jpeg", "test data".getBytes());
-        when(customFileUtil.saveFile(Optional.of(file))).thenThrow(new IOException());
+        when(customFileUtil.saveProfileImage(Optional.of(file), MEMBER)).thenThrow(new IOException());
 
         // When, Then
         assertThrows(FileSaveFailedException.class,
             () -> memberService.memberJoin(memberJoinRequestDto, file));
-        verify(customFileUtil, times(1)).saveFile(Optional.of(file));
+        verify(customFileUtil, times(1))
+            .saveProfileImage(Optional.of(file), MEMBER);
         verify(memberRepository, never()).save(any());
     }
 
@@ -106,7 +105,8 @@ class MemberServiceTest {
         when(memberRepository.findByAltId(MEMBER_ALT_ID.getName()))
             .thenReturn(Optional.of(member));
         when(memberUpdateInfoRequestDto.getPassword()).thenReturn(null);
-        when(customFileUtil.saveFile(Optional.of(multipartFile))).thenReturn("image.png");
+        when(customFileUtil.saveProfileImage(Optional.of(multipartFile), MEMBER))
+            .thenReturn("image.png");
 
         memberService
             .memberUpdate(MEMBER_ALT_ID.getName(), memberUpdateInfoRequestDto, multipartFile);
@@ -135,7 +135,8 @@ class MemberServiceTest {
         when(memberRepository.findByAltId(MEMBER_ALT_ID.getName()))
             .thenReturn(Optional.of(member));
         when(memberUpdateInfoRequestDto.getPassword()).thenReturn(null);
-        when(customFileUtil.saveFile(Optional.of(multipartFile))).thenThrow(IOException.class);
+        when(customFileUtil.saveProfileImage(Optional.of(multipartFile), MEMBER))
+            .thenThrow(IOException.class);
 
         assertThrows(FileSaveFailedException.class, () ->
             memberService
