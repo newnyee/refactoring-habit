@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Component
@@ -48,5 +49,13 @@ public class ViewAuthZInterceptor implements HandlerInterceptor {
             log.error("[{}] ex ", e.getClass().getSimpleName(), e);
             return interceptorUtils.redirectToLogin(request, response);
         }
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+        ModelAndView modelAndView) {
+
+        String memberAltId = (String) request.getAttribute(MEMBER_ALT_ID.getName());
+        interceptorUtils.getHostInfo(memberAltId, modelAndView);
     }
 }

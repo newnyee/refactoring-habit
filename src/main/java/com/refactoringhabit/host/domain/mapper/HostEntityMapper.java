@@ -1,5 +1,6 @@
 package com.refactoringhabit.host.domain.mapper;
 
+import com.refactoringhabit.common.response.HostInfoDto;
 import com.refactoringhabit.host.domain.entity.Host;
 import com.refactoringhabit.host.dto.HostInfoResponseDto;
 import com.refactoringhabit.host.dto.HostInfoRequestDto;
@@ -34,6 +35,8 @@ public interface HostEntityMapper {
 
     void updateEntityFromHostInfoRequestDto(
         @MappingTarget Host host, HostInfoRequestDto hostInfoRequestDto, String profileImage);
+
+    HostInfoDto toHostInfoDto(Host host);
 
     @Named("generateUuid")
     default String generateUuid(String value) {

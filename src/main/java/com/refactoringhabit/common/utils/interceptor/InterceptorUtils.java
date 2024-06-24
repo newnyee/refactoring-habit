@@ -4,13 +4,14 @@ import static com.refactoringhabit.common.enums.AttributeNames.*;
 import static com.refactoringhabit.common.enums.UriAccessLevel.NULL_SESSION_ONLY_URI;
 import static com.refactoringhabit.common.enums.UriAccessLevel.PUBLIC_URI;
 import static com.refactoringhabit.common.enums.UriMappings.VIEW_HOME;
+import static com.refactoringhabit.host.domain.mapper.HostEntityMapper.INSTANCE;
+import static com.refactoringhabit.member.domain.enums.MemberType.HOST;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.refactoringhabit.auth.domain.service.AuthService;
 import com.refactoringhabit.common.enums.UriMappings;
 import com.refactoringhabit.common.utils.cookies.CookieUtil;
 import com.refactoringhabit.member.domain.entity.Member;
-import com.refactoringhabit.member.domain.enums.MemberType;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
 import com.refactoringhabit.member.domain.mapper.MemberEntityMapper;
 import com.refactoringhabit.member.domain.repository.MemberRepository;
@@ -63,7 +64,7 @@ public class InterceptorUtils {
     public boolean isMemberHostById(String memberAltId) {
         Member member = memberRepository.findByAltId(memberAltId)
             .orElseThrow(UserNotFoundException::new);
-        return MemberType.HOST.equals(member.getType());
+        return HOST.equals(member.getType());
     }
 
     public void addMemberInfoToModel(ModelAndView modelAndView, String memberAltId) {
@@ -83,5 +84,14 @@ public class InterceptorUtils {
     public boolean isPublicUri(String nowUri) {
         return nowUri.equals(VIEW_HOME.getUri()) || PUBLIC_URI.getUriMappingsList().stream()
             .anyMatch(uriMappings -> nowUri.startsWith(uriMappings.getUri()));
+    }
+
+    public void getHostInfo(String memberAltId, ModelAndView modelAndView) {
+        Member member = memberRepository.findByAltId(memberAltId)
+            .orElseThrow(UserNotFoundException::new);
+        if (member.getType().equals(HOST)) {
+            modelAndView
+                .addObject(HOST_INFO.getName(), INSTANCE.toHostInfoDto(member.getHost()));
+        }
     }
 }

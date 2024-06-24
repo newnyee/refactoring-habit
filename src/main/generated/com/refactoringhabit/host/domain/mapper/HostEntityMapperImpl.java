@@ -1,5 +1,6 @@
 package com.refactoringhabit.host.domain.mapper;
 
+import com.refactoringhabit.common.response.HostInfoDto;
 import com.refactoringhabit.host.domain.entity.Host;
 import com.refactoringhabit.host.dto.HostInfoRequestDto;
 import com.refactoringhabit.host.dto.HostInfoResponseDto;
@@ -8,7 +9,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-06-24T19:39:32+0900",
+    date = "2024-06-24T22:02:58+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class HostEntityMapperImpl implements HostEntityMapper {
@@ -84,5 +85,19 @@ public class HostEntityMapperImpl implements HostEntityMapper {
             host.setAccountHolder( hostInfoRequestDto.getAccountHolder() );
         }
         host.setProfileImage( profileImage );
+    }
+
+    @Override
+    public HostInfoDto toHostInfoDto(Host host) {
+        if ( host == null ) {
+            return null;
+        }
+
+        HostInfoDto.HostInfoDtoBuilder hostInfoDto = HostInfoDto.builder();
+
+        hostInfoDto.nickName( host.getNickName() );
+        hostInfoDto.profileImage( host.getProfileImage() );
+
+        return hostInfoDto.build();
     }
 }
