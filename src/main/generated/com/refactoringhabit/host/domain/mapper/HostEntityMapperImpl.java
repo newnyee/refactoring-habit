@@ -1,20 +1,20 @@
 package com.refactoringhabit.host.domain.mapper;
 
 import com.refactoringhabit.host.domain.entity.Host;
+import com.refactoringhabit.host.dto.HostInfoRequestDto;
 import com.refactoringhabit.host.dto.HostInfoResponseDto;
-import com.refactoringhabit.host.dto.HostJoinRequestDto;
 import com.refactoringhabit.member.domain.entity.Member;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-06-24T18:54:33+0900",
+    date = "2024-06-24T19:39:32+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class HostEntityMapperImpl implements HostEntityMapper {
 
     @Override
-    public Host toEntity(HostJoinRequestDto dto, String altId, String profileImage, Member member) {
+    public Host toEntity(HostInfoRequestDto dto, String altId, String profileImage, Member member) {
         if ( dto == null && altId == null && profileImage == null && member == null ) {
             return null;
         }
@@ -38,7 +38,7 @@ public class HostEntityMapperImpl implements HostEntityMapper {
     }
 
     @Override
-    public void updateHostJoinRequestDtoFromEntity(HostJoinRequestDto dto, Member member) {
+    public void updateHostJoinRequestDtoFromEntity(HostInfoRequestDto dto, Member member) {
         if ( member == null ) {
             return;
         }
@@ -67,5 +67,22 @@ public class HostEntityMapperImpl implements HostEntityMapper {
         hostInfoResponseDto.accountHolder( host.getAccountHolder() );
 
         return hostInfoResponseDto.build();
+    }
+
+    @Override
+    public void updateEntityFromHostInfoRequestDto(Host host, HostInfoRequestDto hostInfoRequestDto, String profileImage) {
+        if ( hostInfoRequestDto == null && profileImage == null ) {
+            return;
+        }
+
+        if ( hostInfoRequestDto != null ) {
+            host.setPhone( hostInfoRequestDto.getPhone() );
+            host.setEmail( hostInfoRequestDto.getEmail() );
+            host.setIntroduction( hostInfoRequestDto.getIntroduction() );
+            host.setAccountNumber( hostInfoRequestDto.getAccountNumber() );
+            host.setBank( hostInfoRequestDto.getBank() );
+            host.setAccountHolder( hostInfoRequestDto.getAccountHolder() );
+        }
+        host.setProfileImage( profileImage );
     }
 }

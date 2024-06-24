@@ -2,7 +2,7 @@ package com.refactoringhabit.host.domain.mapper;
 
 import com.refactoringhabit.host.domain.entity.Host;
 import com.refactoringhabit.host.dto.HostInfoResponseDto;
-import com.refactoringhabit.host.dto.HostJoinRequestDto;
+import com.refactoringhabit.host.dto.HostInfoRequestDto;
 import com.refactoringhabit.member.domain.entity.Member;
 import java.util.UUID;
 import org.mapstruct.Mapper;
@@ -22,15 +22,18 @@ public interface HostEntityMapper {
     @Mapping(target = "email", source = "dto.email")
     @Mapping(target = "profileImage", source = "profileImage")
     Host toEntity(
-        HostJoinRequestDto dto, String altId, String profileImage, Member member);
+        HostInfoRequestDto dto, String altId, String profileImage, Member member);
 
     @Mapping(target = "nickName", expression = "java((dto.getNickName() == null || dto.getNickName().equals(\"\")) ? member.getNickName() : dto.getNickName())")
     @Mapping(target = "phone", expression = "java((dto.getPhone() == null || dto.getPhone().equals(\"\")) ? member.getPhone() : dto.getPhone())")
     @Mapping(target = "email", expression = "java((dto.getEmail() == null || dto.getEmail().equals(\"\")) ? member.getEmail() : dto.getEmail())")
     void updateHostJoinRequestDtoFromEntity(
-        @MappingTarget HostJoinRequestDto dto, Member member);
+        @MappingTarget HostInfoRequestDto dto, Member member);
 
     HostInfoResponseDto toHostInfoResponseDto(Host host);
+
+    void updateEntityFromHostInfoRequestDto(
+        @MappingTarget Host host, HostInfoRequestDto hostInfoRequestDto, String profileImage);
 
     @Named("generateUuid")
     default String generateUuid(String value) {
