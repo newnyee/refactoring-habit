@@ -28,15 +28,24 @@ public class ViewAuthZInterceptor implements HandlerInterceptor {
 
             // 호스트 -  controller 진입
             if (interceptorUtils.isMemberHostById(memberAltId)) {
+
+                // 호스트 - 호스트 가입 페이지 진입
+                if (request.getRequestURI().equals(VIEW_HOST_JOIN.getUri())) {
+                    return interceptorUtils.redirectToUrl(response, VIEW_HOST_HOME.getUri());
+                }
                 return true;
             }
 
-            // 일반 회원 - 호스트 가입 페이지로 리다이렉트
+            // 일반 회원 - 호스트 가입 페이지 진입
+            if (request.getRequestURI().equals(VIEW_HOST_JOIN.getUri())) {
+                return true;
+            }
+
+            // 일반 회원 - 인가되지 않은 페이지 진입
             return interceptorUtils.redirectToUrl(response, VIEW_HOST_JOIN.getUri());
 
         } catch (Exception e) {
             log.error("[{}] ex ", e.getClass().getSimpleName(), e);
-
             return interceptorUtils.redirectToLogin(request, response);
         }
     }

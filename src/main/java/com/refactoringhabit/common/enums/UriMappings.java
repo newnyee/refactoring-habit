@@ -10,7 +10,8 @@ public enum UriMappings {
     VIEW_CATEGORY("/category"),
     VIEW_PRODUCT("/product"),
     VIEW_SEARCH_LIST("/search"),
-    VIEW_HOST_JOIN("/host/join");
+    VIEW_HOST_JOIN("/host/join"),
+    VIEW_HOST_HOME("/host");
 
     private final String uri;
 
