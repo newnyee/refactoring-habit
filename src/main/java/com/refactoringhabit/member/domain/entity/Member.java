@@ -1,6 +1,7 @@
 package com.refactoringhabit.member.domain.entity;
 
 import com.refactoringhabit.common.domain.entity.BaseTimeEntity;
+import com.refactoringhabit.host.domain.entity.Host;
 import com.refactoringhabit.member.domain.enums.Gender;
 import com.refactoringhabit.member.domain.enums.MemberStatus;
 import com.refactoringhabit.member.domain.enums.MemberType;
@@ -11,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -64,6 +66,9 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private MemberType type; // default 'MEMBER'
+
+    @OneToOne(mappedBy = "member")
+    private Host host;
 
     @Builder
     public Member(String altId, String email, String password, String nickName, String phone,
