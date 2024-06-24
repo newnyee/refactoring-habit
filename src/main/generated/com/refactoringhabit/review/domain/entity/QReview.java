@@ -64,7 +64,7 @@ public class QReview extends EntityPathBase<Review> {
 
     public QReview(Class<? extends Review> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new com.refactoringhabit.member.domain.entity.QMember(forProperty("member")) : null;
+        this.member = inits.isInitialized("member") ? new com.refactoringhabit.member.domain.entity.QMember(forProperty("member"), inits.get("member")) : null;
         this.option = inits.isInitialized("option") ? new com.refactoringhabit.product.domain.entity.QOption(forProperty("option"), inits.get("option")) : null;
     }
 

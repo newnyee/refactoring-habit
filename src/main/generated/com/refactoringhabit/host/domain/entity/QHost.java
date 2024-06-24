@@ -70,7 +70,7 @@ public class QHost extends EntityPathBase<Host> {
 
     public QHost(Class<? extends Host> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new com.refactoringhabit.member.domain.entity.QMember(forProperty("member")) : null;
+        this.member = inits.isInitialized("member") ? new com.refactoringhabit.member.domain.entity.QMember(forProperty("member"), inits.get("member")) : null;
     }
 
 }

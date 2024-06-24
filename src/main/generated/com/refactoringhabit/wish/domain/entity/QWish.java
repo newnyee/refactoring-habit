@@ -53,7 +53,7 @@ public class QWish extends EntityPathBase<Wish> {
 
     public QWish(Class<? extends Wish> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new com.refactoringhabit.member.domain.entity.QMember(forProperty("member")) : null;
+        this.member = inits.isInitialized("member") ? new com.refactoringhabit.member.domain.entity.QMember(forProperty("member"), inits.get("member")) : null;
         this.product = inits.isInitialized("product") ? new com.refactoringhabit.product.domain.entity.QProduct(forProperty("product"), inits.get("product")) : null;
     }
 
