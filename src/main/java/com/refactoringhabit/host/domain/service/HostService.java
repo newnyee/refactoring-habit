@@ -5,6 +5,7 @@ import static com.refactoringhabit.member.domain.enums.MemberType.HOST;
 
 import com.refactoringhabit.common.utils.CustomFileUtil;
 import com.refactoringhabit.host.domain.repository.HostRepository;
+import com.refactoringhabit.host.dto.HostInfoResponseDto;
 import com.refactoringhabit.host.dto.HostJoinRequestDto;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
@@ -51,5 +52,12 @@ public class HostService {
     @Transactional(readOnly = true)
     public boolean nickNameCheck(String nickName) {
         return hostRepository.existsByNickName(nickName);
+    }
+
+    @Transactional(readOnly = true)
+    public HostInfoResponseDto getHostInfo(String memberAltId) {
+        Member member = memberRepository.findByAltId(memberAltId)
+            .orElseThrow(UserNotFoundException::new);
+        return INSTANCE.toHostInfoResponseDto(member.getHost());
     }
 }

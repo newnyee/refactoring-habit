@@ -1,6 +1,7 @@
 package com.refactoringhabit.host.domain.mapper;
 
 import com.refactoringhabit.host.domain.entity.Host;
+import com.refactoringhabit.host.dto.HostInfoResponseDto;
 import com.refactoringhabit.host.dto.HostJoinRequestDto;
 import com.refactoringhabit.member.domain.entity.Member;
 import java.util.UUID;
@@ -28,6 +29,8 @@ public interface HostEntityMapper {
     @Mapping(target = "email", expression = "java((dto.getEmail() == null || dto.getEmail().equals(\"\")) ? member.getEmail() : dto.getEmail())")
     void updateHostJoinRequestDtoFromEntity(
         @MappingTarget HostJoinRequestDto dto, Member member);
+
+    HostInfoResponseDto toHostInfoResponseDto(Host host);
 
     @Named("generateUuid")
     default String generateUuid(String value) {
