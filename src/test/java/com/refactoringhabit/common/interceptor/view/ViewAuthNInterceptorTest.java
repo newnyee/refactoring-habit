@@ -83,7 +83,7 @@ class ViewAuthNInterceptorTest {
         when(interceptorUtils.isNullSessionOnlyUri(VIEW_JOIN.getUri())).thenReturn(true);
 
         assertTrue(viewAuthNInterceptor.preHandle(request, response, handler));
-        verify(cookieUtil).removeSessionCookie(response, SESSION_COOKIE_NAME.getName());
+        verify(cookieUtil).removeSessionCookie(response);
     }
 
     @DisplayName("ViewAuthInterceptor 접근 - token(null), uri(null session only)")

@@ -49,6 +49,20 @@
     padding-left: 5px;
 }
 
+.Home_form_input {
+    margin: 5px auto;
+    display: inline-block;
+    width: 100%;
+    --width: 340px;
+    height: 50px;
+    font-size: 15px;
+    border: 1px solid rgb(205, 205, 205);
+    background-color: #f6f6f6;
+    padding-left: 10px;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
 /*===========마이 활동 정보*/
 
 .Home_myact_name{
@@ -62,3 +76,6 @@
     color: black;
 }
 
+.update-my-info:hover {
+    cursor: pointer;
+}

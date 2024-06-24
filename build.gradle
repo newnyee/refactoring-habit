@@ -75,9 +75,9 @@ jacoco {
 
 jacocoTestReport {
     reports {
-        html.required.set(true)
-        xml.required.set(false)
-        csv.required.set(false)
+        html.required = true
+        xml.required = false
+        csv.required = false
     }
 
     afterEvaluate {
@@ -119,5 +119,5 @@ jacocoTestCoverageVerification {
 
 test {
     useJUnitPlatform()
-//    finalizedBy 'jacocoTestReport'
+    finalizedBy 'jacocoTestReport'
 }

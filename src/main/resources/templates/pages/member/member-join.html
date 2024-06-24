@@ -17,7 +17,7 @@
           <div>이메일</div>
           <div>
             <div style="display: flex; justify-content: space-between">
-              <input type="text" class="Home_form_input" id="email" placeholder="대소문자, 숫자, 특수문자 포함 7자 이상" onchange="emailValidation()">
+              <input type="text" class="Home_form_input" id="email" placeholder="이메일 주소" onchange="emailValidation()">
               <button class="check-email" id="checkEmail" onclick="checkEmail()">중복확인</button><br>
             </div>
             <div class="error-message"></div>
@@ -26,34 +26,31 @@
         </div>
         <div class="Home_form_div">
           <div>비밀번호</div>
-          <input type="password" class="Home_form_input" id="password" placeholder="띄어쓰기 미포함 8자 이상" onchange="passwordValidation()">
+          <input type="password" class="Home_form_input" id="password" placeholder="비밀번호 (8자리 이상)" onchange="passwordValidation()">
           <div class="error-message"></div>
         </div>
         <div class="Home_form_div">
           <div>비밀번호 확인</div>
-          <input type="password" class="Home_form_input" id="password_match" placeholder="띄어쓰기 미포함 8자 이상" onchange="passwordMatch()">
+          <input type="password" class="Home_form_input" id="password_match" placeholder="비밀번호 확인 (8자리 이상)" onchange="passwordMatch()">
           <div class="error-message"></div>
         </div>
         <div class="Home_form_div">
           <div>닉네임</div>
-          <input type="text" class="Home_form_input" id="nick_name" placeholder="2자이상 입력" onchange="nickNameValidation()">
+          <input type="text" class="Home_form_input" id="nick_name" placeholder="닉네임 (2자 이상)" onchange="nickNameValidation()">
           <div class="error-message"></div>
         </div>
         <div class="Home_form_div">
           <div>성별</div>
           <div>
-            <input type="radio" name="gender" id="gender_male" value="MALE">
+            <input type="radio" name="gender" id="gender_male" value="MALE" checked>
             <label for="gender_male">남</label>&nbsp;&nbsp;
             <input type="radio" name="gender" id="gender_female" value="FEMALE">
             <label for="gender_female">여</label>
           </div>
-          <div class="error-message"></div>
         </div>
         <div class="Home_form_div">
           <div>휴대폰 번호</div>
-          <input type="number" name="phone" class="Home_form_num" onchange="phoneNumberLengthLimit()"> -
-          <input type="number" name="phone" class="Home_form_num" onchange="phoneNumberLengthLimit()"> -
-          <input type="number" name="phone" class="Home_form_num" onchange="phoneNumberLengthLimit()">
+          <input type="text" class="Home_form_input" id="phone" name="phone" placeholder='휴대폰 번호 ("-" 제외하고 입력)' onchange="phoneValidation()">
           <div class="error-message"></div>
         </div>
         <div class="Home_form_div">
@@ -61,19 +58,17 @@
           <input type="date" id="birth" class="Home_form_date" onchange="birthValidation()">
           <div class="error-message"></div>
         </div>
-        <div class="Home_form_div_p">
+        <div class="Home_form_div">
           <div>프로필 이미지</div>
           <div class="Home_form_profile">
             <img src="/img/noimg.png" alt="" id="preview" class="Home_proimg">
-          </div>
-          <div class="Home_form_profile">
             <input type="file" id="profile_img_file" class="Home_form_file" accept="images/*" onchange="previewProfile(this)">
           </div>
           <div class="error-message"></div>
         </div>
         <div>
           <div>
-            <button class="Home_new_btn" onclick="joinSubmit()">회원가입</button>
+            <button class="Home_new_btn" id="join-submit-button">회원가입</button>
           </div>
         </div>
       </div>

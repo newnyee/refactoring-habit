@@ -49,17 +49,17 @@ public class AuthRestController {
         return ApiResponse.noContent();
     }
 
-    @PostMapping("/tokens")
-    public ApiResponse<String> reissueToken(
-        HttpServletRequest request, HttpServletResponse response,
-        @RequestAttribute("memberAltId") String memberAltId) throws JsonProcessingException {
-        authService.reissueSession(request, response, memberAltId);
-        return ApiResponse.noContent();
-    }
-
     @PostMapping("/sign-out")
     public ApiResponse<String> signOut(HttpServletRequest request, HttpServletResponse response) {
         authService.removeSession(request, response);
+        return ApiResponse.noContent();
+    }
+
+    @PostMapping("/verify-password")
+    public ApiResponse<String> verifyPassword(
+        @RequestAttribute("memberAltId") String memberAltId,
+        @RequestParam("password") String password) {
+        authService.verifyPassword(memberAltId, password);
         return ApiResponse.noContent();
     }
 }

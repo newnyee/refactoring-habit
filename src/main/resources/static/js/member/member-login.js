@@ -74,11 +74,16 @@ const callLoginApi = () => {
       password: $('#password').val()
     }),
     success: () => {
-      window.location.href = '/'
+      let redirectURL = getCookie('redirectURL')
+      setCookie('redirectURL', '', 0)
+      if (redirectURL === null) {
+        redirectURL = '/'
+      }
+      window.location.replace(redirectURL);
     },
     error: (error) => {
-      if (error.responseJSON.code === 'U002') {
-        alert("아이디 또는 비밀번호가 맞지 않습니다.");
+      if (error.responseJSON.code === 'U002' || error.responseJSON.code === 'A005') {
+        alert("이메일 또는 비밀번호를 확인해주세요.");
       } else {
         alert("오류가 발생했습니다. 관리자에게 문의하세요.")
       }

@@ -1,8 +1,8 @@
 package com.refactoringhabit.common.utils.cookies;
 
 import static com.refactoringhabit.common.enums.AttributeNames.SESSION_COOKIE_NAME;
+import static com.refactoringhabit.common.utils.cookies.CookieAttributes.COOKIE_EXPIRE_TIME_ZERO;
 import static com.refactoringhabit.common.utils.cookies.CookieAttributes.COOKIE_PATH;
-import static com.refactoringhabit.common.utils.cookies.CookieAttributes.SESSION_EXPIRE_TIME_ZERO;
 import static com.refactoringhabit.common.utils.cookies.CookieAttributes.SET_COOKIE;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,6 +24,27 @@ public class CookieUtil {
     private long expireSecRefreshToken;
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    public void addCookie(HttpServletResponse response, String cookieName, String value) {
+        response.addHeader(SET_COOKIE,
+            ResponseCookie.from(cookieName, value)
+                .path(COOKIE_PATH)
+                .sameSite("None")
+                .secure(true)
+                .build()
+                .toString());
+    }
+
+    public void addCookie(HttpServletResponse response, String cookieName, Object value)
+        throws JsonProcessingException {
+        response.addHeader(SET_COOKIE,
+            ResponseCookie.from(cookieName, serializeToJson(value))
+                .path(COOKIE_PATH)
+                .sameSite("None")
+                .secure(true)
+                .build()
+                .toString());
+    }
 
     public void createSessionCookie(HttpServletResponse response, Object value)
         throws JsonProcessingException {
@@ -51,14 +72,25 @@ public class CookieUtil {
         return null;
     }
 
-    public void removeSessionCookie(HttpServletResponse response, String cookieName) {
+    public void removeCookie(HttpServletResponse response, String cookieName) {
         response.addHeader(SET_COOKIE,
             ResponseCookie.from(cookieName, "")
                 .path(COOKIE_PATH)
                 .sameSite("None")
+                .secure(true)
+                .maxAge(COOKIE_EXPIRE_TIME_ZERO)
+                .build()
+                .toString());
+    }
+
+    public void removeSessionCookie(HttpServletResponse response) {
+        response.addHeader(SET_COOKIE,
+            ResponseCookie.from(SESSION_COOKIE_NAME.getName(), "")
+                .path(COOKIE_PATH)
+                .sameSite("None")
                 .httpOnly(true)
                 .secure(true)
-                .maxAge(SESSION_EXPIRE_TIME_ZERO)
+                .maxAge(COOKIE_EXPIRE_TIME_ZERO)
                 .build()
                 .toString());
     }

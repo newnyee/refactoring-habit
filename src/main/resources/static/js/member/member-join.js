@@ -110,49 +110,30 @@ const nickNameValidation = () => {
   return true
 }
 
-// 성별 검증
-const genderValidation = () => {
-  let genderErrorMessage = $('#gender_male').closest('.Home_form_div').find('.error-message')
+// 휴대폰 번호 검증
+const phoneValidation = () => {
+  let phone = $('#phone')
+  let phoneErrorMessage = phone.closest('.Home_form_div').find('.error-message')
 
-  if ($("input[name='gender']:radio:checked").length < 1) {
-    genderErrorMessage.css('display', 'block')
-    genderErrorMessage.text('❌성별을 선택해주세요')
+  if (!isNotBlank(phone.val(), phoneErrorMessage)) {
     return false
   }
 
-  genderErrorMessage.css('display', 'none')
-  return true
-}
-
-// 휴대폰 번호 검증
-const phoneNumberLengthLimit = () => {
-  let phoneNumbers = $("input[name='phone']")
-  let firstNumber = phoneNumbers.eq(0)
-  let middleNumber = phoneNumbers.eq(1)
-  let lastNumber = phoneNumbers.eq(2)
-  let phoneErrorMessage = firstNumber.closest('.Home_form_div').find('.error-message')
-
-  if(firstNumber.val().length !== 3){
-    firstNumber.val(firstNumber.val().slice(0,3));
+  let containsSpecialChars = /-/
+  if (containsSpecialChars.test(phone.val())) {
+    phoneErrorMessage.css('display', 'block')
+    phoneErrorMessage.text('❌"-"기호를 제외한 번호를 입력해주세요')
+    return false
   }
 
-  if(middleNumber.val().length !== 4){
-    middleNumber.val(middleNumber.val().slice(0,4));
+  let phoneNumberCheck = /^(010)[0-9]{3,4}[0-9]{4}$/
+  if (!phoneNumberCheck.test(phone.val())) {
+    phoneErrorMessage.css('display', 'block')
+    phoneErrorMessage.text('❌휴대폰 번호를 확인해주세요')
+    return false
   }
 
-  if(lastNumber.val().length !== 4){
-    lastNumber.val(lastNumber.val().slice(0,4));
-  }
-
-  for (let i = 0; i<phoneNumbers.length; i++) {
-    if (phoneNumbers.eq(i).val().length === 0) {
-      phoneErrorMessage.css('display', 'block')
-      phoneErrorMessage.text('❌필수 입력란 입니다')
-      return false
-    }
-  }
-
-  phoneErrorMessage.css('display', 'none')
+  phoneErrorMessage.css('display', 'none');
   return true
 }
 
@@ -184,9 +165,9 @@ const birthValidation = () => {
 // 이미지 파일 검증
 const previewProfile = (imgs) => {
   let reader = new FileReader();
-  let profileImageErrorMessage = $('.Home_form_div_p').find('.error-message')
+  let profileImageErrorMessage = $('.Home_form_profile').closest('.Home_form_div').find('.error-message')
 
-  if (imgs !== undefined) {
+  if (imgs !== undefined && imgs.files.length > 0) {
     let imgSize = imgs.files[0].size // 이미지 사이즈
     let maxSize = 2 * 1024 *1024 // 2MB
     let fileExtension = imgs.files[0].name.split('\.').slice(-1)[0] // 파일 확장자
@@ -258,16 +239,11 @@ const checkEmail = () => {
 
 const requestJoinApi = () => {
 
-  let phoneNumbers = []
-  for (let i = 0; i < 3; i++) {
-    phoneNumbers[i] = $("input[name='phone']").eq(i).val()
-  }
-
   let memberInfo = {
     'email' : $('#email').val(),
     'password' : $('#password').val(),
     'nickName' : $('#nick_name').val(),
-    'phone' : phoneNumbers.join('-'),
+    'phone' : $('#phone').val(),
     'birth' : $('#birth').val(),
     'gender' : $("input[name='gender']:radio:checked").val()
   }
@@ -292,8 +268,9 @@ const requestJoinApi = () => {
     processData: false,
     contentType: false,
     data: formData,
-    success: (data) => {
-      console.log(data)
+    success: () => {
+      alert("회원가입이 완료되었습니다. 로그인 해주세요.")
+      window.location.replace("/login")
     },
     error: (e) => {
       if (e.responseJSON.status === 500) {
@@ -333,13 +310,8 @@ const joinSubmit = () => {
     return false
   }
 
-  //성별
-  if (!genderValidation()) {
-    return false
-  }
-
   // 휴대폰 번호
-  if (!phoneNumberLengthLimit()) {
+  if (!phoneValidation()) {
     return false
   }
 
@@ -356,3 +328,23 @@ const joinSubmit = () => {
   // 회원가입 api 호출
   requestJoinApi()
 }
+
+$(document).ready(() => {
+  let isFormSubmitted = false
+
+  $('#join-submit-button').on('click', () => {
+    if (confirm("회원가입을 하시겠습니까?")) {
+      joinSubmit();
+      isFormSubmitted = true
+    }
+  })
+
+  $(window).on('beforeunload', (e) => {
+    if (!isFormSubmitted) {
+      // 사용자 정의 메시지를 설정하더라도 최신 브라우저에서는 무시됨
+      let message = "변경사항이 저장되지 않을 수 있습니다.";
+      e.returnValue = message;
+      return message;
+    }
+  })
+})
