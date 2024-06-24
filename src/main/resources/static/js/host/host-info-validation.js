@@ -222,14 +222,14 @@ $(document).ready(() => {
   hostInfo = {
     $image: $('#image'),
     $preview: $('#preview'),
-    $nickName: $('#nick-name'),
+    $nickName: $('#nickName'),
     $email: $('#email'),
     $phone: $('#phone'),
     $introduction: $('#introduction'),
     $introductionLength: $('#introduction-length'),
     $bank: $('#bank'),
-    $accountHolder: $('#account-holder'),
-    $accountNumber: $('#account-number')
+    $accountHolder: $('#accountHolder'),
+    $accountNumber: $('#accountNumber')
   }
 
   // 은행 정규표현식 리스트
