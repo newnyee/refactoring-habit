@@ -211,7 +211,11 @@ const getBankList = () => {
     success: (response) => {
       banks = response.data
       for (const bank of banks) {
-        $('#bank').append("<option value='"+ bank.code +"'>" + bank.name + "</option>")
+        let selected = ''
+        if (bank.code === hostBank) {
+          selected = "selected"
+        }
+        $('#bank').append("<option value='"+ bank.code +"' " + selected + ">" + bank.name + "</option>");
       }
     }
   })

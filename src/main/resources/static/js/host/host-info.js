@@ -44,7 +44,7 @@ const callHostInfoUpdateApi = () => {
 
 $(document).ready(() => {
   // 호스트 정보 수정 버튼 클릭
-  $('#host_info_update_button').on('click', () => {
+  $('#host-info-update-button').on('click', () => {
 
     // 유효성 검사
     if (!(emailValidation() && phoneValidation() && introductionValidation()
