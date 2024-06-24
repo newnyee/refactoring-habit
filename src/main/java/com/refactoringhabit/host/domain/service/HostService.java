@@ -4,9 +4,10 @@ import static com.refactoringhabit.host.domain.mapper.HostEntityMapper.INSTANCE;
 import static com.refactoringhabit.member.domain.enums.MemberType.HOST;
 
 import com.refactoringhabit.common.utils.CustomFileUtil;
+import com.refactoringhabit.host.domain.entity.Host;
 import com.refactoringhabit.host.domain.repository.HostRepository;
 import com.refactoringhabit.host.dto.HostInfoResponseDto;
-import com.refactoringhabit.host.dto.HostJoinRequestDto;
+import com.refactoringhabit.host.dto.HostInfoRequestDto;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
@@ -31,18 +32,19 @@ public class HostService {
     public static final String HOST_ALT_ID = null;
 
     @Transactional
-    public void hostJoin(String memberAltId, HostJoinRequestDto hostJoinRequestDto,
+    public void hostJoin(String memberAltId, HostInfoRequestDto hostInfoRequestDto,
         MultipartFile multipartFile) {
 
         Member member = memberRepository.findByAltId(memberAltId)
             .orElseThrow(UserNotFoundException::new);
         member.setType(HOST);
-        INSTANCE.updateHostJoinRequestDtoFromEntity(hostJoinRequestDto, member);
+        INSTANCE.updateHostJoinRequestDtoFromEntity(hostInfoRequestDto, member);
 
         try {
-            String getFileName = customFileUtil.saveProfileImage(Optional.ofNullable(multipartFile), HOST);
+            String getFileName = customFileUtil
+                .saveProfileImage(Optional.ofNullable(multipartFile), HOST);
             hostRepository.save(
-                INSTANCE.toEntity(hostJoinRequestDto, HOST_ALT_ID, getFileName, member));
+                INSTANCE.toEntity(hostInfoRequestDto, HOST_ALT_ID, getFileName, member));
         } catch (IOException e) {
             log.error("[{}] {}", e.getClass().getSimpleName(), e.getMessage());
             throw new FileSaveFailedException();
@@ -59,5 +61,21 @@ public class HostService {
         Member member = memberRepository.findByAltId(memberAltId)
             .orElseThrow(UserNotFoundException::new);
         return INSTANCE.toHostInfoResponseDto(member.getHost());
+    }
+
+    @Transactional
+    public void hostInfoUpdate(String hostAltId, HostInfoRequestDto hostInfoRequestDto,
+        MultipartFile multipartFile) {
+
+        Host host = hostRepository.findByAltId(hostAltId).orElseThrow(UserNotFoundException::new);
+
+        try {
+            String getFileName = customFileUtil
+                .saveProfileImage(Optional.ofNullable(multipartFile), HOST);
+            INSTANCE.updateEntityFromHostInfoRequestDto(host, hostInfoRequestDto, getFileName);
+        } catch (IOException e) {
+            log.error("[{}] {}", e.getClass().getSimpleName(), e.getMessage());
+            throw new FileSaveFailedException();
+        }
     }
 }

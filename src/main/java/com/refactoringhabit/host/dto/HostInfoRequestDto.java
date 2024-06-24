@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-public class HostJoinRequestDto {
+public class HostInfoRequestDto {
 
     private String nickName;
 

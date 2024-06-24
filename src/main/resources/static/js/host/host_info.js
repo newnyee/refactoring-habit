@@ -25,7 +25,7 @@ const callHostInfoUpdateApi = () => {
 
   $.ajax({
     url: '/api/v2/hosts/' + hostAltId,
-    method: 'PATCH',
+    method: 'PUT',
     enctype: 'multipart/form-data',
     processData: false,
     contentType: false,

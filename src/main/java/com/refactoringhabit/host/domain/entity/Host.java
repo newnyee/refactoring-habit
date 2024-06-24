@@ -73,4 +73,32 @@ public class Host extends BaseTimeEntity {
         this.accountHolder = accountHolder;
         this.member = member;
     }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
+    }
+
+    public void setAccountHolder(String accountHolder) {
+        this.accountHolder = accountHolder;
+    }
 }
