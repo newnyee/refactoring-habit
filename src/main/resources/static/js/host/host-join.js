@@ -90,6 +90,7 @@ const callHostJoinApi = () => {
 }
 
 $(document).ready(() => {
+  let isFormSubmitted = false
 
   // 호스트 가입 버튼 클릭
   $('#host-join-submit-button').on('click', () => {
@@ -111,6 +112,18 @@ $(document).ready(() => {
     }
 
     // 호스트 가입 api 호출
-    callHostJoinApi()
+    if (confirm("호스트 가입을 하시겠습니까?")) {
+      callHostJoinApi()
+      isFormSubmitted = true
+    }
+  })
+
+  $(window).on('beforeunload', (e) => {
+    if (!isFormSubmitted) {
+      // 사용자 정의 메시지를 설정하더라도 최신 브라우저에서는 무시됨
+      let message = "변경사항이 저장되지 않을 수 있습니다."
+      e.returnValue = message
+      return message
+    }
   })
 })

@@ -43,6 +43,8 @@ const callHostInfoUpdateApi = () => {
 }
 
 $(document).ready(() => {
+  let isFormSubmitted = false
+
   // 호스트 정보 수정 버튼 클릭
   $('#host-info-update-button').on('click', () => {
 
@@ -53,6 +55,18 @@ $(document).ready(() => {
       return false
     }
 
-    callHostInfoUpdateApi()
+    if (confirm("호스트 정보를 수정하시겠습니까?")) {
+      callHostInfoUpdateApi()
+      isFormSubmitted = true
+    }
+  })
+
+  $(window).on('beforeunload', (e) => {
+    if (!isFormSubmitted) {
+      // 사용자 정의 메시지를 설정하더라도 최신 브라우저에서는 무시됨
+      let message = "변경사항이 저장되지 않을 수 있습니다."
+      e.returnValue = message
+      return message
+    }
   })
 })
