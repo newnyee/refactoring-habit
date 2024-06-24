@@ -56,6 +56,6 @@ public class ViewAuthZInterceptor implements HandlerInterceptor {
         ModelAndView modelAndView) {
 
         String memberAltId = (String) request.getAttribute(MEMBER_ALT_ID.getName());
-        interceptorUtils.getHostInfo(memberAltId, modelAndView);
+        interceptorUtils.addHostInfoToModel(memberAltId, modelAndView);
     }
 }

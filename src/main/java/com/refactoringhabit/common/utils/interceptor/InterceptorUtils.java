@@ -86,7 +86,7 @@ public class InterceptorUtils {
             .anyMatch(uriMappings -> nowUri.startsWith(uriMappings.getUri()));
     }
 
-    public void getHostInfo(String memberAltId, ModelAndView modelAndView) {
+    public void addHostInfoToModel(String memberAltId, ModelAndView modelAndView) {
         Member member = memberRepository.findByAltId(memberAltId)
             .orElseThrow(UserNotFoundException::new);
         if (member.getType().equals(HOST)) {
