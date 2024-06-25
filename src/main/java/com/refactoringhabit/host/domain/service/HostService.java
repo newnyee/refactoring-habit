@@ -1,10 +1,10 @@
 package com.refactoringhabit.host.domain.service;
 
-import static com.refactoringhabit.host.domain.mapper.HostEntityMapper.INSTANCE;
 import static com.refactoringhabit.member.domain.enums.MemberType.HOST;
 
 import com.refactoringhabit.common.utils.CustomFileUtil;
 import com.refactoringhabit.host.domain.entity.Host;
+import com.refactoringhabit.host.domain.mapper.HostEntityMapper;
 import com.refactoringhabit.host.domain.repository.HostRepository;
 import com.refactoringhabit.host.dto.HostInfoResponseDto;
 import com.refactoringhabit.host.dto.HostInfoRequestDto;
@@ -38,13 +38,13 @@ public class HostService {
         Member member = memberRepository.findByAltId(memberAltId)
             .orElseThrow(UserNotFoundException::new);
         member.setType(HOST);
-        INSTANCE.updateHostJoinRequestDtoFromEntity(hostInfoRequestDto, member);
+        HostEntityMapper.INSTANCE.updateHostJoinRequestDtoFromEntity(hostInfoRequestDto, member);
 
         try {
             String getFileName = customFileUtil
                 .saveProfileImage(Optional.ofNullable(multipartFile), HOST);
-            hostRepository.save(
-                INSTANCE.toEntity(hostInfoRequestDto, HOST_ALT_ID, getFileName, member));
+            hostRepository.save(HostEntityMapper.INSTANCE
+                .toEntity(hostInfoRequestDto, HOST_ALT_ID, getFileName, member));
         } catch (IOException e) {
             log.error("[{}] {}", e.getClass().getSimpleName(), e.getMessage());
             throw new FileSaveFailedException();
@@ -60,7 +60,7 @@ public class HostService {
     public HostInfoResponseDto getHostInfo(String memberAltId) {
         Member member = memberRepository.findByAltId(memberAltId)
             .orElseThrow(UserNotFoundException::new);
-        return INSTANCE.toHostInfoResponseDto(member.getHost());
+        return HostEntityMapper.INSTANCE.toHostInfoResponseDto(member.getHost());
     }
 
     @Transactional
@@ -72,7 +72,8 @@ public class HostService {
         try {
             String getFileName = customFileUtil
                 .saveProfileImage(Optional.ofNullable(multipartFile), HOST);
-            INSTANCE.updateEntityFromHostInfoRequestDto(host, hostInfoRequestDto, getFileName);
+            HostEntityMapper.INSTANCE
+                .updateEntityFromHostInfoRequestDto(host, hostInfoRequestDto, getFileName);
         } catch (IOException e) {
             log.error("[{}] {}", e.getClass().getSimpleName(), e.getMessage());
             throw new FileSaveFailedException();
