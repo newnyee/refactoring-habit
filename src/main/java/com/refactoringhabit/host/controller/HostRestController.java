@@ -3,6 +3,8 @@ package com.refactoringhabit.host.controller;
 import com.refactoringhabit.common.response.ApiResponse;
 import com.refactoringhabit.host.domain.service.HostService;
 import com.refactoringhabit.host.dto.HostInfoRequestDto;
+import com.refactoringhabit.host.dto.HostProductInfoDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +27,7 @@ public class HostRestController {
     private final HostService hostService;
 
     @PostMapping
-    public ApiResponse<String> hostJoinApi(
+    public ApiResponse<String> joinApi(
         @RequestAttribute("memberAltId") String memberAltId,
         @RequestPart(value = "hostInfo") HostInfoRequestDto hostInfoRequestDto,
         @RequestPart(value = "profileImgFile", required = false) MultipartFile multipartFile) {
@@ -34,16 +36,24 @@ public class HostRestController {
     }
 
     @GetMapping("/check-nick-name")
-    public ApiResponse<Boolean> hostNickNameCheckApi(@RequestParam("nickName") String nickName) {
+    public ApiResponse<Boolean> nickNameCheckApi(@RequestParam("nickName") String nickName) {
         return ApiResponse.ok(hostService.nickNameCheck(nickName));
     }
 
     @PutMapping("/{hostAltId}")
-    public ApiResponse<String> hostInfoUpdateApi(
+    public ApiResponse<String> infoUpdateApi(
         @PathVariable("hostAltId") String hostAltId,
         @RequestPart(value = "hostInfo") HostInfoRequestDto hostInfoRequestDto,
         @RequestPart(value = "profileImgFile", required = false) MultipartFile multipartFile) {
         hostService.hostInfoUpdate(hostAltId, hostInfoRequestDto, multipartFile);
+        return ApiResponse.noContent();
+    }
+
+    @PostMapping("/{hostAltId}/products")
+    public ApiResponse<String> productCreateApi(
+        @PathVariable("hostAltId") String hostAltId,
+        @RequestPart(value = "productInfo") HostProductInfoDto hostProductInfoDto,
+        @RequestPart(value = "profileImgFile") List<MultipartFile> multipartFiles) {
         return ApiResponse.noContent();
     }
 }

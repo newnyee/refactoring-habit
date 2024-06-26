@@ -16,12 +16,12 @@ public class HostController {
     private final HostService hostService;
 
     @GetMapping("/join")
-    public String hostJoin() {
+    public String join() {
         return "/pages/host/host-join";
     }
 
     @GetMapping("/info")
-    public String hostInfo(@RequestAttribute("memberAltId") String memberAltId, Model model) {
+    public String updateInfo(@RequestAttribute("memberAltId") String memberAltId, Model model) {
         model.addAttribute("updateHostInfo", hostService.getHostInfo(memberAltId));
         return "/pages/host/host-info-edit";
     }
