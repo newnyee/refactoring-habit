@@ -41,8 +41,7 @@ public class HostService {
         HostEntityMapper.INSTANCE.updateHostJoinRequestDtoFromEntity(hostInfoRequestDto, member);
 
         try {
-            String getFileName = customFileUtil
-                .saveProfileImage(Optional.ofNullable(multipartFile), HOST);
+            String getFileName = saveProfileImage(multipartFile);
             hostRepository.save(HostEntityMapper.INSTANCE
                 .toEntity(hostInfoRequestDto, HOST_ALT_ID, getFileName, member));
         } catch (IOException e) {
@@ -70,13 +69,17 @@ public class HostService {
         Host host = hostRepository.findByAltId(hostAltId).orElseThrow(UserNotFoundException::new);
 
         try {
-            String getFileName = customFileUtil
-                .saveProfileImage(Optional.ofNullable(multipartFile), HOST);
+            String getFileName = saveProfileImage(multipartFile);
             HostEntityMapper.INSTANCE
                 .updateEntityFromHostInfoRequestDto(host, hostInfoRequestDto, getFileName);
         } catch (IOException e) {
             log.error("[{}] {}", e.getClass().getSimpleName(), e.getMessage());
             throw new FileSaveFailedException();
         }
+    }
+
+    private String saveProfileImage(MultipartFile multipartFile) throws IOException {
+        return customFileUtil
+            .saveProfileImage(Optional.ofNullable(multipartFile), HOST);
     }
 }
