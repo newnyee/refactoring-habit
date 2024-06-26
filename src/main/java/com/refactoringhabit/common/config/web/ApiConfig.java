@@ -31,6 +31,8 @@ public class ApiConfig implements WebMvcConfigurer {
         // 인가
         registry.addInterceptor(apiAuthZInterceptor)
             .addPathPatterns("/api/v2/hosts/**")
-            .excludePathPatterns("/api/v2/hosts");
+            .excludePathPatterns(
+                "/api/v2/hosts",
+                "/api/v2/hosts/check-nick-name");
     }
 }

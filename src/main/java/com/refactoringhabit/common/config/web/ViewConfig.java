@@ -25,7 +25,6 @@ public class ViewConfig implements WebMvcConfigurer {
 
         // 인가
         registry.addInterceptor(viewAuthZInterceptor)
-            .addPathPatterns("/host/**")
-            .excludePathPatterns("/host/join");
+            .addPathPatterns("/host/**");
     }
 }

@@ -26,23 +26,23 @@ public class AuthRestController {
     private final AuthService authService;
 
     @GetMapping("/check-email")
-    public ApiResponse<Boolean> checkEmail(@RequestParam("email") String email) {
+    public ApiResponse<Boolean> checkEmailApi(@RequestParam("email") String email) {
         return ApiResponse.ok(authService.emailCheck(email));
     }
 
     @PostMapping("/find-email")
-    public ApiResponse<String> findEmail(@RequestBody FindEmailRequestDto findEmailRequestDto) {
+    public ApiResponse<String> findEmailApi(@RequestBody FindEmailRequestDto findEmailRequestDto) {
         return ApiResponse.ok(authService.findEmail(findEmailRequestDto));
     }
 
     @PostMapping("/reset-password")
-    public ApiResponse<String> resetPassword(@RequestBody String email) {
+    public ApiResponse<String> resetPasswordApi(@RequestBody String email) {
         authService.resetPassword(email);
         return ApiResponse.noContent();
     }
 
     @PostMapping("/sign-in")
-    public ApiResponse<String> signIn(
+    public ApiResponse<String> signInApi(
         HttpServletResponse response, @RequestBody SignInRequestDto signInRequestDto)
         throws JsonProcessingException {
         authService.authenticationAndCreateSession(response, signInRequestDto);
@@ -50,13 +50,14 @@ public class AuthRestController {
     }
 
     @PostMapping("/sign-out")
-    public ApiResponse<String> signOut(HttpServletRequest request, HttpServletResponse response) {
+    public ApiResponse<String> signOutApi(
+        HttpServletRequest request, HttpServletResponse response) {
         authService.removeSession(request, response);
         return ApiResponse.noContent();
     }
 
     @PostMapping("/verify-password")
-    public ApiResponse<String> verifyPassword(
+    public ApiResponse<String> verifyPasswordApi(
         @RequestAttribute("memberAltId") String memberAltId,
         @RequestParam("password") String password) {
         authService.verifyPassword(memberAltId, password);

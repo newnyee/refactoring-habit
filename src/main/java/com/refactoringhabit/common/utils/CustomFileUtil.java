@@ -1,5 +1,8 @@
 package com.refactoringhabit.common.utils;
 
+import static com.refactoringhabit.member.domain.enums.MemberType.MEMBER;
+
+import com.refactoringhabit.member.domain.enums.MemberType;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -17,22 +20,29 @@ public class CustomFileUtil {
     private String filePath;
 
     @Value("${file.member-default-img}")
-    private String fileName;
+    private String memberFileName;
 
-    public String saveFile(Optional<MultipartFile> file) throws IOException {
-        if (!file.isEmpty()) {
-            setFileName(file.get());
+    @Value("${file.host-default-img}")
+    private String hostFileName;
+
+    public String saveProfileImage(Optional<MultipartFile> file, MemberType type) throws IOException {
+
+        if (file.isPresent()) {
+            String getFileName = setFileName(file.get());
             file.get().transferTo(
-                new File(this.filePath + File.separator + this.fileName));
+                new File(this.filePath + File.separator + getFileName));
+            return getFileName;
         }
-        return this.fileName;
+
+        if (type.equals(MEMBER)) {
+            return this.memberFileName;
+        }
+        return this.hostFileName;
     }
 
-    public void setFileName(MultipartFile file) {
-        if (!file.isEmpty()) {
-            this.fileName = new SimpleDateFormat("SSSssmmHHddMMyy")
-                .format(System.currentTimeMillis())
-                + file.getOriginalFilename();
-        }
+    public String setFileName(MultipartFile file) {
+        return new SimpleDateFormat("SSSssmmHHddMMyy")
+            .format(System.currentTimeMillis())
+            + file.getOriginalFilename();
     }
 }

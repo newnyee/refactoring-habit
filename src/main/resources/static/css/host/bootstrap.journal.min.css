@@ -2485,7 +2485,7 @@ progress {
 }
 
 .form-control::placeholder {
-  color: var(--bs-secondary-color);
+  color: rgba(128, 128, 128, 0.70);
   opacity: 1
 }
 
@@ -14294,7 +14294,8 @@ small {
 /*  outline: 0*/
 /*}*/
 
-.error {
+.error-message {
+  display: none;
   color: red;
   font-size: small;
 }
@@ -14307,4 +14308,15 @@ small {
 
 .search-button-container {
   float: right;
+}
+
+.success-message {
+  display: none;
+  color: green;
+  font-size: small;
+}
+
+.duplicate-button {
+  margin: 0 20px;
+  width: 150px;
 }

@@ -3,6 +3,9 @@
     th:insert="~{common/layouts/host-layout :: host-layout (~{::head}, ~{::section})}">
 
   <head>
+    <link rel="stylesheet" th:href="@{/css/host/host-join.css}">
+    <script th:src="@{/js/host/host-info-validation.js}"></script>
+    <script th:src="@{/js/host/host-info.js}"></script>
   </head>
 
   <section>
@@ -10,11 +13,11 @@
     <p class="page-name">프로필/정산정보 관리</p>
 
     <!-- main 시작 -->
-    <form method="post" enctype="multipart/form-data" action="">
+    <form th:object="${updateHostInfo}">
       <div class="content-wrap">
         <!-- 프로필 관리 -->
         <div class="content">
-          <p class="content-name">프로필 관리</p>
+          <p class="content-name">호스트 정보</p>
           <!-- 프로필 관리 form 시작 -->
           <!-- 프로필 사진 -->
           <div class="content-flex">
@@ -22,14 +25,17 @@
               <p>프로필 사진</p>
             </div>
             <div class="item2">
-              <div style="width: 100px; height: 100px;">
-                <img src="../../img/host-default-img.webp" id="preview" alt="" width="100%" height="100%" style="border-radius: 100%; object-fit: cover;"><br><br>
+              <div class="img-container">
+                <img th:id="preview" th:if='${#strings.equals(updateHostInfo.profileImage(), "host_default_img.webp")}' th:src="@{/img/{fileName}(fileName=*{profileImage})}">
+                <img th:id="preview" th:unless='${#strings.equals(updateHostInfo.profileImage(), "host_default_img.webp")}' th:src="@{/storage/{fileName}(fileName=*{profileImage})}">
               </div>
               <div>
-                <input class="form-control" type="file" name="host_img" id="host_img" accept="image/*" onchange="imgCheck(this)">
-                <small hidden class="error">용량 2MB 이하의 jpg, png 파일만 업로드 가능합니다.</small>
-                <p class="item2-info">용량 2MB 이하 jpg, png<br>
-                  미 선택시 호스트 기본 이미지로 지정됩니다.</p>
+                <input class="form-control" type="file" id="image" accept="image/*" onchange="previewProfile(this)">
+                <small class="error-message">용량 2MB 이하의 jpg, png 파일만 업로드 가능합니다.</small>
+                <div class="item2-info">
+                  <p>용량 2MB 이하 jpg, png</p>
+                  <p>미 선택시 호스트 기본 이미지로 지정됩니다.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -40,10 +46,11 @@
               <p>호스트 닉네임</p>
             </div>
             <div class="item2">
-              <input type="text" class="form-control" id="host_name" name="host_name" placeholder="호스트 명을 입력해 주세요." maxlength=25 onchange="hostNameCheck()">
-              <small hidden class="error">호스트 명을 입력해주세요.</small>
-              <p class="item2-info">해빗 회원에게 보여지는 닉네임 입니다.<br>
-                미 입력 시 실명을 사용합니다.</p>
+              <input type="text" class="form-control" th:field="*{nickName}" disabled>
+              <small class="error-message"></small>
+              <div class="item2-info">
+                <p>해빗 회원에게 보여지는 닉네임 입니다.</p>
+              </div>
             </div>
           </div>
           <hr>
@@ -53,11 +60,12 @@
               <p>이메일</p>
             </div>
             <div class="item2">
-              <input type="email" class="form-control" name="host_email" id="host_email" placeholder="이메일을 입력해주세요." onchange="hostEmailCheck()">
-              <small hidden class="error">올바른 이메일 형식이 아닙니다.</small>
-              <p class="item2-info">실제 사용하시는 이메일 주소를 입력해 주세요.<br>
-                해당 메일로 공지사항 및 상품 수정 요청 등 중요 알림이 발생됩니다.<br>
-                미입력 시 인증한 이메일이 노출됩니다.</p>
+              <input type="email" class="form-control" th:field="*{email}" placeholder="이메일 주소" oninput="emailValidation()">
+              <small class="error-message"></small>
+              <div class="item2-info">
+                <p>해당 메일로 공지사항 및 상품 수정 요청 등 중요 알림이 발생됩니다.</p>
+                <p>미입력 시 인증한 이메일이 노출됩니다.</p>
+              </div>
             </div>
           </div>
           <hr>
@@ -67,10 +75,12 @@
               <p>공개 연락처</p>
             </div>
             <div class="item2">
-              <input type="text" class="form-control" placeholder="연락처를 입력해주세요.">
-              <small hidden class="error">올바른 전화번호 형식이 아닙니다.</small>
-              <p class="item2-info">해빗 회원에게 노출되는 공개 연락처입니다.<br>
-                미입력 시 인증한 연락처가 노출됩니다.</p>
+              <input type="text" class="form-control" th:field="*{phone}" placeholder='연락처 ("-" 제외하고 입력)' oninput="phoneValidation()">
+              <small class="error-message"></small>
+              <div class="item2-info">
+                <p>해빗 회원에게 노출되는 공개 연락처입니다.</p>
+                <p>미입력 시 인증한 연락처가 노출됩니다.</p>
+              </div>
             </div>
           </div>
           <hr>
@@ -80,12 +90,18 @@
               <p>소개</p>
             </div>
             <div class="item2">
-              <textarea class="form-control" name="" id="" cols="30" rows="5" placeholder="간단한 소개와 약력을 입력해 주세요." style="resize: none;"></textarea>
-              <p class="item2-info">0/500</p> <!--글자수-->
-              <small hidden class="error">소개글을 5자 이상 입력해주세요.</small>
+              <textarea class="form-control" th:field="*{introduction}" cols="30" rows="5" placeholder="간단한 소개와 약력을 입력해 주세요. (5자 이상)" style="resize: none;" oninput="introductionValidation()"></textarea>
+              <div class="content-flex" style="justify-content: space-between; align-items: center">
+                <div>
+                  <small class="error-message"></small>
+                </div>
+                <p class="item2-info"><span id="introduction-length">0</span>/500</p>
+              </div>
               <p>소개 예시보기</p>
-              <p class="item2-info">해빗 회원에게 호스트님을 소개해 주세요.<br>
-                호스트님만의 개성을 담거나, 신뢰감을 줄 수 있는 전문적인 사항들을 입력하시면 좋습니다.</p><br>
+              <div class="item2-info">
+                <p>해빗 회원에게 호스트님을 소개해 주세요.</p>
+                <p>호스트님만의 개성을 담거나, 신뢰감을 줄 수 있는 전문적인 사항들을 입력하시면 좋습니다.</p>
+              </div>
               <p style="color: red; font-size: small;">
                 * 경력, 보유 자격증, 수상 이력, 대외 활동 등<br>
                 * 개인 연락처(전화번호, 카카오톡 ID, 개인 SNS, 홈페이지 등은 입력할 수 없습니다.
@@ -93,10 +109,9 @@
             </div>
           </div>
         </div>
-
         <!-- 정산 관리 -->
         <div class="content">
-          <p class="content-name">정산 정보 관리</p>
+          <p class="content-name">정산 관리</p>
           <!-- 수수료 -->
           <div class="content-flex">
             <div class="item-name">
@@ -115,30 +130,32 @@
             <div class="item2">
               <div>
                 <div>
-                  <select name="" class="form-select" style="width: 150px;">
-                    <option value="">은행</option>
+                  <select th:field="*{bank}" class="form-select" style="width: 150px;" onchange="selectBankValidation()">
+                    <option value="0">은행 선택</option>
                   </select>
                 </div>
               </div>
               <div style="display: flex; flex-wrap: wrap;">
                 <div>
-                  <input type="text" class="form-control" placeholder="예금주" style="width:150px;">
-                  <small hidden class="error">예금주를 입력해주세요.</small>
+                  <input type="text" class="form-control" th:field="*{accountHolder}" placeholder="예금주 (2자 이상)" style="width:150px;" oninput="accountHolderValidation()">
                 </div>
                 <div>
-                  <input type="text" class="form-control" placeholder="계좌 번호를 입력해주세요." style="width:350px; margin: 0 15px;">
-                  <small hidden class="error">계좌번호를 입력해주세요.</small>
+                  <input type="text" class="form-control" th:field="*{accountNumber}" placeholder='계좌 번호 ("-" 제외하고 입력)' style="width:350px; margin: 0 15px;" oninput="accountNumberValidation()">
                 </div>
               </div>
               <div>
-                <p class="item2-info">
-                  - 사업자 계좌의 경우 대표자명과 업체명을 입력해주세요.<br>
-                  - 공백 없이 최대 10글자를 입력해주세요.<br>
-                  [작성 예시]<br>
-                  사업자 등록증의 대표자명이 "김해빗" 이고, 업체명이 "주식회사 해빗브로커" 인 경우,<br>
-                  아래와 같이 괄호 포함하여 정확히 10글자를 작성해주시기 바랍니다.<br>
-                  - 예금주 : 김해빗(주)해빗브로
-                </p>
+                <small class="error-message"></small>
+              </div>
+              <div>
+                <div class="item2-info">
+                  <p>- 사업자 계좌의 경우 대표자명과 업체명을 입력해주세요.</p>
+                  <p>- 공백 없이 최대 10글자를 입력해주세요.</p>
+                  <br>
+                  <p>[작성 예시]</p>
+                  <p>사업자 등록증의 대표자명이 "김해빗" 이고, 업체명이 "주식회사 해빗브로커" 인 경우,</p>
+                  <p>아래와 같이 괄호 포함하여 정확히 10글자를 작성해주시기 바랍니다.</p>
+                  <p>- 예금주 : 김해빗(주)해빗브로</p>
+                </div>
               </div>
               <div>
                 <p style="color: red; font-size: small;">정산계좌 변경 시 다음 정산부터 변경된 계좌로 정산됩니다.</p>
@@ -148,8 +165,12 @@
         </div>
       </div>
       <div class="d-grid gap-2" style="margin: 20px 0 40px;">
-        <input type="button" class="btn btn-lg btn-outline-primary" value="정보 수정" onclick="profileCheck()">
+        <input type="button" class="btn btn-lg btn-outline-primary" value="정보 수정" id="host-info-update-button">
       </div>
     </form>
     <!-- main 종료 -->
+    <script th:inline="javascript">
+      let hostAltId = [[${updateHostInfo.altId}]]
+      let hostBank = [[${updateHostInfo.bank}]]
+    </script>
   </section>

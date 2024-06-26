@@ -71,7 +71,7 @@ public class QOrder extends EntityPathBase<Order> {
     public QOrder(Class<? extends Order> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.host = inits.isInitialized("host") ? new com.refactoringhabit.host.domain.entity.QHost(forProperty("host"), inits.get("host")) : null;
-        this.member = inits.isInitialized("member") ? new com.refactoringhabit.member.domain.entity.QMember(forProperty("member")) : null;
+        this.member = inits.isInitialized("member") ? new com.refactoringhabit.member.domain.entity.QMember(forProperty("member"), inits.get("member")) : null;
         this.option = inits.isInitialized("option") ? new com.refactoringhabit.product.domain.entity.QOption(forProperty("option"), inits.get("option")) : null;
     }
 
