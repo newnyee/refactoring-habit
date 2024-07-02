@@ -5,6 +5,7 @@ import com.refactoringhabit.auth.domain.exception.EmailingException;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
 import com.refactoringhabit.auth.domain.exception.NullTokenException;
 import com.refactoringhabit.auth.domain.exception.PasswordNotMatchException;
+import com.refactoringhabit.category.domain.exception.CategoryNotFoundException;
 import com.refactoringhabit.host.domain.exception.NotFoundBankException;
 import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
 import com.refactoringhabit.member.domain.exception.NotFoundEmailException;
@@ -44,7 +45,10 @@ public enum ErrorType {
         NotHostException.class, HttpStatus.FORBIDDEN),
 
     H001("H001", "은행을 찾을 수 없습니다.",
-        NotFoundBankException.class, HttpStatus.NOT_FOUND);
+        NotFoundBankException.class, HttpStatus.NOT_FOUND),
+
+    C001("C001", "카테고리를 찾을 수 없습니다.",
+        CategoryNotFoundException.class, HttpStatus.NOT_FOUND);
 
     private final String code;
     private final String message;
