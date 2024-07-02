@@ -12,9 +12,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
+import lombok.Getter;
 
-@Table(name = "categories_large")
+@Getter
 @Entity
+@Table(name = "categories_large")
 public class CategoryLarge extends BaseCreateTimeEntity {
 
     @Id
