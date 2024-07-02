@@ -35,8 +35,6 @@ public class QCategoryMiddle extends EntityPathBase<CategoryMiddle> {
 
     public final StringPath name = createString("name");
 
-    public final EnumPath<com.refactoringhabit.category.domain.enums.CategoryStatus> status = createEnum("status", com.refactoringhabit.category.domain.enums.CategoryStatus.class);
-
     public QCategoryMiddle(String variable) {
         this(CategoryMiddle.class, forVariable(variable), INITS);
     }
