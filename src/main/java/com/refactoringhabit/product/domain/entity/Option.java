@@ -11,9 +11,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 @Table(name = "options")
 @Entity
+@Getter
+@DynamicInsert
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Option {
 
     @Id
@@ -40,4 +48,13 @@ public class Option {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @Builder
+    public Option(String altId, String name, int quantity, int price, Product product) {
+        this.altId = altId;
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+        this.product = product;
+    }
 }
