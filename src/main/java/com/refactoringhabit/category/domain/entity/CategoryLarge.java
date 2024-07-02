@@ -12,11 +12,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @Table(name = "categories_large")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CategoryLarge extends BaseCreateTimeEntity {
 
     @Id
@@ -42,4 +46,12 @@ public class CategoryLarge extends BaseCreateTimeEntity {
 
     @OneToMany(mappedBy = "categoryLarge")
     private List<CategoryMiddle> categoryMiddles;
+
+    @Builder
+    public CategoryLarge(String altId, String engName, String name, String image) {
+        this.altId = altId;
+        this.engName = engName;
+        this.name = name;
+        this.image = image;
+    }
 }
