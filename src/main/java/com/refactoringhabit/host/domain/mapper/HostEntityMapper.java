@@ -36,6 +36,7 @@ public interface HostEntityMapper {
     void updateEntityFromHostInfoRequestDto(
         @MappingTarget Host host, HostInfoRequestDto hostInfoRequestDto, String profileImage);
 
+    @Mapping(target = "hostAltId", source = "altId")
     HostInfoDto toHostInfoDto(Host host);
 
     @Named("generateUuid")

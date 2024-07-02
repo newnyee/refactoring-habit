@@ -9,7 +9,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-06-24T22:02:58+0900",
+    date = "2024-07-01T15:37:48+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class HostEntityMapperImpl implements HostEntityMapper {
@@ -95,6 +95,7 @@ public class HostEntityMapperImpl implements HostEntityMapper {
 
         HostInfoDto.HostInfoDtoBuilder hostInfoDto = HostInfoDto.builder();
 
+        hostInfoDto.hostAltId( host.getAltId() );
         hostInfoDto.nickName( host.getNickName() );
         hostInfoDto.profileImage( host.getProfileImage() );
 
