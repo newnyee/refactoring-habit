@@ -1,0 +1,432 @@
+<th:block
+      xmlns:th="http://www.thymeleaf.org"
+      th:insert="~{common/layouts/host-layout :: host-layout (~{::head}, ~{::section})}">
+
+  <head>
+    <link rel="stylesheet" th:href="@{/css/host/summernote/summernote-lite.min.css}">
+    <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+    <script th:src="@{/js/host/summernote/summernote-lite.min.js}"></script>
+    <script th:src="@{/js/host/summernote/lang/summernote-ko-KR.js}"></script>
+    <script th:src="@{/js/host/host-product-validation.js}"></script>
+    <script th:src="@{/js/host/host-product-create.js}"></script>
+  </head>
+
+  <section>
+    <!-- 페이지 이름 -->
+    <p class="page-name">해빗 등록</p>
+    <!-- main 시작 -->
+    <form>
+      <!-- 기본 정보 -->
+      <div class="content-wrap">
+        <div class="content">
+          <p class="content-name">기본 정보</p>
+          <div class="content-flex">
+            <div class="item-name">
+              <p>카테고리</p>
+            </div>
+            <div class="item2">
+              <div class="content-flex">
+                <div style="margin-right: 10px;">
+                  <select name="cate_large" id="categoryLarge" class="form-select">
+                    <option value="-">1차 카테고리</option>
+                  </select>
+                </div>
+                <div style="">
+                  <select name="cate_middle" id="categoryMiddle" class="form-select">
+                    <option value="-">2차 카테고리</option>
+                  </select>
+                </div>
+              </div>
+              <div class="error-message"></div>
+            </div>
+          </div><hr>
+          <div class="content-flex">
+            <div class="item-name">
+              <p>해빗명</p>
+            </div>
+            <div class="item2">
+              <div>
+                <input type="text" class="form-control" id="productName" name="productName" maxlength="40" placeholder="해빗명을 입력해주세요" oninput="productNameVerify()">
+              </div>
+              <div class="error-message"></div>
+              <div>
+                <p class="item2-info">해빗의 특징이 잘 드러나도록 해빗명을 입력해주세요. (최대 40자)</p>
+              </div>
+            </div>
+          </div><hr>
+          <div class="content-flex">
+            <div class="item-name">
+              <p>진행장소</p>
+            </div>
+            <div class="item2">
+              <div class="item">
+                <div>
+                  <input class="form-control" type="text" id="zipcode" placeholder="우편번호" readonly>
+                </div>
+                <div>
+                  <input class="btn btn-outline-primary" id="findAddressButton" type="button" onclick="DaumPostcode()" value="주소 찾기">
+                </div>
+              </div>
+              <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+                <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+              </div>
+              <div>
+                <div>
+                  <input class="form-control" type="text" id="address1" placeholder="주소" readonly>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <input class="form-control" type="text" id="address2" placeholder="나머지 주소를 입력해주세요">
+                </div>
+                <div>
+                  <input class="form-control" type="text" id="extraAddress" placeholder="참고항목" readonly>
+                </div>
+              </div>
+              <div>
+                <small class="error-message"></small>
+              </div>
+            </div>
+          </div><hr>
+          <div class="content-flex">
+            <div class="item-name">
+              <p>해빗 간단 정보</p>
+            </div>
+            <div>
+              <p class="item2-info">해빗 이용자들에게 해시태그로 보여질 정보입니다.<br> 해당되는 정보를 선택해 주세요.</p>
+            </div>
+            <div class="item2">
+              <div class="item">
+                <div class="item-name-sm">
+                  <p>클래스 참여에 적합한 성별</p>
+                </div>
+                <div class="checkbox" id="tagBox">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tagGender" id="tagGenderM" value="MALE">
+                    <label class="form-check-label" for="tagGenderM">
+                      남자
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tagGender" id="tagGenderF" value="FEMALE">
+                    <label class="form-check-label" for="tagGenderF">
+                      여자
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tagGender" id="tagGenderN" value="NONE" checked>
+                    <label class="form-check-label" for="tagGenderN">
+                      상관없음
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="item-name-sm">
+                  <p>클래스 참여에 적합한 나이대 (다중선택 가능)</p>
+                </div>
+                <div class="checkbox">
+                  <div>
+                    <input class="form-check-input" type="checkbox" name="tagAge" id="tagAge20" value="20">
+                    <label class="form-check-label" for="tagAge20">
+                      20대
+                    </label>
+                  </div>
+                  <div>
+                    <input class="form-check-input" type="checkbox" name="tagAge" id="tagAge30" value="30">
+                    <label class="form-check-label" for="tagAge30">
+                      30대
+                    </label>
+                  </div>
+                  <div>
+                    <input class="form-check-input" type="checkbox" name="tagAge" id="tagAge40" value="40">
+                    <label class="form-check-label" for="tagAge40">
+                      40대
+                    </label>
+                  </div>
+                  <div>
+                    <input class="form-check-input" type="checkbox" name="tagAge" id="tagAge50" value="50">
+                    <label class="form-check-label" for="tagAge50">
+                      50대 이상
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="item-name-sm">
+                  <p>함께하기 좋은 멤버 (다중선택 가능)</p>
+                </div>
+                <div class="checkbox">
+                  <div>
+                    <input class="form-check-input" type="checkbox" value="WC" name="tagWith" id="tagWithC">
+                    <label class="form-check-label" for="tagWithC">
+                      연인과 함께
+                    </label>
+                  </div>
+                  <div>
+                    <input class="form-check-input" type="checkbox" value="WF" name="tagWith" id="tagWithF">
+                    <label class="form-check-label" for="tagWithF">
+                      친구와 함께
+                    </label>
+                  </div>
+                  <div>
+                    <input class="form-check-input" type="checkbox" value="WA" name="tagWith" id="tagWithA">
+                    <label class="form-check-label" for="tagWithA">
+                      혼자
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="error-message"></div>
+            </div>
+          </div>
+        </div>
+        <!-- 판매 정보 -->
+        <div class="content">
+          <p class="content-name">판매 정보</p>
+          <div class="content-flex">
+            <div class="item-name">
+              <p>판매 종료일</p>
+            </div>
+            <div class="item2">
+              <div>
+                판매 시작일로부터 (해빗 게시일)
+              </div>
+              <div class="item" style="align-items: center;">
+                <div class="form-check">
+                  <input class="form-check-input" name="closedAtType" type="radio" id="setDefaultProductClosedAt" checked>
+                  <label class="form-check-label" for="setDefaultProductClosedAt">
+                    한달(기본)
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" name="closedAtType" type="radio" id="setProductClosedAt">
+                  <label class="form-check-label" for="setProductClosedAt">지정한 날짜까지 판매</label>
+                </div>
+                <div>
+                  <input class="form-control" type="date" id="closedAt" disabled>
+                </div>
+              </div>
+              <div>
+                <div class="error-message"></div>
+              </div>
+              <div>
+                <p class="item2-info">해빗 최소 판매 기간은 일주일이며, 최대 판매 기간은 1년입니다.</p>
+              </div>
+            </div>
+          </div><hr>
+          <div class="content-flex">
+            <div class="item-name">
+              <p>판매 유형</p>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-around;">
+              <div class="select" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center">
+                <input type="radio" id="optionType_pass" name="type" value="PASS" checked>
+                <label for="optionType_pass" style="height: 100%; min-height: 170px; display: flex; flex-direction: column; align-items: center; justify-content: center">
+                  <p>회차형 해빗</p>
+                  <p>호스트님이 회원 연락처로 별도 연락하여 일정을 조율하는 형태의 해빗입니다. (에스테틱, 네일 등에 적합)</p>
+                </label>
+              </div>
+              <div class="select" style="flex: 1;">
+                <input type="radio" id="optionType_reservation" name="type" value="RESERVATION">
+                <label for="optionType_reservation" style="height: 100%; min-height: 170px; display: flex; flex-direction: column; align-items: center; justify-content: center">
+                  <p>예약형 해빗</p>
+                  <p>호스트님께서 날짜와 옵션을 등록하여 가능한 날에만 예약을 받을 수 있는 해빗입니다. 일정 관리 및 고객 관리를 더 간편하게 하실 수 있습니다. (에스테틱, 네일 제외한 대부분의 해빗)</p>
+                </label>
+              </div>
+            </div>
+          </div><hr>
+          <!-- 콘텐츠 옵션 : 인원권/회차권 시작 -->
+          <div>
+            <div class="item-name" style="margin: 50px 30px 0">
+              <p>옵션 목록 입력</p>
+            </div>
+            <div style="margin: 0 30px">
+              <div style="text-align: right;">
+                <input type="button" class="btn btn-sm btn-primary" id="removeOption" value="옵션 삭제">
+              </div>
+              <div class="item2">
+                <table class="table table-hover" style="text-align: center;">
+                  <thead id="pass">
+                  <tr class="table-secondary">
+                    <th></th>
+                    <th>(예시) 1인권, 1회권 등</th>
+                    <th>(예시) 판매수량</th>
+                    <th>가격</th>
+                  </tr>
+                  </thead>
+                  <thead id="reservation" hidden>
+                  <tr class="table-secondary">
+                    <th></th>
+                    <th>(예시) 클래스 실행 일시</th>
+                    <th>(예시) 최대 모집인원</th>
+                    <th>가격</th>
+                  </tr>
+                  </thead>
+                  <!-- 옵션목록 추가 태그 시작 -->
+                  <tbody id="options">
+                  </tbody>
+                  <!-- 옵션목록 추가 태그 종료 -->
+                  <tr id="addOption">
+                    <td colspan="4" align="center" class="table-secondary">
+                      <div>+ 옵션 추가</div>
+                    </td>
+                  </tr>
+                </table>
+                <div>
+                  <div class="error-message"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 콘텐츠 옵션 : 인원권/회차권 종료 -->
+        </div>
+        <!-- 해빗 설명 -->
+        <div class="content">
+          <p class="content-name">해빗 설명</p>
+          <div class="content-flex">
+            <div class="item-name">
+              <p>대표 이미지</p>
+            </div>
+            <div class="item2">
+              <div class="item" id="preview" style="display: flex; align-items: center; justify-content: center;">
+                <input hidden id="preview_focus">
+                <div>
+                  <img src='/img/no_image_available.png' class='preview_img' alt='이미지 없음' width='200px' height='200px'>
+                </div>
+                <div>
+                  <img src='/img/no_image_available.png' class='preview_img' alt='이미지 없음' width='200px' height='200px'>
+                </div>
+                <div>
+                  <img src='/img/no_image_available.png' class='preview_img' alt='이미지 없음' width='200px' height='200px'>
+                </div>
+              </div>
+              <div class="input-img">
+                <div class="error-message"></div><br>
+                <label for="image" class="btn btn-outline-primary">이미지 추가하기</label>
+                <input type="file" id="image" class="form-control" accept="image/*" onchange="contImgCheck()" multiple>
+              </div>
+            </div>
+          </div><hr>
+          <div>
+            <div class="item-name" style="margin: 50px 30px 0">
+              <p>해빗 상세 설명</p>
+            </div>
+            <!-- 썸머노트 사용 textarea -->
+            <div class="item2" id="summerNoteContainer" style="margin: 20px 30px">
+              <textarea id="summernote"></textarea>
+              <div class="item" style="justify-content: space-between; align-items: center">
+                <div>
+                  <small class="error-message"></small>
+                </div>
+                <p class="item2-info">최대 1,000,000자</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 환불 규정 -->
+        <div class="content">
+          <p class="content-name">환불 규정</p>
+          <div style="display: flex; justify-content: center;">
+            <div style="width: 80%;">
+                <textarea class="form-control" rows="9" cols="80" style="resize: none; color: rgb(129, 129, 129);" disabled>
+  [날짜 조율형]
+  1. 결제 후 7일 이내 취소 시 : 전액 환불
+  (단, 결제 후 14일 이내라도 호스트와 해빗 진행일 예약 확정 후 환불 불가)
+  2. 결제 후 14일 이후 취소 시 : 환불 불가
+  ※ 상품의 유효기간 만료 시 연장은 불가합니다.
+  ※ 다회권의 경우, 1회라도 사용시 부분 환불이 불가합니다.
+
+  [날짜 지정형]
+  1. 구매한 클래스 이용권 사용일 전 취소 시 : 전액 환불
+  2. 구매한 클래스 이용권 사용일 이후 취소 시 : 환불 불가
+  ※ 상품의 유효기간 만료 시 연장은 불가합니다.
+
+  [환불 신청 방법]
+  1. 해당 해빗 결제한 계정으로 로그인
+  2. 마이해빗 - 신청내역 or 결제내역
+                </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-grid gap-2" style="margin: 20px 0 40px;">
+        <input type="button" id="productCreateSubmitButton" class="btn btn-lg btn-outline-primary" value="해빗 등록">
+      </div>
+    </form>
+    <!-- main 종료 -->
+    <script th:inline="javascript">
+      let hostAltId = [[${hostInfo.hostAltId}]]
+
+      /* 카카오 우편번호 찾기 */
+      // 우편번호 찾기 찾기 화면을 넣을 element
+      var element_wrap = document.getElementById('wrap');
+
+      function foldDaumPostcode() {
+        // iframe을 넣은 element를 안보이게 한다.
+        element_wrap.style.display = 'none';
+      }
+
+      function DaumPostcode() {
+        // 현재 scroll 위치를 저장해놓는다.
+        var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+        new daum.Postcode({
+          oncomplete: function(data) {
+            // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+            var extraAddr = ''; // 참고항목 변수
+
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+              addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+              addr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if(data.userSelectedType === 'R'){
+              // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+              // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+              if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                extraAddr += data.bname;
+              }
+              // 건물명이 있고, 공동주택일 경우 추가한다.
+              if(data.buildingName !== '' && data.apartment === 'Y'){
+                extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+              }
+              // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+              if(extraAddr !== ''){
+                extraAddr = ' (' + extraAddr + ')';
+              }
+              // 조합된 참고항목을 해당 필드에 넣는다.
+              document.getElementById("extraAddress").value = extraAddr;
+
+            } else {
+              document.getElementById("extraAddress").value = '';
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('zipcode').value = data.zonecode;
+            document.getElementById("address1").value = addr;
+
+            // iframe을 넣은 element를 안보이게 한다.
+            // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+            element_wrap.style.display = 'none';
+          },
+          // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
+          onresize : function(size) {
+            element_wrap.style.height = size.height+'px';
+          },
+          width : '100%',
+          height : '100%'
+        }).embed(element_wrap);
+
+        // iframe을 넣은 element를 보이게 한다.
+        element_wrap.style.display = 'block';
+      }
+    </script>
+  </section>
+</th:block>

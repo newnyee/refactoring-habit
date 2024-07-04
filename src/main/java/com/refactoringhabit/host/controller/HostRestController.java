@@ -53,7 +53,8 @@ public class HostRestController {
     public ApiResponse<String> productCreateApi(
         @PathVariable("hostAltId") String hostAltId,
         @RequestPart(value = "productInfo") HostProductInfoDto hostProductInfoDto,
-        @RequestPart(value = "profileImgFile") List<MultipartFile> multipartFiles) {
+        @RequestPart(value = "profileImgFiles") List<MultipartFile> multipartFiles) {
+        hostService.hostProductCreate(hostAltId, hostProductInfoDto, multipartFiles);
         return ApiResponse.noContent();
     }
 }

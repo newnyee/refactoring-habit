@@ -4,14 +4,12 @@ import static com.refactoringhabit.member.domain.enums.MemberType.MEMBER;
 
 import com.refactoringhabit.common.utils.CustomFileUtil;
 import com.refactoringhabit.member.domain.entity.Member;
-import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
 import com.refactoringhabit.member.domain.mapper.MemberEntityMapper;
 import com.refactoringhabit.member.domain.repository.MemberRepository;
 import com.refactoringhabit.member.dto.MemberInfoResponseDto;
 import com.refactoringhabit.member.dto.MemberJoinRequestDto;
 import com.refactoringhabit.member.dto.MemberUpdateInfoRequestDto;
-import java.io.IOException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,19 +32,13 @@ public class MemberService {
     @Transactional
     public void memberJoin(
         MemberJoinRequestDto memberJoinRequestDto, MultipartFile multipartFile) {
+        memberJoinRequestDto.setEncodedPassword(
+            passwordEncoder.encode(memberJoinRequestDto.getPassword()));
+        memberJoinRequestDto.setProfileImage(
+            customFileUtil.saveProfileImage(Optional.ofNullable(multipartFile), MEMBER));
 
-        try {
-            memberJoinRequestDto.setEncodedPassword(
-                passwordEncoder.encode(memberJoinRequestDto.getPassword()));
-            memberJoinRequestDto.setProfileImage(
-                customFileUtil.saveProfileImage(Optional.ofNullable(multipartFile), MEMBER));
-
-            memberRepository
-                .save(MemberEntityMapper.INSTANCE.toEntity(memberJoinRequestDto, MEMBER_ALT_ID));
-        } catch (IOException e) {
-            log.error("[{}] {}", e.getClass().getSimpleName(), e.getMessage());
-            throw new FileSaveFailedException();
-        }
+        memberRepository
+            .save(MemberEntityMapper.INSTANCE.toEntity(memberJoinRequestDto, MEMBER_ALT_ID));
     }
 
     @Transactional
@@ -57,24 +49,19 @@ public class MemberService {
         Member member = memberRepository.findByAltId(memberAltId)
             .orElseThrow(UserNotFoundException::new);
 
-        try {
-            String encodedPassword =
-                memberUpdateInfoRequestDto.getPassword() != null
-                    ? passwordEncoder.encode(memberUpdateInfoRequestDto.getPassword())
-                    : null;
+        String encodedPassword =
+            memberUpdateInfoRequestDto.getPassword() != null
+                ? passwordEncoder.encode(memberUpdateInfoRequestDto.getPassword())
+                : null;
 
-            String profileImage =
-                multipartFile != null
-                    ? customFileUtil.saveProfileImage(Optional.of(multipartFile), MEMBER)
-                    : null;
+        String profileImage =
+            multipartFile != null
+                ? customFileUtil.saveProfileImage(Optional.of(multipartFile), MEMBER)
+                : null;
 
-            MemberEntityMapper.INSTANCE.updateEntityFromDto(
-                    memberUpdateInfoRequestDto, encodedPassword, profileImage, member);
+        MemberEntityMapper.INSTANCE.updateEntityFromDto(
+                memberUpdateInfoRequestDto, encodedPassword, profileImage, member);
 
-        } catch (IOException e) {
-            log.error("[{}] {}", e.getClass().getSimpleName(), e.getMessage());
-            throw new FileSaveFailedException();
-        }
     }
 
     @Transactional(readOnly = true)

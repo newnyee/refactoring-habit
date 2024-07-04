@@ -15,6 +15,11 @@ public class HostController {
 
     private final HostService hostService;
 
+    @GetMapping
+    public String home() {
+        return "/pages/host/host-home";
+    }
+
     @GetMapping("/join")
     public String join() {
         return "/pages/host/host-join";
@@ -24,5 +29,10 @@ public class HostController {
     public String updateInfo(@RequestAttribute("memberAltId") String memberAltId, Model model) {
         model.addAttribute("updateHostInfo", hostService.getHostInfo(memberAltId));
         return "/pages/host/host-info-edit";
+    }
+
+    @GetMapping("/product/create")
+    public String productCreate() {
+        return "/pages/host/host-product-create";
     }
 }
