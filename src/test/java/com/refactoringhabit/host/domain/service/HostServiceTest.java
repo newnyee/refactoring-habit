@@ -24,6 +24,10 @@ import com.refactoringhabit.member.domain.exception.UserNotFoundException;
 import com.refactoringhabit.member.domain.repository.MemberRepository;
 import com.refactoringhabit.product.domain.entity.Product;
 import com.refactoringhabit.product.domain.repository.ProductRepository;
+import com.refactoringhabit.stats.domain.entity.HostTotalSalesStats;
+import com.refactoringhabit.stats.domain.entity.ProductTotalSalesStats;
+import com.refactoringhabit.stats.domain.repository.HostTotalSalesStatsRepository;
+import com.refactoringhabit.stats.domain.repository.ProductTotalSalesStatsRepository;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -51,6 +55,12 @@ class HostServiceTest {
     private ProductRepository productRepository;
 
     @Mock
+    private HostTotalSalesStatsRepository hostTotalSalesStatsRepository;
+
+    @Mock
+    private ProductTotalSalesStatsRepository productTotalSalesStatsRepository;
+
+    @Mock
     private CustomFileUtil customFileUtil;
 
     @Mock
@@ -64,6 +74,9 @@ class HostServiceTest {
 
     @Mock
     private Product product;
+
+    @Mock
+    private ProductTotalSalesStats productTotalSalesStats;
 
     @Mock
     private HostInfoRequestDto hostInfoRequestDto;
@@ -85,7 +98,6 @@ class HostServiceTest {
 
     private final static String CATEGORY_MIDDLE_ALT_ID = "categoryMiddleAltId";
 
-
     @Test
     @DisplayName("호스트 가입 - 성공")
     void testHostJoin_Success() {
@@ -93,9 +105,11 @@ class HostServiceTest {
             .thenReturn(Optional.of(member));
         when(customFileUtil.saveProfileImage(Optional.of(multipartFile), HOST))
             .thenReturn("getFileName");
+        when(hostRepository.save(any())).thenReturn(host);
 
         hostService.hostJoin(MEMBER_ALT_ID.getName(), hostInfoRequestDto, multipartFile);
         verify(member).setType(HOST);
+        verify(hostTotalSalesStatsRepository).save(any(HostTotalSalesStats.class));
     }
 
     @Test
@@ -197,6 +211,7 @@ class HostServiceTest {
         when(hostProductInfoDto.getOptionInfoList()).thenReturn(hostOptionInfoDtoList);
 
         hostService.hostProductCreate(HOST_ALT_ID.getName(), hostProductInfoDto, multipartFiles);
+        verify(productTotalSalesStatsRepository).save(any(ProductTotalSalesStats.class));
     }
 
     @Test

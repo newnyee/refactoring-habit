@@ -21,6 +21,9 @@ import com.refactoringhabit.product.domain.mapper.ProductEntityMapper;
 import com.refactoringhabit.product.domain.entity.Product;
 import com.refactoringhabit.product.domain.repository.OptionRepository;
 import com.refactoringhabit.product.domain.repository.ProductRepository;
+import com.refactoringhabit.stats.domain.mapper.StatsEntityMapper;
+import com.refactoringhabit.stats.domain.repository.HostTotalSalesStatsRepository;
+import com.refactoringhabit.stats.domain.repository.ProductTotalSalesStatsRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -39,22 +42,27 @@ public class HostService {
     private final CategoryMiddleRepository categoryMiddleRepository;
     private final ProductRepository productRepository;
     private final OptionRepository optionRepository;
+    private final ProductTotalSalesStatsRepository productTotalSalesStatsRepository;
+    private final HostTotalSalesStatsRepository hostTotalSalesStatsRepository;
     private final CustomFileUtil customFileUtil;
 
     public static final String HOST_ALT_ID = null;
     public static final String PRODUCT_ALT_ID = null;
     public static final String OPTION_ALT_ID = null;
+    public static final String STATS_ALT_ID = null;
 
     @Transactional
     public void hostJoin(String memberAltId, HostInfoRequestDto hostInfoRequestDto,
         MultipartFile multipartFile) {
-        Member member = memberRepository.findByAltId(memberAltId)
-            .orElseThrow(UserNotFoundException::new);
+        Member member = findMember(memberAltId);
         member.setType(HOST);
 
         HostEntityMapper.INSTANCE.updateHostJoinRequestDtoFromEntity(hostInfoRequestDto, member);
-        hostRepository.save(HostEntityMapper.INSTANCE
+        Host savedHost = hostRepository.save(HostEntityMapper.INSTANCE
             .toEntity(hostInfoRequestDto, HOST_ALT_ID, saveProfileImage(multipartFile), member));
+
+        hostTotalSalesStatsRepository.save(StatsEntityMapper.INSTANCE
+            .toHostSalesStatsEntity(savedHost.getId(), STATS_ALT_ID));
     }
 
     @Transactional(readOnly = true)
@@ -64,9 +72,7 @@ public class HostService {
 
     @Transactional(readOnly = true)
     public HostInfoResponseDto getHostInfo(String memberAltId) {
-        Member member = memberRepository.findByAltId(memberAltId)
-            .orElseThrow(UserNotFoundException::new);
-        return HostEntityMapper.INSTANCE.toHostInfoResponseDto(member.getHost());
+        return HostEntityMapper.INSTANCE.toHostInfoResponseDto(findMember(memberAltId).getHost());
     }
 
     @Transactional
@@ -80,18 +86,24 @@ public class HostService {
     @Transactional
     public void hostProductCreate(String hostAltId, HostProductInfoDto hostProductInfoDto,
         List<MultipartFile> multipartFiles) {
-
         CategoryMiddle categoryMiddle = categoryMiddleRepository
             .findByAltId(hostProductInfoDto.getCategoryMiddleAltId())
             .orElseThrow(CategoryNotFoundException::new);
-
         String imageFileNames = customFileUtil.saveImageFiles(multipartFiles);
+        Host host = findHost(hostAltId);
 
         Product savedProduct = productRepository.save(ProductEntityMapper.INSTANCE
-            .toEntity(hostProductInfoDto, PRODUCT_ALT_ID, imageFileNames, categoryMiddle,
-                findHost(hostAltId)));
+            .toEntity(hostProductInfoDto, PRODUCT_ALT_ID, imageFileNames, categoryMiddle, host));
 
         saveOptions(hostProductInfoDto.getOptionInfoList(), savedProduct);
+
+        productTotalSalesStatsRepository.save(StatsEntityMapper.INSTANCE
+            .toProductSalesStatsEntity(host.getId(), savedProduct.getId(),
+                categoryMiddle.getId(), STATS_ALT_ID));
+    }
+
+    private Member findMember(String memberAltId) {
+        return memberRepository.findByAltId(memberAltId).orElseThrow(UserNotFoundException::new);
     }
 
     private String saveProfileImage(MultipartFile multipartFile) {
