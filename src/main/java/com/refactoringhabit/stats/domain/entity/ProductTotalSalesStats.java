@@ -12,12 +12,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
-@Table(name = "product_sales_stats")
+@Table(name = "product_total_sales_stats")
 @Entity
 @Getter
 @DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductSalesStats {
+public class ProductTotalSalesStats {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +58,7 @@ public class ProductSalesStats {
     private int maxPrice;
 
     @Builder
-    public ProductSalesStats(Long hostId, Long productId, Long categoryMiddleId, String altId) {
+    public ProductTotalSalesStats(Long hostId, Long productId, Long categoryMiddleId, String altId) {
         this.hostId = hostId;
         this.productId = productId;
         this.categoryMiddleId = categoryMiddleId;

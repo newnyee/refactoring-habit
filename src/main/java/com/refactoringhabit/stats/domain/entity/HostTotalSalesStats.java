@@ -1,6 +1,5 @@
 package com.refactoringhabit.stats.domain.entity;
 
-import com.refactoringhabit.common.domain.entity.BaseCreateTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,12 +12,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
-@Table(name = "host_monthly_sales_stats")
+@Table(name = "host_total_sales_stats")
 @Entity
 @Getter
 @DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class HostMonthlySalesStats extends BaseCreateTimeEntity {
+public class HostTotalSalesStats {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +39,14 @@ public class HostMonthlySalesStats extends BaseCreateTimeEntity {
     @Column(name = "refund_count")
     private int refundCount;
 
+    @Column(name = "review_count")
+    private int reviewCount;
+
+    @Column(name = "review_average")
+    private int reviewAverage;
+
     @Builder
-    public HostMonthlySalesStats(Long hostId, String altId) {
+    public HostTotalSalesStats(Long hostId, String altId) {
         this.hostId = hostId;
         this.altId = altId;
     }
