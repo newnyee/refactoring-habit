@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QHostMonthlySalesStats is a Querydsl query type for HostMonthlySalesStats
+ * QHostDailySalesStats is a Querydsl query type for HostDailySalesStats
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QHostMonthlySalesStats extends EntityPathBase<HostMonthlySalesStats> {
+public class QHostDailySalesStats extends EntityPathBase<HostDailySalesStats> {
 
-    private static final long serialVersionUID = -958671237L;
+    private static final long serialVersionUID = 1712730183L;
 
-    public static final QHostMonthlySalesStats hostMonthlySalesStats = new QHostMonthlySalesStats("hostMonthlySalesStats");
+    public static final QHostDailySalesStats hostDailySalesStats = new QHostDailySalesStats("hostDailySalesStats");
 
     public final com.refactoringhabit.common.domain.entity.QBaseCreateTimeEntity _super = new com.refactoringhabit.common.domain.entity.QBaseCreateTimeEntity(this);
 
@@ -32,20 +32,24 @@ public class QHostMonthlySalesStats extends EntityPathBase<HostMonthlySalesStats
 
     public final NumberPath<Integer> refundCount = createNumber("refundCount", Integer.class);
 
+    public final NumberPath<Integer> reviewAverage = createNumber("reviewAverage", Integer.class);
+
+    public final NumberPath<Integer> reviewCount = createNumber("reviewCount", Integer.class);
+
     public final NumberPath<Integer> salesAmount = createNumber("salesAmount", Integer.class);
 
     public final NumberPath<Integer> salesVolume = createNumber("salesVolume", Integer.class);
 
-    public QHostMonthlySalesStats(String variable) {
-        super(HostMonthlySalesStats.class, forVariable(variable));
+    public QHostDailySalesStats(String variable) {
+        super(HostDailySalesStats.class, forVariable(variable));
     }
 
-    public QHostMonthlySalesStats(Path<? extends HostMonthlySalesStats> path) {
+    public QHostDailySalesStats(Path<? extends HostDailySalesStats> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QHostMonthlySalesStats(PathMetadata metadata) {
-        super(HostMonthlySalesStats.class, metadata);
+    public QHostDailySalesStats(PathMetadata metadata) {
+        super(HostDailySalesStats.class, metadata);
     }
 
 }

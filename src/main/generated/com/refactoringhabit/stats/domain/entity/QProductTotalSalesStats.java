@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QProductSalesStats is a Querydsl query type for ProductSalesStats
+ * QProductTotalSalesStats is a Querydsl query type for ProductTotalSalesStats
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QProductSalesStats extends EntityPathBase<ProductSalesStats> {
+public class QProductTotalSalesStats extends EntityPathBase<ProductTotalSalesStats> {
 
-    private static final long serialVersionUID = 708721445L;
+    private static final long serialVersionUID = -779998107L;
 
-    public static final QProductSalesStats productSalesStats = new QProductSalesStats("productSalesStats");
+    public static final QProductTotalSalesStats productTotalSalesStats = new QProductTotalSalesStats("productTotalSalesStats");
 
     public final StringPath altId = createString("altId");
 
@@ -43,16 +43,16 @@ public class QProductSalesStats extends EntityPathBase<ProductSalesStats> {
 
     public final NumberPath<Integer> viewCount = createNumber("viewCount", Integer.class);
 
-    public QProductSalesStats(String variable) {
-        super(ProductSalesStats.class, forVariable(variable));
+    public QProductTotalSalesStats(String variable) {
+        super(ProductTotalSalesStats.class, forVariable(variable));
     }
 
-    public QProductSalesStats(Path<? extends ProductSalesStats> path) {
+    public QProductTotalSalesStats(Path<? extends ProductTotalSalesStats> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QProductSalesStats(PathMetadata metadata) {
-        super(ProductSalesStats.class, metadata);
+    public QProductTotalSalesStats(PathMetadata metadata) {
+        super(ProductTotalSalesStats.class, metadata);
     }
 
 }

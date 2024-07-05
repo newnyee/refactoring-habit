@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QHostSalesStats is a Querydsl query type for HostSalesStats
+ * QHostTotalSalesStats is a Querydsl query type for HostTotalSalesStats
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QHostSalesStats extends EntityPathBase<HostSalesStats> {
+public class QHostTotalSalesStats extends EntityPathBase<HostTotalSalesStats> {
 
-    private static final long serialVersionUID = -897951816L;
+    private static final long serialVersionUID = -1185942606L;
 
-    public static final QHostSalesStats hostSalesStats = new QHostSalesStats("hostSalesStats");
+    public static final QHostTotalSalesStats hostTotalSalesStats = new QHostTotalSalesStats("hostTotalSalesStats");
 
     public final StringPath altId = createString("altId");
 
@@ -35,16 +35,16 @@ public class QHostSalesStats extends EntityPathBase<HostSalesStats> {
 
     public final NumberPath<Integer> salesVolume = createNumber("salesVolume", Integer.class);
 
-    public QHostSalesStats(String variable) {
-        super(HostSalesStats.class, forVariable(variable));
+    public QHostTotalSalesStats(String variable) {
+        super(HostTotalSalesStats.class, forVariable(variable));
     }
 
-    public QHostSalesStats(Path<? extends HostSalesStats> path) {
+    public QHostTotalSalesStats(Path<? extends HostTotalSalesStats> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QHostSalesStats(PathMetadata metadata) {
-        super(HostSalesStats.class, metadata);
+    public QHostTotalSalesStats(PathMetadata metadata) {
+        super(HostTotalSalesStats.class, metadata);
     }
 
 }
