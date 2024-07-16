@@ -19,7 +19,12 @@ public class QHostTotalSalesStats extends EntityPathBase<HostTotalSalesStats> {
 
     public static final QHostTotalSalesStats hostTotalSalesStats = new QHostTotalSalesStats("hostTotalSalesStats");
 
+    public final com.refactoringhabit.common.domain.entity.QBaseTimeEntity _super = new com.refactoringhabit.common.domain.entity.QBaseTimeEntity(this);
+
     public final StringPath altId = createString("altId");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final NumberPath<Long> hostId = createNumber("hostId", Long.class);
 
@@ -34,6 +39,9 @@ public class QHostTotalSalesStats extends EntityPathBase<HostTotalSalesStats> {
     public final NumberPath<Integer> salesAmount = createNumber("salesAmount", Integer.class);
 
     public final NumberPath<Integer> salesVolume = createNumber("salesVolume", Integer.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QHostTotalSalesStats(String variable) {
         super(HostTotalSalesStats.class, forVariable(variable));

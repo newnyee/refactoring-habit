@@ -1,23 +1,28 @@
 package com.refactoringhabit.stats.domain.entity;
 
+import com.refactoringhabit.common.domain.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Table(name = "product_total_sales_stats")
 @Entity
 @Getter
 @DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductTotalSalesStats {
+public class ProductTotalSalesStats extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,24 +41,35 @@ public class ProductTotalSalesStats {
     @Column(name = "alt_id")
     private String altId;
 
+    @Setter
     @Column(name = "sales_volume")
-    private int salesVolume;
+    private Long salesVolume; // 판매량
 
+    @Setter
     @Column(name = "sales_amount")
-    private int salesAmount;
+    private Long salesAmount;
 
+    @Setter
     @Column(name = "view_count")
-    private int viewCount;
+    private Long viewCount;
 
+    @Setter
     @Column(name = "review_count")
-    private int reviewCount;
+    private Long reviewCount;
 
+    @Setter
     @Column(name = "review_average")
-    private double reviewAverage;
+    private BigDecimal reviewAverage;
 
+    @Setter
+    @Column(name = "wish_count")
+    private Long wishCount;
+
+    @Setter
     @Column(name = "min_price")
     private int minPrice;
 
+    @Setter
     @Column(name = "max_price")
     private int maxPrice;
 

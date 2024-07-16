@@ -98,7 +98,7 @@ public class HostService {
         saveOptions(hostProductInfoDto.getOptionInfoList(), savedProduct);
 
         productTotalSalesStatsRepository.save(StatsEntityMapper.INSTANCE
-            .toProductSalesStatsEntity(host.getId(), savedProduct.getId(),
+            .toProductTotalSalesStatsEntity(host.getId(), savedProduct.getId(),
                 categoryMiddle.getId(), STATS_ALT_ID));
     }
 
