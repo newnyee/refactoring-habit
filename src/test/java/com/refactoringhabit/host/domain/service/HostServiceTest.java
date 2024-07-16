@@ -76,9 +76,6 @@ class HostServiceTest {
     private Product product;
 
     @Mock
-    private ProductTotalSalesStats productTotalSalesStats;
-
-    @Mock
     private HostInfoRequestDto hostInfoRequestDto;
 
     @Mock

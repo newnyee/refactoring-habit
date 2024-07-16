@@ -1,4 +1,4 @@
-package com.refactoringhabit.stats.domain.service;
+package com.refactoringhabit.stats.domain.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class StatsService {
+public class StatsScheduler {
 
     private final JobLauncher jobLauncher;
     private final JobRegistry jobRegistry;
@@ -29,7 +29,6 @@ public class StatsService {
             jobLauncher.run(job, jobParameters);
         } catch (JobExecutionException e) {
             log.error("[{}] ex ", e.getClass().getSimpleName(), e);
-            // TODO 관리자 알림 구현
         }
     }
 }
