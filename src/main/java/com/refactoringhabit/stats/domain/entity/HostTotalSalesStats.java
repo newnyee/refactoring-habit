@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 
 @Table(name = "host_total_sales_stats")
@@ -31,18 +32,23 @@ public class HostTotalSalesStats extends BaseTimeEntity {
     @Column(name = "alt_id")
     private String altId;
 
+    @Setter
     @Column(name = "sales_volume")
     private int salesVolume;
 
+    @Setter
     @Column(name = "sales_amount")
     private int salesAmount;
 
+    @Setter
     @Column(name = "refund_count")
     private int refundCount;
 
+    @Setter
     @Column(name = "review_count")
     private int reviewCount;
 
+    @Setter
     @Column(name = "review_average")
     private int reviewAverage;
 
