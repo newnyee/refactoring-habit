@@ -1,7 +1,8 @@
 package com.refactoringhabit.stats.domain.mapper;
 
+import com.refactoringhabit.order.dto.OrderSummaryByHostIdDto;
 import com.refactoringhabit.order.dto.OrderSummaryByProductIdDto;
-import com.refactoringhabit.review.dto.ReviewSummaryByProductIdDto;
+import com.refactoringhabit.review.dto.ReviewSummaryDto;
 import com.refactoringhabit.stats.domain.entity.HostTotalSalesStats;
 import com.refactoringhabit.stats.domain.entity.ProductTotalSalesStats;
 import java.util.UUID;
@@ -18,8 +19,14 @@ public interface StatsEntityMapper {
 
     void updateProductTotalSalesStatsEntity(
         @MappingTarget ProductTotalSalesStats productTotalSalesStats,
-        OrderSummaryByProductIdDto orderSummaryDto, ReviewSummaryByProductIdDto reviewSummaryDto,
+        OrderSummaryByProductIdDto orderSummaryDto, ReviewSummaryDto reviewSummaryDto,
         Long viewCount, Long wishCount);
+
+    void updateHostTotalSalesStatsEntity(
+        @MappingTarget HostTotalSalesStats hostTotalSalesStats,
+        OrderSummaryByHostIdDto orderSummaryDto, Long refundCount,
+        ReviewSummaryDto reviewSummaryDto
+    );
 
     @Mapping(target = "altId", source = "altId", qualifiedByName = "generateUuid")
     ProductTotalSalesStats toProductTotalSalesStatsEntity(Long hostId, Long productId,

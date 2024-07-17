@@ -1,20 +1,21 @@
 package com.refactoringhabit.stats.domain.mapper;
 
+import com.refactoringhabit.order.dto.OrderSummaryByHostIdDto;
 import com.refactoringhabit.order.dto.OrderSummaryByProductIdDto;
-import com.refactoringhabit.review.dto.ReviewSummaryByProductIdDto;
+import com.refactoringhabit.review.dto.ReviewSummaryDto;
 import com.refactoringhabit.stats.domain.entity.HostTotalSalesStats;
 import com.refactoringhabit.stats.domain.entity.ProductTotalSalesStats;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-07-16T17:39:38+0900",
+    date = "2024-07-17T17:29:54+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class StatsEntityMapperImpl implements StatsEntityMapper {
 
     @Override
-    public void updateProductTotalSalesStatsEntity(ProductTotalSalesStats productTotalSalesStats, OrderSummaryByProductIdDto orderSummaryDto, ReviewSummaryByProductIdDto reviewSummaryDto, Long viewCount, Long wishCount) {
+    public void updateProductTotalSalesStatsEntity(ProductTotalSalesStats productTotalSalesStats, OrderSummaryByProductIdDto orderSummaryDto, ReviewSummaryDto reviewSummaryDto, Long viewCount, Long wishCount) {
         if ( orderSummaryDto == null && reviewSummaryDto == null && viewCount == null && wishCount == null ) {
             return;
         }
@@ -31,6 +32,33 @@ public class StatsEntityMapperImpl implements StatsEntityMapper {
         }
         productTotalSalesStats.setViewCount( viewCount );
         productTotalSalesStats.setWishCount( wishCount );
+    }
+
+    @Override
+    public void updateHostTotalSalesStatsEntity(HostTotalSalesStats hostTotalSalesStats, OrderSummaryByHostIdDto orderSummaryDto, Long refundCount, ReviewSummaryDto reviewSummaryDto) {
+        if ( orderSummaryDto == null && refundCount == null && reviewSummaryDto == null ) {
+            return;
+        }
+
+        if ( orderSummaryDto != null ) {
+            if ( orderSummaryDto.salesVolume() != null ) {
+                hostTotalSalesStats.setSalesVolume( orderSummaryDto.salesVolume().intValue() );
+            }
+            if ( orderSummaryDto.salesAmount() != null ) {
+                hostTotalSalesStats.setSalesAmount( orderSummaryDto.salesAmount().intValue() );
+            }
+        }
+        if ( reviewSummaryDto != null ) {
+            if ( reviewSummaryDto.reviewCount() != null ) {
+                hostTotalSalesStats.setReviewCount( reviewSummaryDto.reviewCount().intValue() );
+            }
+            if ( reviewSummaryDto.reviewAverage() != null ) {
+                hostTotalSalesStats.setReviewAverage( reviewSummaryDto.reviewAverage().intValue() );
+            }
+        }
+        if ( refundCount != null ) {
+            hostTotalSalesStats.setRefundCount( refundCount.intValue() );
+        }
     }
 
     @Override
