@@ -1,7 +1,8 @@
 package com.refactoringhabit.review.domain.repository;
 
-import com.refactoringhabit.review.dto.ReviewSummaryByProductIdDto;
+import com.refactoringhabit.review.dto.ReviewSummaryDto;
 
 public interface ReviewRepositoryCustom {
-    ReviewSummaryByProductIdDto reviewSummaryByProductId(Long productId);
+    ReviewSummaryDto reviewSummaryByProductId(Long productId);
+    ReviewSummaryDto reviewSummaryByHostId(Long hostId);
 }

@@ -5,7 +5,7 @@ import static com.refactoringhabit.review.domain.entity.QReview.review;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.refactoringhabit.review.domain.enums.ReviewStatus;
-import com.refactoringhabit.review.dto.ReviewSummaryByProductIdDto;
+import com.refactoringhabit.review.dto.ReviewSummaryDto;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 
@@ -15,20 +15,33 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public ReviewSummaryByProductIdDto reviewSummaryByProductId(Long productId) {
-        ReviewSummaryByProductIdDto reviewSummaryDto = jpaQueryFactory
+    public ReviewSummaryDto reviewSummaryByProductId(Long productId) {
+        return jpaQueryFactory
         .select(Projections.constructor(
-            ReviewSummaryByProductIdDto.class,
+            ReviewSummaryDto.class,
             review.count().as("reviewCount"),
-            review.starScore.avg().castToNum(BigDecimal.class).as("reviewAverage")
-        ))
+            review.starScore.avg().castToNum(BigDecimal.class)
+                .coalesce(BigDecimal.valueOf(0)).as("reviewAverage")))
         .from(review)
         .where(review.option.product.id.eq(productId)
             .and(review.status.eq(ReviewStatus.SHOW)))
         .fetchFirst();
+    }
 
-        return reviewSummaryDto.reviewAverage() != null
-            ? reviewSummaryDto
-            : new ReviewSummaryByProductIdDto(0L, BigDecimal.valueOf(0));
+    @Override
+    public ReviewSummaryDto reviewSummaryByHostId(Long hostId) {
+        if (review.option.product.host != null) {
+            return jpaQueryFactory
+                .select(Projections.constructor(
+                    ReviewSummaryDto.class,
+                    review.count().as("reviewCount"),
+                    review.starScore.avg().castToNum(BigDecimal.class)
+                        .coalesce(BigDecimal.valueOf(0)).as("reviewAverage")))
+                .from(review)
+                .where(review.option.product.host.id.eq(hostId)
+                    .and(review.status.eq(ReviewStatus.SHOW)))
+                .fetchFirst();
+        }
+        return new ReviewSummaryDto(0L, BigDecimal.valueOf(0));
     }
 }
