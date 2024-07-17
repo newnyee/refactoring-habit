@@ -6,7 +6,7 @@ import com.refactoringhabit.order.domain.repository.OrderRepository;
 import com.refactoringhabit.order.dto.OrderSummaryByProductIdDto;
 import com.refactoringhabit.product.domain.repository.RedisRepository;
 import com.refactoringhabit.review.domain.repository.ReviewRepository;
-import com.refactoringhabit.review.dto.ReviewSummaryByProductIdDto;
+import com.refactoringhabit.review.dto.ReviewSummaryDto;
 import com.refactoringhabit.stats.domain.entity.ProductTotalSalesStats;
 import com.refactoringhabit.stats.domain.mapper.StatsEntityMapper;
 import com.refactoringhabit.wish.domain.repository.WishRepository;
@@ -36,7 +36,7 @@ public class ProductTotalSalesStatsUpdateStepConfig {
 
     private static final String VIEW_COUNT_CACHE_PREFIX = "view-count::";
 
-    @Bean
+    @Bean(name = "productTotalSalesStatsUpdateStep")
     public Step productTotalSalesStatsUpdateStep(JobRepository jobRepository,
         CustomStepListener stepListener, PlatformTransactionManager transactionManager,
         CustomChunkListener chunkListener) {
@@ -46,9 +46,11 @@ public class ProductTotalSalesStatsUpdateStepConfig {
             .reader(productTotalSalesStatsReader())
             .processor(productTotalSalesStatsUpdateProcessor())
             .writer(productTotalSalesStatsUpdateWriter())
-            .faultTolerant()
+            .faultTolerant() // 배치 작업 실패 시 처리 방법 설정
             .retryLimit(3)
             .retry(DataAccessException.class)
+            .skipLimit(5)
+            .skip(DataAccessException.class)
             .listener(chunkListener)
             .build();
     }
@@ -58,7 +60,7 @@ public class ProductTotalSalesStatsUpdateStepConfig {
         return new JpaPagingItemReaderBuilder<ProductTotalSalesStats>()
             .name("productTotalSalesStatsUpdateReader")
             .entityManagerFactory(entityManagerFactory)
-            .pageSize(100) // 해당 데이터를 메모리에 몇개씩 올려서 작업할 지
+            .pageSize(100) // 해당 데이터를 메모리에 몇개씩 올려서 작업할 지 설정
             .queryString("select p from ProductTotalSalesStats p")
             .build();
     }
@@ -71,7 +73,7 @@ public class ProductTotalSalesStatsUpdateStepConfig {
             OrderSummaryByProductIdDto orderSummaryDto =
                 orderRepository.orderSummaryByProductId(productId); // 판매량, 판매금액, 최소 가격, 최대 가격
 
-            ReviewSummaryByProductIdDto reviewSummaryDto =
+            ReviewSummaryDto reviewSummaryDto =
                 reviewRepository.reviewSummaryByProductId(productId); // 리뷰 수, 리뷰 평점
 
             Long viewCount = getViewCount(productTotalSalesStats.getAltId(),
