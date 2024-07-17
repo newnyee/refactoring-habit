@@ -71,6 +71,7 @@ dependencies {
 
     // spring batch
     implementation 'org.springframework.boot:spring-boot-starter-batch'
+    testImplementation 'org.springframework.batch:spring-batch-test'
 }
 
 jacoco {
@@ -89,7 +90,8 @@ jacocoTestReport {
             fileTree(dir: it, include: [
                     '**/service/**',
                     '**/interceptor/api/**',
-                    '**/interceptor/view/**'
+                    '**/interceptor/view/**',
+                    '**/batch/job/**'
             ])
         }))
     }
@@ -105,7 +107,8 @@ jacocoTestCoverageVerification {
             includes = [
                     '*.service.*',
                     '*.interceptor.api.*',
-                    '*.interceptor.view.*'
+                    '*.interceptor.view.*',
+                    '*.batch.job.*'
             ]
             limit {
                 counter = 'BRANCH'
