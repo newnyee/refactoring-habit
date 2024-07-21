@@ -3,13 +3,14 @@ package com.refactoringhabit.stats.domain.mapper;
 import com.refactoringhabit.order.dto.OrderSummaryByHostIdDto;
 import com.refactoringhabit.order.dto.OrderSummaryByProductIdDto;
 import com.refactoringhabit.review.dto.ReviewSummaryDto;
+import com.refactoringhabit.stats.domain.entity.HostDailySalesStats;
 import com.refactoringhabit.stats.domain.entity.HostTotalSalesStats;
 import com.refactoringhabit.stats.domain.entity.ProductTotalSalesStats;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-07-17T17:29:54+0900",
+    date = "2024-07-21T21:23:22+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class StatsEntityMapperImpl implements StatsEntityMapper {
@@ -41,24 +42,42 @@ public class StatsEntityMapperImpl implements StatsEntityMapper {
         }
 
         if ( orderSummaryDto != null ) {
-            if ( orderSummaryDto.salesVolume() != null ) {
-                hostTotalSalesStats.setSalesVolume( orderSummaryDto.salesVolume().intValue() );
-            }
-            if ( orderSummaryDto.salesAmount() != null ) {
-                hostTotalSalesStats.setSalesAmount( orderSummaryDto.salesAmount().intValue() );
-            }
+            hostTotalSalesStats.setSalesVolume( orderSummaryDto.salesVolume() );
+            hostTotalSalesStats.setSalesAmount( orderSummaryDto.salesAmount() );
         }
         if ( reviewSummaryDto != null ) {
-            if ( reviewSummaryDto.reviewCount() != null ) {
-                hostTotalSalesStats.setReviewCount( reviewSummaryDto.reviewCount().intValue() );
-            }
+            hostTotalSalesStats.setReviewCount( reviewSummaryDto.reviewCount() );
             if ( reviewSummaryDto.reviewAverage() != null ) {
-                hostTotalSalesStats.setReviewAverage( reviewSummaryDto.reviewAverage().intValue() );
+                hostTotalSalesStats.setReviewAverage( reviewSummaryDto.reviewAverage().longValue() );
+            }
+            else {
+                hostTotalSalesStats.setReviewAverage( null );
             }
         }
-        if ( refundCount != null ) {
-            hostTotalSalesStats.setRefundCount( refundCount.intValue() );
+        hostTotalSalesStats.setRefundCount( refundCount );
+    }
+
+    @Override
+    public HostDailySalesStats toHostDailySalesStatsEntity(Long hostId, OrderSummaryByHostIdDto orderSummaryDto, Long refundCount, ReviewSummaryDto reviewSummaryDto, String altId) {
+        if ( hostId == null && orderSummaryDto == null && refundCount == null && reviewSummaryDto == null && altId == null ) {
+            return null;
         }
+
+        HostDailySalesStats.HostDailySalesStatsBuilder hostDailySalesStats = HostDailySalesStats.builder();
+
+        if ( orderSummaryDto != null ) {
+            hostDailySalesStats.salesVolume( orderSummaryDto.salesVolume() );
+            hostDailySalesStats.salesAmount( orderSummaryDto.salesAmount() );
+        }
+        if ( reviewSummaryDto != null ) {
+            hostDailySalesStats.reviewCount( reviewSummaryDto.reviewCount() );
+            hostDailySalesStats.reviewAverage( reviewSummaryDto.reviewAverage() );
+        }
+        hostDailySalesStats.hostId( hostId );
+        hostDailySalesStats.refundCount( refundCount );
+        hostDailySalesStats.altId( generateUuid( altId ) );
+
+        return hostDailySalesStats.build();
     }
 
     @Override
