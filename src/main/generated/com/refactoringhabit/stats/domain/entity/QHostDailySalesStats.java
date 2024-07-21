@@ -30,15 +30,15 @@ public class QHostDailySalesStats extends EntityPathBase<HostDailySalesStats> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<Integer> refundCount = createNumber("refundCount", Integer.class);
+    public final NumberPath<Long> refundCount = createNumber("refundCount", Long.class);
 
-    public final NumberPath<Integer> reviewAverage = createNumber("reviewAverage", Integer.class);
+    public final NumberPath<java.math.BigDecimal> reviewAverage = createNumber("reviewAverage", java.math.BigDecimal.class);
 
-    public final NumberPath<Integer> reviewCount = createNumber("reviewCount", Integer.class);
+    public final NumberPath<Long> reviewCount = createNumber("reviewCount", Long.class);
 
-    public final NumberPath<Integer> salesAmount = createNumber("salesAmount", Integer.class);
+    public final NumberPath<Long> salesAmount = createNumber("salesAmount", Long.class);
 
-    public final NumberPath<Integer> salesVolume = createNumber("salesVolume", Integer.class);
+    public final NumberPath<Long> salesVolume = createNumber("salesVolume", Long.class);
 
     public QHostDailySalesStats(String variable) {
         super(HostDailySalesStats.class, forVariable(variable));

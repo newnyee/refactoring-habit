@@ -34,23 +34,23 @@ public class HostTotalSalesStats extends BaseTimeEntity {
 
     @Setter
     @Column(name = "sales_volume")
-    private int salesVolume;
+    private Long salesVolume;
 
     @Setter
     @Column(name = "sales_amount")
-    private int salesAmount;
+    private Long salesAmount;
 
     @Setter
     @Column(name = "refund_count")
-    private int refundCount;
+    private Long refundCount;
 
     @Setter
     @Column(name = "review_count")
-    private int reviewCount;
+    private Long reviewCount;
 
     @Setter
     @Column(name = "review_average")
-    private int reviewAverage;
+    private Long reviewAverage;
 
     @Builder
     public HostTotalSalesStats(Long hostId, String altId) {

@@ -18,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +43,7 @@ public class Order extends BaseTimeEntity {
     private int quantity;
 
     @Column(name = "used_at")
-    private String usedAt;
+    private LocalDateTime usedAt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method")
