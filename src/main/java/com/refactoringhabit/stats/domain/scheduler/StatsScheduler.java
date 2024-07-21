@@ -19,7 +19,7 @@ public class StatsScheduler {
     private final JobLauncher jobLauncher;
     private final JobRegistry jobRegistry;
 
-    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 5 0 * * *", zone = "Asia/Seoul")
     public void runDailyJob() {
         try {
             Job job = jobRegistry.getJob("statsJob");
