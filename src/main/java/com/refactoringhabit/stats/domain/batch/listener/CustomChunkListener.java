@@ -1,4 +1,4 @@
-package com.refactoringhabit.common.config.batch.listener;
+package com.refactoringhabit.stats.domain.batch.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ChunkListener;

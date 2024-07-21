@@ -1,11 +1,11 @@
-package com.refactoringhabit.common.config.batch.step;
+package com.refactoringhabit.stats.domain.batch.step;
 
-import com.refactoringhabit.common.config.batch.listener.CustomChunkListener;
-import com.refactoringhabit.common.config.batch.listener.CustomStepListener;
 import com.refactoringhabit.order.domain.repository.OrderRepository;
 import com.refactoringhabit.order.dto.OrderSummaryByHostIdDto;
 import com.refactoringhabit.review.domain.repository.ReviewRepository;
 import com.refactoringhabit.review.dto.ReviewSummaryDto;
+import com.refactoringhabit.stats.domain.batch.listener.CustomChunkListener;
+import com.refactoringhabit.stats.domain.batch.listener.CustomStepListener;
 import com.refactoringhabit.stats.domain.entity.HostTotalSalesStats;
 import com.refactoringhabit.stats.domain.mapper.StatsEntityMapper;
 import jakarta.persistence.EntityManagerFactory;
@@ -49,8 +49,7 @@ public class HostTotalSalesStatsUpdateStepConfig {
             .build();
     }
 
-    @Bean
-    public JpaPagingItemReader<HostTotalSalesStats> hostTotalSalesStatsReader() {
+    private JpaPagingItemReader<HostTotalSalesStats> hostTotalSalesStatsReader() {
         return new JpaPagingItemReaderBuilder<HostTotalSalesStats>()
             .name("HostTotalSalesStatsReader")
             .entityManagerFactory(entityManagerFactory)
@@ -59,8 +58,7 @@ public class HostTotalSalesStatsUpdateStepConfig {
             .build();
     }
 
-    @Bean
-    public ItemProcessor<HostTotalSalesStats, HostTotalSalesStats> hostTotalSalesStatsUpdateProcessor() {
+    private ItemProcessor<HostTotalSalesStats, HostTotalSalesStats> hostTotalSalesStatsUpdateProcessor() {
         return hostTotalSalesStats -> {
             Long hostId = hostTotalSalesStats.getHostId();
 
@@ -78,8 +76,7 @@ public class HostTotalSalesStatsUpdateStepConfig {
         };
     }
 
-    @Bean
-    public JpaItemWriter<HostTotalSalesStats> hostTotalSalesStatsUpdateWriter() {
+    private JpaItemWriter<HostTotalSalesStats> hostTotalSalesStatsUpdateWriter() {
         JpaItemWriter<HostTotalSalesStats> jpaItemWriter = new JpaItemWriter<>();
         jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
         return jpaItemWriter;

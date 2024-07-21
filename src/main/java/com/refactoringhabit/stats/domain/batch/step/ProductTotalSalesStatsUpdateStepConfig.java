@@ -1,12 +1,12 @@
-package com.refactoringhabit.common.config.batch.step;
+package com.refactoringhabit.stats.domain.batch.step;
 
-import com.refactoringhabit.common.config.batch.listener.CustomChunkListener;
-import com.refactoringhabit.common.config.batch.listener.CustomStepListener;
 import com.refactoringhabit.order.domain.repository.OrderRepository;
 import com.refactoringhabit.order.dto.OrderSummaryByProductIdDto;
 import com.refactoringhabit.product.domain.repository.RedisRepository;
 import com.refactoringhabit.review.domain.repository.ReviewRepository;
 import com.refactoringhabit.review.dto.ReviewSummaryDto;
+import com.refactoringhabit.stats.domain.batch.listener.CustomChunkListener;
+import com.refactoringhabit.stats.domain.batch.listener.CustomStepListener;
 import com.refactoringhabit.stats.domain.entity.ProductTotalSalesStats;
 import com.refactoringhabit.stats.domain.mapper.StatsEntityMapper;
 import com.refactoringhabit.wish.domain.repository.WishRepository;
@@ -55,8 +55,7 @@ public class ProductTotalSalesStatsUpdateStepConfig {
             .build();
     }
 
-    @Bean
-    public JpaPagingItemReader<ProductTotalSalesStats> productTotalSalesStatsReader() {
+    private JpaPagingItemReader<ProductTotalSalesStats> productTotalSalesStatsReader() {
         return new JpaPagingItemReaderBuilder<ProductTotalSalesStats>()
             .name("productTotalSalesStatsUpdateReader")
             .entityManagerFactory(entityManagerFactory)
@@ -65,8 +64,7 @@ public class ProductTotalSalesStatsUpdateStepConfig {
             .build();
     }
 
-    @Bean
-    public ItemProcessor<ProductTotalSalesStats, ProductTotalSalesStats> productTotalSalesStatsUpdateProcessor() {
+    private ItemProcessor<ProductTotalSalesStats, ProductTotalSalesStats> productTotalSalesStatsUpdateProcessor() {
         return productTotalSalesStats -> {
             Long productId = productTotalSalesStats.getProductId();
 
@@ -87,8 +85,7 @@ public class ProductTotalSalesStatsUpdateStepConfig {
         };
     }
 
-    @Bean
-    public JpaItemWriter<ProductTotalSalesStats> productTotalSalesStatsUpdateWriter() {
+    private JpaItemWriter<ProductTotalSalesStats> productTotalSalesStatsUpdateWriter() {
         JpaItemWriter<ProductTotalSalesStats> jpaItemWriter = new JpaItemWriter<>();
         jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
         return jpaItemWriter;
