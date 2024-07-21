@@ -1,6 +1,6 @@
-package com.refactoringhabit.common.config.batch.job;
+package com.refactoringhabit.stats.domain.batch.job;
 
-import com.refactoringhabit.common.config.batch.listener.CustomJobListener;
+import com.refactoringhabit.stats.domain.batch.listener.CustomJobListener;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -16,12 +16,14 @@ public class DailyBatchJobConfig {
     @Bean
     public Job dailyStatsJob(CustomJobListener jobListener, JobRepository jobRepository,
         @Qualifier("productTotalSalesStatsUpdateStep") Step productTotalSalesStatsUpdateStep,
-        @Qualifier("hostTotalSalesStatsUpdateStep") Step hostTotalSalesStatsUpdateStep) {
+        @Qualifier("hostTotalSalesStatsUpdateStep") Step hostTotalSalesStatsUpdateStep,
+        @Qualifier("hostDailySalesStatsUpdateStep") Step hostDailySalesStatsUpdateStep) {
         return new JobBuilder("statsJob", jobRepository)
             .incrementer(new RunIdIncrementer())
             .listener(jobListener)
             .start(productTotalSalesStatsUpdateStep)
             .next(hostTotalSalesStatsUpdateStep)
+            .next(hostDailySalesStatsUpdateStep)
             .build();
     }
 }
