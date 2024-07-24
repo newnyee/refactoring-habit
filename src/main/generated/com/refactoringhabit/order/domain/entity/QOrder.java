@@ -48,7 +48,7 @@ public class QOrder extends EntityPathBase<Order> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public final StringPath usedAt = createString("usedAt");
+    public final DateTimePath<java.time.LocalDateTime> usedAt = createDateTime("usedAt", java.time.LocalDateTime.class);
 
     public final EnumPath<com.refactoringhabit.order.domain.enums.UsedStatus> usedStatus = createEnum("usedStatus", com.refactoringhabit.order.domain.enums.UsedStatus.class);
 

@@ -1,0 +1,112 @@
+package com.refactoringhabit.stats.domain.mapper;
+
+import com.refactoringhabit.order.dto.OrderSummaryByHostIdDto;
+import com.refactoringhabit.order.dto.OrderSummaryByProductIdDto;
+import com.refactoringhabit.review.dto.ReviewSummaryDto;
+import com.refactoringhabit.stats.domain.entity.HostDailySalesStats;
+import com.refactoringhabit.stats.domain.entity.HostTotalSalesStats;
+import com.refactoringhabit.stats.domain.entity.ProductTotalSalesStats;
+import javax.annotation.processing.Generated;
+
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2024-07-21T21:23:22+0900",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
+)
+public class StatsEntityMapperImpl implements StatsEntityMapper {
+
+    @Override
+    public void updateProductTotalSalesStatsEntity(ProductTotalSalesStats productTotalSalesStats, OrderSummaryByProductIdDto orderSummaryDto, ReviewSummaryDto reviewSummaryDto, Long viewCount, Long wishCount) {
+        if ( orderSummaryDto == null && reviewSummaryDto == null && viewCount == null && wishCount == null ) {
+            return;
+        }
+
+        if ( orderSummaryDto != null ) {
+            productTotalSalesStats.setSalesVolume( orderSummaryDto.salesVolume() );
+            productTotalSalesStats.setSalesAmount( orderSummaryDto.salesAmount() );
+            productTotalSalesStats.setMinPrice( orderSummaryDto.minPrice() );
+            productTotalSalesStats.setMaxPrice( orderSummaryDto.maxPrice() );
+        }
+        if ( reviewSummaryDto != null ) {
+            productTotalSalesStats.setReviewCount( reviewSummaryDto.reviewCount() );
+            productTotalSalesStats.setReviewAverage( reviewSummaryDto.reviewAverage() );
+        }
+        productTotalSalesStats.setViewCount( viewCount );
+        productTotalSalesStats.setWishCount( wishCount );
+    }
+
+    @Override
+    public void updateHostTotalSalesStatsEntity(HostTotalSalesStats hostTotalSalesStats, OrderSummaryByHostIdDto orderSummaryDto, Long refundCount, ReviewSummaryDto reviewSummaryDto) {
+        if ( orderSummaryDto == null && refundCount == null && reviewSummaryDto == null ) {
+            return;
+        }
+
+        if ( orderSummaryDto != null ) {
+            hostTotalSalesStats.setSalesVolume( orderSummaryDto.salesVolume() );
+            hostTotalSalesStats.setSalesAmount( orderSummaryDto.salesAmount() );
+        }
+        if ( reviewSummaryDto != null ) {
+            hostTotalSalesStats.setReviewCount( reviewSummaryDto.reviewCount() );
+            if ( reviewSummaryDto.reviewAverage() != null ) {
+                hostTotalSalesStats.setReviewAverage( reviewSummaryDto.reviewAverage().longValue() );
+            }
+            else {
+                hostTotalSalesStats.setReviewAverage( null );
+            }
+        }
+        hostTotalSalesStats.setRefundCount( refundCount );
+    }
+
+    @Override
+    public HostDailySalesStats toHostDailySalesStatsEntity(Long hostId, OrderSummaryByHostIdDto orderSummaryDto, Long refundCount, ReviewSummaryDto reviewSummaryDto, String altId) {
+        if ( hostId == null && orderSummaryDto == null && refundCount == null && reviewSummaryDto == null && altId == null ) {
+            return null;
+        }
+
+        HostDailySalesStats.HostDailySalesStatsBuilder hostDailySalesStats = HostDailySalesStats.builder();
+
+        if ( orderSummaryDto != null ) {
+            hostDailySalesStats.salesVolume( orderSummaryDto.salesVolume() );
+            hostDailySalesStats.salesAmount( orderSummaryDto.salesAmount() );
+        }
+        if ( reviewSummaryDto != null ) {
+            hostDailySalesStats.reviewCount( reviewSummaryDto.reviewCount() );
+            hostDailySalesStats.reviewAverage( reviewSummaryDto.reviewAverage() );
+        }
+        hostDailySalesStats.hostId( hostId );
+        hostDailySalesStats.refundCount( refundCount );
+        hostDailySalesStats.altId( generateUuid( altId ) );
+
+        return hostDailySalesStats.build();
+    }
+
+    @Override
+    public ProductTotalSalesStats toProductTotalSalesStatsEntity(Long hostId, Long productId, Long categoryMiddleId, String altId) {
+        if ( hostId == null && productId == null && categoryMiddleId == null && altId == null ) {
+            return null;
+        }
+
+        ProductTotalSalesStats.ProductTotalSalesStatsBuilder productTotalSalesStats = ProductTotalSalesStats.builder();
+
+        productTotalSalesStats.hostId( hostId );
+        productTotalSalesStats.productId( productId );
+        productTotalSalesStats.categoryMiddleId( categoryMiddleId );
+        productTotalSalesStats.altId( generateUuid( altId ) );
+
+        return productTotalSalesStats.build();
+    }
+
+    @Override
+    public HostTotalSalesStats toHostSalesStatsEntity(Long hostId, String altId) {
+        if ( hostId == null && altId == null ) {
+            return null;
+        }
+
+        HostTotalSalesStats.HostTotalSalesStatsBuilder hostTotalSalesStats = HostTotalSalesStats.builder();
+
+        hostTotalSalesStats.hostId( hostId );
+        hostTotalSalesStats.altId( generateUuid( altId ) );
+
+        return hostTotalSalesStats.build();
+    }
+}

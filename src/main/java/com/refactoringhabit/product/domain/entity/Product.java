@@ -59,9 +59,6 @@ public class Product extends BaseCreateTimeEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "view")
-    private Long view;
-
     @Column(name = "closed_at")
     private String closedAt;
 
