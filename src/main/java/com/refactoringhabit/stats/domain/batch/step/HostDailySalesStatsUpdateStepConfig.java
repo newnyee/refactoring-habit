@@ -39,7 +39,7 @@ public class HostDailySalesStatsUpdateStepConfig {
         CustomChunkListener chunkListener) {
         return new StepBuilder("hostDailySalesStatsUpdateStep", jobRepository)
             .listener(stepListener)
-            .<Long, HostDailySalesStats>chunk(100, transactionManager)
+            .<Long, HostDailySalesStats>chunk(500, transactionManager)
             .reader(hostDailySalesStatsReader())
             .processor(hostDailySalesStatsUpdateProcessor())
             .writer(hostDailySalesStatsUpdateWriter())
@@ -56,7 +56,7 @@ public class HostDailySalesStatsUpdateStepConfig {
         return new JpaPagingItemReaderBuilder<Long>()
             .name("hostDailySalesStatsReader")
             .entityManagerFactory(entityManagerFactory)
-            .pageSize(100)
+            .pageSize(500)
             .queryString("select p.id from Host p")
             .build();
     }

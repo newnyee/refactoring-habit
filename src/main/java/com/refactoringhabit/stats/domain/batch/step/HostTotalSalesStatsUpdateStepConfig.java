@@ -36,7 +36,7 @@ public class HostTotalSalesStatsUpdateStepConfig {
         CustomChunkListener chunkListener) {
         return new StepBuilder("hostTotalSalesStatsUpdateStep", jobRepository)
             .listener(stepListener)
-            .<HostTotalSalesStats, HostTotalSalesStats>chunk(100, transactionManager)
+            .<HostTotalSalesStats, HostTotalSalesStats>chunk(500, transactionManager)
             .reader(hostTotalSalesStatsReader())
             .processor(hostTotalSalesStatsUpdateProcessor())
             .writer(hostTotalSalesStatsUpdateWriter())
@@ -53,7 +53,7 @@ public class HostTotalSalesStatsUpdateStepConfig {
         return new JpaPagingItemReaderBuilder<HostTotalSalesStats>()
             .name("HostTotalSalesStatsReader")
             .entityManagerFactory(entityManagerFactory)
-            .pageSize(100)
+            .pageSize(500)
             .queryString("select p from HostTotalSalesStats p")
             .build();
     }

@@ -42,7 +42,7 @@ public class ProductTotalSalesStatsUpdateStepConfig {
         CustomChunkListener chunkListener) {
         return new StepBuilder("productTotalSalesStatsUpdateStep", jobRepository)
             .listener(stepListener)
-            .<ProductTotalSalesStats, ProductTotalSalesStats>chunk(100, transactionManager) // 커밋 간격
+            .<ProductTotalSalesStats, ProductTotalSalesStats>chunk(500, transactionManager) // 커밋 간격
             .reader(productTotalSalesStatsReader())
             .processor(productTotalSalesStatsUpdateProcessor())
             .writer(productTotalSalesStatsUpdateWriter())
@@ -59,7 +59,7 @@ public class ProductTotalSalesStatsUpdateStepConfig {
         return new JpaPagingItemReaderBuilder<ProductTotalSalesStats>()
             .name("productTotalSalesStatsUpdateReader")
             .entityManagerFactory(entityManagerFactory)
-            .pageSize(100) // 해당 데이터를 메모리에 몇개씩 올려서 작업할 지 설정
+            .pageSize(500) // 해당 데이터를 메모리에 몇개씩 올려서 작업할 지 설정
             .queryString("select p from ProductTotalSalesStats p")
             .build();
     }
