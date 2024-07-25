@@ -24,13 +24,13 @@ public class ProductService {
     private static final String CACHE_KEY_NAME = "SimpleKey []";
 
     @Transactional(readOnly = true)
-    @Cacheable(value = CACHE_NAME_POPULAR_PRODUCT, cacheManager = "contentCacheManager")
+    @Cacheable(value = CACHE_NAME_POPULAR_PRODUCT, cacheManager = "redisCacheManager")
     public List<HomeProductDto> getPopularProducts() {
         return productRepository.productsOrderBySalesVolumeAndReviewAverage();
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = CACHE_NAME_NEW_PRODUCT, cacheManager = "contentCacheManager")
+    @Cacheable(value = CACHE_NAME_NEW_PRODUCT, cacheManager = "redisCacheManager")
     public List<HomeProductDto> getNewProducts() {
         return productRepository.productsOrderByCreatedAt();
     }
