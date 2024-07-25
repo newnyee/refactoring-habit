@@ -1,0 +1,66 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${HOST_IP}:${MYSQL_PORT}/${TEST_DATABASE_NAME}?serverTimezone=Asia/Seoul&useUniCode=yes&characterEncoding=UTF-8
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+  data:
+    redis:
+      host: ${HOST_IP}
+      port: ${REDIS_PORT}
+
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+
+  mail:
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail.smtp.debug: true
+      mail.smtp.connection-timeout: 1000
+      mail.starttls.enable: true
+      mail.smtp.auth: true
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      platform: mysql
+      schema-locations: classpath:test-schema-drop.sql, classpath:test-schema.sql, classpath:batch-schema-mysql.sql # 스키마 생성
+      mode: always
+
+logging:
+  level:
+    com.refactoringhabit: debug
+
+file:
+  storage-path: ${STORAGE_PATH}
+  member-default-img: ${MEMBER_DEFAULT_IMG_FILE_NAME}
+  host-default-img: ${HOST_DEFAULT_IMG_FILE_NAME}
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+
+token:
+  prefix-key-refresh-token: ${PREFIX_KEY_REFRESH_TOKEN}
+  expire-time:
+    access: ${EXPIRE_TIME_ACCESS_TOKEN}
+    refresh: ${EXPIRE_TIME_REFRESH_TOKEN}
+
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    key-store: ${KEY_STORE_PATH}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-store-type: ${KEY_STORE_TYPE}
+    key-alias: ${KEY_STORE_NAME}
