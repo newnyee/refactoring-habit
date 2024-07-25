@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class RedisRefreshTokenRepository {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Value("${token.expire-time.refresh}")
     private Long expiredRefreshTokenTime;
@@ -26,7 +26,7 @@ public class RedisRefreshTokenRepository {
     }
 
     public String getRefreshToken(String id) {
-        return redisTemplate.opsForValue().get(refreshTokenIdPrefix + id);
+        return (String) redisTemplate.opsForValue().get(refreshTokenIdPrefix + id);
     }
 
     public void deleteRefreshTokenById(String id) {

@@ -3,7 +3,7 @@ package com.refactoringhabit.stats.domain.batch.step;
 import com.refactoringhabit.order.domain.repository.OrderRepository;
 import com.refactoringhabit.order.dto.OrderSummaryDto;
 import com.refactoringhabit.product.domain.repository.ProductRepository;
-import com.refactoringhabit.product.domain.repository.RedisRepository;
+import com.refactoringhabit.common.domain.repository.RedisRepository;
 import com.refactoringhabit.product.dto.ProductSummaryDto;
 import com.refactoringhabit.review.domain.repository.ReviewRepository;
 import com.refactoringhabit.review.dto.ReviewSummaryDto;
@@ -98,10 +98,12 @@ public class ProductTotalSalesStatsUpdateStepConfig {
     }
 
     private Long getViewCount(String productAltId, Long oldViewCount) {
-        Long todayViewCount = redisRepository
-            .getLongValue(VIEW_COUNT_CACHE_PREFIX + productAltId);
-        if (todayViewCount > 0) {
-            redisRepository.setLongValue(VIEW_COUNT_CACHE_PREFIX + productAltId, 0L);
+        Long todayViewCount = (Long) redisRepository
+            .getValue(VIEW_COUNT_CACHE_PREFIX + productAltId);
+        if (todayViewCount != null) {
+            redisRepository.setValue(VIEW_COUNT_CACHE_PREFIX + productAltId, 0L);
+        } else {
+            todayViewCount = 0L;
         }
         return oldViewCount + todayViewCount;
     }

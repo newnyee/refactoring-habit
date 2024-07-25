@@ -2,7 +2,7 @@ package com.refactoringhabit.product.domain.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.refactoringhabit.product.domain.repository.RedisRepository;
+import com.refactoringhabit.common.domain.repository.RedisRepository;
 import com.refactoringhabit.product.dto.HomeProductDto;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -27,24 +27,24 @@ class ProductServiceTest {
 
     @Test
     void testGetPopularProductsWithCache() {
-        Object beforeCacheValue = redisRepository.getCacheValue(CACHE_NAME_POPULAR, CACHE_KEY);
+        Object beforeCacheValue = redisRepository.getCache(CACHE_NAME_POPULAR, CACHE_KEY);
         assertNull(beforeCacheValue);
 
         List<HomeProductDto> result = productService.getPopularProducts();
         List<HomeProductDto> afterCacheValue =
-            (List<HomeProductDto>) redisRepository.getCacheValue(CACHE_NAME_POPULAR, CACHE_KEY);
+            (List<HomeProductDto>) redisRepository.getCache(CACHE_NAME_POPULAR, CACHE_KEY);
 
         assertEquals(SEARCH_RESULT_LIMIT, afterCacheValue.size(), result.size());
     }
 
     @Test
     void testGetNewProductsWithCache() {
-        Object beforeCacheValue = redisRepository.getCacheValue(CACHE_NAME_NEW, CACHE_KEY);
+        Object beforeCacheValue = redisRepository.getCache(CACHE_NAME_NEW, CACHE_KEY);
         assertNull(beforeCacheValue);
 
         List<HomeProductDto> result = productService.getNewProducts();
         List<HomeProductDto> afterCacheValue =
-            (List<HomeProductDto>) redisRepository.getCacheValue(CACHE_NAME_NEW, CACHE_KEY);
+            (List<HomeProductDto>) redisRepository.getCache(CACHE_NAME_NEW, CACHE_KEY);
 
         assertEquals(SEARCH_RESULT_LIMIT, afterCacheValue.size(), result.size());
     }

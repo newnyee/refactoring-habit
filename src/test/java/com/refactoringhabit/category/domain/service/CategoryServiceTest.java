@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.refactoringhabit.category.domain.repository.CategoryLargeRepository;
 import com.refactoringhabit.category.dto.CategoryLargeResponseDto;
-import com.refactoringhabit.product.domain.repository.RedisRepository;
+import com.refactoringhabit.common.domain.repository.RedisRepository;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +32,12 @@ class CategoryServiceTest {
         long categoriesSize = categoryLargeRepository.count();
 
         Object beforeCacheValue =
-            redisRepository.getCacheValue(CACHE_NAME_CATEGORIES, CACHE_KEY);
+            redisRepository.getCache(CACHE_NAME_CATEGORIES, CACHE_KEY);
         assertNull(beforeCacheValue);
 
         List<CategoryLargeResponseDto> result = categoryService.getCategories();
         List<CategoryLargeResponseDto> afterCacheValue = (List<CategoryLargeResponseDto>)
-            redisRepository.getCacheValue(CACHE_NAME_CATEGORIES, CACHE_KEY);
+            redisRepository.getCache(CACHE_NAME_CATEGORIES, CACHE_KEY);
 
         assertEquals(categoriesSize, afterCacheValue.size(), result.size());
     }

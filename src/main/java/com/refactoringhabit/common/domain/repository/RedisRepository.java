@@ -1,4 +1,4 @@
-package com.refactoringhabit.product.domain.repository;
+package com.refactoringhabit.common.domain.repository;
 
 
 import java.time.Duration;
@@ -12,21 +12,22 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class RedisRepository {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final CacheManager cacheManager;
 
-    public void setLongValue(String id, Long value) {
-        redisTemplate.opsForValue().set(id, String.valueOf(value), Duration.ofDays(2));
+    public void setValue(String id, Object value) {
+        redisTemplate.opsForValue().set(id, value, Duration.ofDays(2));
     }
 
-    public Long getLongValue(String id) {
-        String stringValue = redisTemplate.opsForValue().get(id);
-        return stringValue != null
-            ? Long.parseLong(stringValue)
-            : 0;
+    public Object getValue(String id) {
+        return redisTemplate.opsForValue().get(id);
     }
 
-    public Object getCacheValue(String cacheName, Object key) {
+    public void setCache(String cacheName, Object key, Object value) {
+        redisTemplate.opsForValue().set(cacheName + "::" + key, value);
+    }
+
+    public Object getCache(String cacheName, Object key) {
         Cache cache = cacheManager.getCache(cacheName);
         if (cache != null) {
             Cache.ValueWrapper valueWrapper = cache.get(key);
