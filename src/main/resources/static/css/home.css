@@ -185,22 +185,14 @@
 /*====================배너 끝==================*/
 /* 홈 해빗 목록 */
 .Home_product_recommend{
-  height: 420px;
+  height: 390px;
   --border: 1px solid saddlebrown ;
-  margin-bottom: 25px;
-}
-
-.Home_product_recommend_wrapper>div>div{
-  margin-bottom: 30px;
 }
 
 .Home_product_recommend_font1{
   display: inline-block;
   font-size: 20px;
   font-weight: 600;
-}
-
-.Home_product_recommend_font1:hover {
   cursor: pointer;
 }
 
@@ -235,7 +227,6 @@
 }
 
 .Home_product_recommend_p_div>div>img{
-  border:1px solid black;
   border-radius: 5%;
 }
 
@@ -272,7 +263,7 @@
 }
 
 .Home_product_recommend_p_font>div>div{
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   height: 34px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -287,7 +278,8 @@
 
 .Home_recommend_img{
   margin-bottom: 5px;
-  display: block;
+  display: flex;
+  align-items: center;
 }
 
 .Home_recommend_hr{
@@ -304,4 +296,10 @@
 
 .Home_smallBanner>div>a>img{
   width: 738px;
+}
+
+.review-count {
+  margin-left: 15px;
+  font-size: smaller;
+  font-weight: normal;
 }
