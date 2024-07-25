@@ -1,7 +1,7 @@
 package com.refactoringhabit.stats.domain.batch.step;
 
 import com.refactoringhabit.order.domain.repository.OrderRepository;
-import com.refactoringhabit.order.dto.OrderSummaryByHostIdDto;
+import com.refactoringhabit.order.dto.OrderSummaryDto;
 import com.refactoringhabit.review.domain.repository.ReviewRepository;
 import com.refactoringhabit.review.dto.ReviewSummaryDto;
 import com.refactoringhabit.stats.domain.batch.listener.CustomChunkListener;
@@ -62,7 +62,7 @@ public class HostTotalSalesStatsUpdateStepConfig {
         return hostTotalSalesStats -> {
             Long hostId = hostTotalSalesStats.getHostId();
 
-            OrderSummaryByHostIdDto orderSummaryByHostIdDto =
+            OrderSummaryDto orderSummaryDto =
                 orderRepository.orderSummaryByHostId(hostId); // 판매량, 판매 금액
 
             Long refundCount = orderRepository.orderRefundCountByHostId(hostId); // 환불 건수
@@ -70,7 +70,7 @@ public class HostTotalSalesStatsUpdateStepConfig {
             ReviewSummaryDto reviewSummaryDto = reviewRepository.reviewSummaryByHostId(hostId); // 리뷰 수, 리뷰 평점
 
             StatsEntityMapper.INSTANCE.updateHostTotalSalesStatsEntity(
-                hostTotalSalesStats, orderSummaryByHostIdDto, refundCount, reviewSummaryDto);
+                hostTotalSalesStats, orderSummaryDto, refundCount, reviewSummaryDto);
 
             return hostTotalSalesStats;
         };

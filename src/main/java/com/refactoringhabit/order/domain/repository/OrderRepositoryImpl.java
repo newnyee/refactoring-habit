@@ -5,8 +5,7 @@ import static com.refactoringhabit.order.domain.entity.QOrder.order;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.refactoringhabit.order.domain.enums.UsedStatus;
-import com.refactoringhabit.order.dto.OrderSummaryByHostIdDto;
-import com.refactoringhabit.order.dto.OrderSummaryByProductIdDto;
+import com.refactoringhabit.order.dto.OrderSummaryDto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -21,15 +20,13 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     private static final String SALES_VOLUME = "salesVolume";
 
     @Override
-    public OrderSummaryByProductIdDto orderSummaryByProductId(Long productId) {
+    public OrderSummaryDto orderSummaryByProductId(Long productId) {
         return jpaQueryFactory
-            .select(Projections.constructor(OrderSummaryByProductIdDto.class,
+            .select(Projections.constructor(OrderSummaryDto.class,
                 order.quantity.sum().castToNum(Long.class)
                     .coalesce(0L).as(SALES_AMOUNT),
                 order.price.sum().castToNum(Long.class)
-                    .coalesce(0L).as(SALES_VOLUME),
-                order.price.min().as("minPrice"),
-                order.price.max().as("maxPrice")))
+                    .coalesce(0L).as(SALES_VOLUME)))
             .from(order)
             .where(order.option.product.id.eq(productId)
                 .and(order.usedStatus.eq(UsedStatus.USED)))
@@ -37,9 +34,9 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     }
 
     @Override
-    public OrderSummaryByHostIdDto orderSummaryByHostId(Long hostId) {
+    public OrderSummaryDto orderSummaryByHostId(Long hostId) {
         return jpaQueryFactory
-            .select(Projections.constructor(OrderSummaryByHostIdDto.class,
+            .select(Projections.constructor(OrderSummaryDto.class,
                 order.quantity.sum().castToNum(Long.class)
                     .coalesce(0L).as(SALES_AMOUNT),
                 order.price.sum().castToNum(Long.class)
@@ -62,12 +59,12 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     }
 
     @Override
-    public OrderSummaryByHostIdDto orderSummaryByHostIdAndDate(Long hostId, LocalDate date) {
+    public OrderSummaryDto orderSummaryByHostIdAndDate(Long hostId, LocalDate date) {
         LocalDateTime startOfDate = date.atStartOfDay();
         LocalDateTime endOfDate = date.atTime(LocalTime.MAX);
 
         return jpaQueryFactory
-            .select(Projections.constructor(OrderSummaryByHostIdDto.class,
+            .select(Projections.constructor(OrderSummaryDto.class,
                 order.quantity.sum().castToNum(Long.class)
                     .coalesce(0L).as(SALES_AMOUNT),
                 order.price.sum().castToNum(Long.class)

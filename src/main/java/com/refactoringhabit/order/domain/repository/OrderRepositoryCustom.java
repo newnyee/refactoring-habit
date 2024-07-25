@@ -1,13 +1,12 @@
 package com.refactoringhabit.order.domain.repository;
 
-import com.refactoringhabit.order.dto.OrderSummaryByHostIdDto;
-import com.refactoringhabit.order.dto.OrderSummaryByProductIdDto;
+import com.refactoringhabit.order.dto.OrderSummaryDto;
 import java.time.LocalDate;
 
 public interface OrderRepositoryCustom {
-    OrderSummaryByProductIdDto orderSummaryByProductId(Long productId);
-    OrderSummaryByHostIdDto orderSummaryByHostId(Long hostId);
+    OrderSummaryDto orderSummaryByProductId(Long productId);
+    OrderSummaryDto orderSummaryByHostId(Long hostId);
     Long orderRefundCountByHostId(Long hostId);
-    OrderSummaryByHostIdDto orderSummaryByHostIdAndDate(Long hostId, LocalDate date);
+    OrderSummaryDto orderSummaryByHostIdAndDate(Long hostId, LocalDate date);
     Long orderRefundCountByHostIdAndDate(Long hostId, LocalDate date);
 }

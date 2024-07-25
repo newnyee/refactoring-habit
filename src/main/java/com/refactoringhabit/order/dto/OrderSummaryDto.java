@@ -1,6 +1,6 @@
 package com.refactoringhabit.order.dto;
 
-public record OrderSummaryByHostIdDto (
+public record OrderSummaryDto(
     Long salesAmount,
     Long salesVolume) {
 }

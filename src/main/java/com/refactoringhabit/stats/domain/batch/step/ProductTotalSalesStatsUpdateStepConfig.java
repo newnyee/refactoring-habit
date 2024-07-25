@@ -1,8 +1,10 @@
 package com.refactoringhabit.stats.domain.batch.step;
 
 import com.refactoringhabit.order.domain.repository.OrderRepository;
-import com.refactoringhabit.order.dto.OrderSummaryByProductIdDto;
+import com.refactoringhabit.order.dto.OrderSummaryDto;
+import com.refactoringhabit.product.domain.repository.ProductRepository;
 import com.refactoringhabit.product.domain.repository.RedisRepository;
+import com.refactoringhabit.product.dto.ProductSummaryDto;
 import com.refactoringhabit.review.domain.repository.ReviewRepository;
 import com.refactoringhabit.review.dto.ReviewSummaryDto;
 import com.refactoringhabit.stats.domain.batch.listener.CustomChunkListener;
@@ -29,6 +31,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class ProductTotalSalesStatsUpdateStepConfig {
 
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
     private final WishRepository wishRepository;
     private final ReviewRepository reviewRepository;
     private final RedisRepository redisRepository;
@@ -68,8 +71,11 @@ public class ProductTotalSalesStatsUpdateStepConfig {
         return productTotalSalesStats -> {
             Long productId = productTotalSalesStats.getProductId();
 
-            OrderSummaryByProductIdDto orderSummaryDto =
-                orderRepository.orderSummaryByProductId(productId); // 판매량, 판매금액, 최소 가격, 최대 가격
+            OrderSummaryDto orderSummaryDto =
+                orderRepository.orderSummaryByProductId(productId); // 판매량, 판매금액
+
+            ProductSummaryDto productSummaryDto =
+                productRepository.findMinAndMaxProductPrice(productId);// 최소 가격, 최대 가격
 
             ReviewSummaryDto reviewSummaryDto =
                 reviewRepository.reviewSummaryByProductId(productId); // 리뷰 수, 리뷰 평점
@@ -80,7 +86,7 @@ public class ProductTotalSalesStatsUpdateStepConfig {
             Long wishCount = wishRepository.countByProductId(productId); // 찜 수
 
             StatsEntityMapper.INSTANCE.updateProductTotalSalesStatsEntity(
-                productTotalSalesStats, orderSummaryDto, reviewSummaryDto, viewCount, wishCount);
+                productTotalSalesStats, orderSummaryDto, productSummaryDto, reviewSummaryDto, viewCount, wishCount);
             return productTotalSalesStats;
         };
     }
