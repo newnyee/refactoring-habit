@@ -10,7 +10,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-07-01T15:37:48+0900",
+    date = "2024-07-29T15:13:32+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class CategoryEntityMapperImpl implements CategoryEntityMapper {
@@ -35,13 +35,19 @@ public class CategoryEntityMapperImpl implements CategoryEntityMapper {
             return null;
         }
 
-        CategoryLargeResponseDto.CategoryLargeResponseDtoBuilder categoryLargeResponseDto = CategoryLargeResponseDto.builder();
+        String name = null;
+        List<CategoryMiddleResponseDto> categoryMiddleList = null;
+        String engName = null;
+        String image = null;
 
-        categoryLargeResponseDto.name( categoryLarge.getName() );
-        categoryLargeResponseDto.categoryMiddleList( categoryMiddleListToCategoryMiddleResponseDtoList( categoryLarge.getCategoryMiddles() ) );
-        categoryLargeResponseDto.engName( categoryLarge.getEngName() );
+        name = categoryLarge.getName();
+        categoryMiddleList = categoryMiddleListToCategoryMiddleResponseDtoList( categoryLarge.getCategoryMiddles() );
+        engName = categoryLarge.getEngName();
+        image = categoryLarge.getImage();
 
-        return categoryLargeResponseDto.build();
+        CategoryLargeResponseDto categoryLargeResponseDto = new CategoryLargeResponseDto( name, engName, image, categoryMiddleList );
+
+        return categoryLargeResponseDto;
     }
 
     @Override
@@ -50,12 +56,15 @@ public class CategoryEntityMapperImpl implements CategoryEntityMapper {
             return null;
         }
 
-        CategoryMiddleResponseDto.CategoryMiddleResponseDtoBuilder categoryMiddleResponseDto = CategoryMiddleResponseDto.builder();
+        String altId = null;
+        String name = null;
 
-        categoryMiddleResponseDto.altId( categoryMiddle.getAltId() );
-        categoryMiddleResponseDto.name( categoryMiddle.getName() );
+        altId = categoryMiddle.getAltId();
+        name = categoryMiddle.getName();
 
-        return categoryMiddleResponseDto.build();
+        CategoryMiddleResponseDto categoryMiddleResponseDto = new CategoryMiddleResponseDto( altId, name );
+
+        return categoryMiddleResponseDto;
     }
 
     protected List<CategoryMiddleResponseDto> categoryMiddleListToCategoryMiddleResponseDtoList(List<CategoryMiddle> list) {
