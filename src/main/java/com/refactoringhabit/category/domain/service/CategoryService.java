@@ -16,7 +16,7 @@ public class CategoryService {
     private final CategoryLargeRepository categoryLargeRepository;
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "categories", cacheManager = "contentCacheManager")
+    @Cacheable(value = "categories", cacheManager = "redisCacheManager")
     public List<CategoryLargeResponseDto> getCategories() {
         return CategoryEntityMapper.INSTANCE
             .toCategoryLargeResponseDtoList(categoryLargeRepository.findAll());
