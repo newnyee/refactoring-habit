@@ -9,8 +9,8 @@ const formatCurrency = (amount) => {
 const createStarScoreImage = (starScore) => {
     let starScoreImage = '';
     if (starScore > 0) {
-        let fullStar = '                                <img src="../../img/star.png" alt="" class="Home_recommend_star">\n';
-        let halfStar = '                                <img src="../../img/halfstar.png" alt="" class="Home_recommend_star">\n'
+        let fullStar = '                            <img src="/img/star.png" alt="" class="review-star">\n';
+        let halfStar = '                            <img src="/img/halfstar.png" alt="" class="review-star">\n'
         let fullStarCount = Math.floor(starScore)
         let hasHalfStar = (starScore - fullStarCount) >= 0.5
 
@@ -28,31 +28,29 @@ const createStarScoreImage = (starScore) => {
 
 const createProductElement = (product) => {
     const imageFileNameList = getImageFileNameList(product.imageFileNames)
-    return '    <div class="Home_product_recommend_p">\n'
-        + '        <a href="/products/' + product.productAltId + '" class="href">\n'
-        + '            <div class="Home_product_recommend_p_div">\n'
+    return '    <div class="card-product-wrapper">\n'
+        + '        <a href="/product/' + product.productAltId + '">\n'
+        + '            <div class="product-image">\n'
+        + '                <img src="/storage/'+ imageFileNameList[0] +'" width="150px" height="150px">\n'
+        + '            </div>\n'
+        + '            <div class="wish-button-wrapper">\n'
+        + '                <button class="wish-button" onclick="hello()" onsubmit="return false">\n'
+        + '                    <img src="/img/black2.png" alt="" width="40px">\n'
+        + '                </button>\n'
+        + '            </div>\n'
+        + '            <div class="product-info-wrapper">\n'
         + '                <div>\n'
-        + '                    <img src="/storage/'+ imageFileNameList[0] +'" width="150px" height="150px">\n'
-        + '                </div>\n'
-        + '                <div>\n'
-        + '                    <button class="Home_product_recommend_p_div_btn zzim_btn" onclick="hello()" onsubmit="return false">\n'
-        + '                        <img src="../../img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">\n'
-        + '                    </button>\n'
-        + '                </div>\n'
-        + '                <div class="Home_product_recommend_p_font">\n'
-        + '                    <div>\n'
-        + '                        <div>' + product.name + '</div>\n'
-        + '                        <section class="Home_recommend_img">\n'
-        + '                            <div>\n'
+        + '                    <div class="product-name">' + product.name + '</div>\n'
+        + '                    <div class="review-info">\n'
+        + '                        <div class="review-average">\n'
         + createStarScoreImage(product.reviewAverage)
-        + '                            </div>\n'
-        + '                            <div class="review-count">\n'
-        + '                                <span>리뷰 ' + product.reviewCount + '</span>\n'
-        + '                            </div>\n'
-        + '                        </section>\n'
-        + '                        <hr class="Home_recommend_hr">\n'
-        + '                        <div>' + formatCurrency(product.minPrice) + '</div>\n'
+        + '                        </div>\n'
+        + '                        <div class="review-count">\n'
+        + '                            <span>리뷰 ' + product.reviewCount + '</span>\n'
+        + '                        </div>\n'
         + '                    </div>\n'
+        + '                    <hr class="Home_recommend_hr">\n'
+        + '                    <div class="product-price">' + formatCurrency(product.minPrice) + '</div>\n'
         + '                </div>\n'
         + '            </div>\n'
         + '        </a>\n'
@@ -104,11 +102,11 @@ $(document).ready(() => {
     callNewProductsApi()
 
     $('.see-more-popular-products').on('click', () => {
-        window.location.href = '/products/popular-list'
+        window.location.href = '/product/popular-list'
     })
 
     $('.see-more-new-products').on('click', () => {
-        window.location.href = '/products/new-list'
+        window.location.href = '/product/new-list'
     })
 })
 

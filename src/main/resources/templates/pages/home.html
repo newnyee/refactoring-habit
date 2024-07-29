@@ -3,6 +3,7 @@
       th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
   <head>
     <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/product/product-list.css}">
     <script th:src="@{/js/home.js}"></script>
   </head>
 
@@ -21,7 +22,7 @@
                     <div data-index="0" class="slide slide_0 swiper-slide" id="slide0">
                       <div class="slide-content">
                         <h2>Slide0</h2>
-                        <p><img src="../../img/topban4.png"></p>
+                        <p><img src="/img/topban4.png"></p>
                       </div>
                     </div>
                   </a>
@@ -29,7 +30,7 @@
                     <div data-index="1" class="slide slide_1 swiper-slide" id="slide1">
                       <div class="slide-content">
                         <h2>Slide1</h2>
-                        <p><img src="../../img/topban.png"></p>
+                        <p><img src="/img/topban.png"></p>
                       </div>
                     </div>
                   </a>
@@ -37,7 +38,7 @@
                     <div data-index="2" class="slide slide_2 swiper-slide" id="slide2">
                       <div class="slide-content">
                         <h2>Slide2</h2>
-                        <p><img src="../../img/topban5.png"></p>
+                        <p><img src="/img/topban5.png"></p>
                       </div>
                     </div>
                   </a>
@@ -45,7 +46,7 @@
                     <div data-index="3" class="slide slide_3 swiper-slide" id="slide3">
                       <div class="slide-content">
                         <h2>Slide3</h2>
-                        <p><img src="../../img/topban3.png"></p>
+                        <p><img src="/img/topban3.png"></p>
                       </div>
                     </div>
                   </a>
@@ -53,7 +54,7 @@
                     <div data-index="4" class="slide slide_4 swiper-slide" id="slide4">
                       <div class="slide-content">
                         <h2>Slide4</h2>
-                        <p><img src="../../img/topban4.png"></p>
+                        <p><img src="/img/topban4.png"></p>
                       </div>
                     </div>
                   </a>
@@ -61,7 +62,7 @@
                     <div data-index="5" class="slide slide_5 swiper-slide" id="slide5">
                       <div class="slide-content">
                         <h2>Slide5</h2>
-                        <p><img src="../../img/topban2.png"></p>
+                        <p><img src="/img/topban2.png"></p>
                       </div>
                     </div>
                   </a>
@@ -76,41 +77,31 @@
           </div>
         </div>
         <!--배너끝-->
-
         <!--인기 목록-->
-        <div class="Home_product_recommend">
-          <div class="Home_product_recommend_wrapper">
-            <div>
-              <div>
-                <div class="Home_product_recommend_font1 see-more-popular-products">
-                  <h2>인기만점 해빗 💜 ></h2>
-                </div>
-              </div>
-              <div class="Home_product_recommend_list popular-product">
-              </div>
+        <div class="home-product-recommend">
+          <div class="home-product-recommend-title-wrapper">
+            <div class="home-product-recommend-title">
+              <h2>인기 만점 해빗 💜</h2>
             </div>
+            <span class="link-view-all see-more-popular-products">전체보기</span>
+          </div>
+          <div class="card-product-list-wrapper popular-product">
           </div>
         </div>
-
         <!--신규 목록-->
-        <div class="Home_product_recommend">
-          <div class="Home_product_recommend_wrapper">
-            <div>
-              <div>
-                <div class="Home_product_recommend_font1 see-more-new-products">
-                  <h2>신규 해빗 🌟 ></h2>
-                </div>
-              </div>
-              <div class="Home_product_recommend_list new-product">
-              </div>
+        <div class="home-product-recommend">
+          <div class="home-product-recommend-title-wrapper">
+            <div class="home-product-recommend-title">
+              <h2>신규 해빗 🌟</h2>
             </div>
+            <span class="link-view-all see-more-new-products">전체보기</span>
+          </div>
+          <div class="card-product-list-wrapper new-product">
           </div>
         </div>
         <!--호스트 지원 배너-->
         <div class="Home_smallBanner">
-          <div>
-            <a href="/host/join"><img src="../../img/host.png" alt=""></a>
-          </div>
+          <a href="/host/join"><img src="../../img/host.png" alt="호스트 지원 배너"></a>
         </div>
       </div>
     </div>
