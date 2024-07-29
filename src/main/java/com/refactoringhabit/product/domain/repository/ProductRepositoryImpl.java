@@ -45,7 +45,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
             .join(productTotalSalesStats)
             .on(product.id.eq(productTotalSalesStats.productId))
             .where(product.status.eq(OPENED))
-            .orderBy(productTotalSalesStats.salesAmount
+            .orderBy(productTotalSalesStats.salesVolume
                     .multiply(productTotalSalesStats.reviewAverage).desc()
                 , productTotalSalesStats.viewCount.desc())
             .limit(20)
