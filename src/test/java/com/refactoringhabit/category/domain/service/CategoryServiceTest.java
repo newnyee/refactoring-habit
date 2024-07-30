@@ -1,51 +1,44 @@
 package com.refactoringhabit.category.domain.service;
 
-import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-import com.refactoringhabit.category.domain.entity.CategoryLarge;
 import com.refactoringhabit.category.domain.repository.CategoryLargeRepository;
 import com.refactoringhabit.category.dto.CategoryLargeResponseDto;
+import com.refactoringhabit.common.domain.repository.RedisRepository;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@ExtendWith({MockitoExtension.class})
+@SpringBootTest
+@ActiveProfiles("test")
 class CategoryServiceTest {
 
-    @Mock
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private RedisRepository redisRepository;
+
+    @Autowired
     private CategoryLargeRepository categoryLargeRepository;
 
-    @InjectMocks
-    private CategoryService categoryService;
+    private static final String CACHE_NAME_CATEGORIES = "categories";
+    private static final String CACHE_KEY = "SimpleKey []";
 
     @Test
     void testGetCategoriesWithCache() {
-        // Mock data
-        CategoryLarge category1 = CategoryLarge.builder()
-            .altId(randomUUID().toString())
-            .engName("engName1")
-            .name("categoryName1")
-            .image("image.png1")
-            .build();
+        long categoriesSize = categoryLargeRepository.count();
 
-        CategoryLarge category2 = CategoryLarge.builder()
-            .altId(randomUUID().toString())
-            .engName("engName2")
-            .name("categoryName2")
-            .image("image.png2")
-            .build();
-
-        List<CategoryLarge> mockCategories = List.of(category1, category2);
-        when(categoryLargeRepository.findAll()).thenReturn(mockCategories);
+        Object beforeCacheValue =
+            redisRepository.getCache(CACHE_NAME_CATEGORIES, CACHE_KEY);
+        assertNull(beforeCacheValue);
 
         List<CategoryLargeResponseDto> result = categoryService.getCategories();
-        assertEquals(2, result.size());
-        assertEquals("categoryName1", result.get(0).getName());
-        assertEquals("categoryName2", result.get(1).getName());
+        List<CategoryLargeResponseDto> afterCacheValue = (List<CategoryLargeResponseDto>)
+            redisRepository.getCache(CACHE_NAME_CATEGORIES, CACHE_KEY);
+
+        assertEquals(categoriesSize, afterCacheValue.size(), result.size());
     }
 }

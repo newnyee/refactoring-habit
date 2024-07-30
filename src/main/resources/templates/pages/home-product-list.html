@@ -1,0 +1,53 @@
+<th:block lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/product/product-list.css}">
+  </head>
+
+  <title>해빗 목록 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+  <section class="PageWrapper">
+    <div>
+      <!-- 콘텐츠 리스트 -->
+      <div font-size="14px" class="ProductSectionHeader_Wrapper">
+        <div font-size="18" class="ProductSectionHeader_Header">
+          <h2 class="ProductSectionHeader_Title" th:text="${pageTitle}"></h2>
+          <span th:text="${productList.size()}"></span>
+        </div>
+      </div>
+      <!-- * 전체 아웃도어 리스트 시작 -->
+      <div class="card-product-list-wrapper">
+        <div class="card-product-wrapper" th:each="product : ${productList}">
+          <a th:href="@{/product/{productId}(productId=*{product.productAltId()})}">
+            <div class="product-image">
+              <img th:src="@{/storage/{fileName}(fileName=*{product.imageFileNames()})}">
+            </div>
+            <div class="wish-button-wrapper">
+              <button class="wish-button" onclick="hello()" onsubmit="return false">
+                <img src="/img/black2.png" alt="" width="40px" class="Home_product_recommend_p_div_img">
+              </button>
+            </div>
+            <div class="product-info-wrapper">
+              <div>
+                <div class="product-name" th:text="*{product.name()}"></div>
+                <div class="review-info">
+                  <div class="review-average" th:with="flooredRating=${T(java.lang.Math).floor(product.reviewAverage())}">
+                    <img th:src="@{/img/star.png}" th:each="star : ${#numbers.sequence(1, flooredRating)}" class="review-star">
+                    <img th:src="@{/img/halfstar.png}"
+                         th:if="${product.reviewAverage() - flooredRating >= 0.5}" class="review-star">
+                  </div>
+                  <div class="review-count">
+                    <span th:text="'리뷰 ' + *{product.reviewCount()}"></span>
+                  </div>
+                </div>
+                <hr class="Home_recommend_hr">
+                <div class="product-price" th:text="${#numbers.formatInteger(product.minPrice(), 3, 'COMMA') + ' 원'}"></div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!--* 전체 아웃도어 리스트 끝 -->
+    </div>
+  </section>
+</th:block>

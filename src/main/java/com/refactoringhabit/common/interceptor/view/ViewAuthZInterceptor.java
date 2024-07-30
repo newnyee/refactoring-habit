@@ -46,7 +46,7 @@ public class ViewAuthZInterceptor implements HandlerInterceptor {
             return interceptorUtils.redirectToUrl(response, VIEW_HOST_JOIN.getUri());
 
         } catch (Exception e) {
-            log.error("[{}] ex ", e.getClass().getSimpleName(), e);
+            log.warn("[{}] ex ", e.getClass().getSimpleName(), e);
             return interceptorUtils.redirectToLogin(request, response);
         }
     }

@@ -45,7 +45,8 @@ public class ViewAuthNInterceptor implements HandlerInterceptor {
 
             // 이상이 있는 세션일 경우 해당 세션 네임의 쿠키를 리셋 시킴
             } catch (JsonMappingException e) {
-                log.error("[{}] ex", e.getClass().getSimpleName(), e);
+                log.info("Detected and removed invalid session cookie.");
+                log.debug("[{}] ex", e.getClass().getSimpleName(), e);
                 cookieUtil.removeSessionCookie(response);
             }
 
@@ -69,20 +70,20 @@ public class ViewAuthNInterceptor implements HandlerInterceptor {
 
             // public URIs, required authentication URIs
             } catch (TokenExpiredException e) { // expired token
-                log.error("[{}] ex", e.getClass().getSimpleName(), e);
+                log.info("Expired token detected. Issued a new token for member.");
+                log.debug("[{}] ex", e.getClass().getSimpleName(), e);
                 interceptorUtils.handleExpiredToken(request, response,
                     tokenUtil.getClaimMemberId(sessionCookie.accessToken()));
                 return true;
 
             } catch (Exception e) { // invalid token
-                log.error("[{}] ex ", e.getClass().getSimpleName(), e);
-
                 // public URIs
                 if (interceptorUtils.isPublicUri(nowUri)) {
                     return true;
                 }
 
                 // required authentication URIs
+                log.warn("[{}] ex ", e.getClass().getSimpleName(), e);
                 return interceptorUtils.redirectToLogin(request, response);
             }
         }

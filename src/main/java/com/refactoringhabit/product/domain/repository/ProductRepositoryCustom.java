@@ -1,8 +1,11 @@
 package com.refactoringhabit.product.domain.repository;
 
-import com.refactoringhabit.home.dto.HomeProductListDto;
+import com.refactoringhabit.product.dto.HomeProductDto;
+import com.refactoringhabit.product.dto.ProductSummaryDto;
 import java.util.List;
 
 public interface ProductRepositoryCustom {
-    List<HomeProductListDto> productsOrderByCreatedAt();
+    ProductSummaryDto findMinAndMaxProductPrice(Long productId);
+    List<HomeProductDto> productsOrderByCreatedAt();
+    List<HomeProductDto> productsOrderBySalesVolumeAndReviewAverage();
 }

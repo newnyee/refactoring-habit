@@ -98,22 +98,6 @@
 .Home_slider{
   position: relative;
 }
-
-.slider {
-  margin: 0 auto;
-  width: 800px;
-  max-width: 100%;
-  text-align: center;
-}
-  
-#slider input[type=radio] {
-  display: none;
-}
-  
-#slider label {
-  cursor: pointer;
-  text-decoration: none;
-}
   
 #slides {
   --padding: 10px;
@@ -184,124 +168,35 @@
 
 /*====================배너 끝==================*/
 /* 홈 해빗 목록 */
-.Home_product_recommend{
-  height: 420px;
+.home-product-recommend {
+  height: 390px;
   --border: 1px solid saddlebrown ;
-  margin-bottom: 25px;
 }
 
-.Home_product_recommend_wrapper>div>div{
-  margin-bottom: 30px;
+.home-product-recommend-title-wrapper {
+  margin: 0 18px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.Home_product_recommend_font1{
-  display: inline-block;
+.home-product-recommend-title {
   font-size: 20px;
   font-weight: 600;
 }
 
-.Home_product_recommend_font1:hover {
+.link-view-all {
+  font-weight: bold;
   cursor: pointer;
 }
 
-.Home_product_recommend_font2{
-  display: inline-block;
-  float: right;
-  font-weight: 600;
-}
-
-.Home_product_recommend_font2>a{
-  color: black;
-}
-
-.Home_product_recommend_list{
-  width: 100%;
-  margin: 20px 0;
-  height: 380px;
-  --background-color: #bbb;
-}
-
-.Home_product_recommend_p{
-  width: calc(100%/4);
-  height: 350px;
-  --border: 1px solid coral;
-  display: inline-block;
-  float: left;
-  padding: 7px;
-}
-
-.Home_product_recommend_p_div{
-  text-align: center;
-}
-
-.Home_product_recommend_p_div>div>img{
-  border:1px solid black;
-  border-radius: 5%;
-}
-
-.Home_product_recommend_p_div_btn{
-  background-color:transparent;
-  border:none;
-  transform: translate(20px,-50px);
-  position: absolute;
-  height: 35px;
-  width: 40px;
-}
-
-.Home_product_recommend_p_div_img{
-  --background-color: rgba(255,255,255,0.75);
-  background-color: transparent;
-  filter: drop-shadow(2px 2px 2px #a3a3a3);
-  --transform: translateY(-50px);
-  --transform: translate(30px,-50px);
-}
-
-.Home_product_recommend_p_font{
-  padding-top: 10px;
-  font-size: 14px;
-  text-align: left;
-  padding: 13px;
-  color: black;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-
-.Home_recommend_star{
-  width: 11px;
-  display: inline-block;
-}
-
-.Home_product_recommend_p_font>div>div{
-  margin-bottom: 25px;
-  height: 34px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  line-height: 1.2;
-  text-align: left;
-  word-wrap: break-word;
-  display: -webkit-box;
-  -webkit-line-clamp: 2 ;
-  -webkit-box-orient: vertical;
-}
-
-.Home_recommend_img{
-  margin-bottom: 5px;
-  display: block;
-}
-
-.Home_recommend_hr{
-  margin:10px 0;
-}
-
 /*호스트 지원배너*/
-.Home_smallBanner{
+.Home_smallBanner {
   height: 120px;
   --background-color: bisque;
   margin-bottom: 25px;
   text-align: center;
 }
 
-.Home_smallBanner>div>a>img{
+.Home_smallBanner>a>img{
   width: 738px;
 }

@@ -36,7 +36,7 @@ public class ApiAuthZInterceptor implements HandlerInterceptor {
             return false;
 
         } catch (Exception e) {
-            log.error("[{}] ex ", e.getClass().getSimpleName(), e);
+            log.warn("[{}] ex ", e.getClass().getSimpleName(), e);
 
             response.setStatus(UNAUTHORIZED.value());
             return false;

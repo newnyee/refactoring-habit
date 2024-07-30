@@ -1,7 +1,7 @@
 package com.refactoringhabit.stats.domain.batch.step;
 
 import com.refactoringhabit.order.domain.repository.OrderRepository;
-import com.refactoringhabit.order.dto.OrderSummaryByHostIdDto;
+import com.refactoringhabit.order.dto.OrderSummaryDto;
 import com.refactoringhabit.review.domain.repository.ReviewRepository;
 import com.refactoringhabit.review.dto.ReviewSummaryDto;
 import com.refactoringhabit.stats.domain.batch.listener.CustomChunkListener;
@@ -65,7 +65,7 @@ public class HostDailySalesStatsUpdateStepConfig {
         return hostId -> {
             LocalDate yesterday = LocalDate.now().minusDays(1);
 
-            OrderSummaryByHostIdDto orderSummaryByHostIdDto =
+            OrderSummaryDto orderSummaryDto =
                 orderRepository.orderSummaryByHostIdAndDate(hostId, yesterday); // 어제의 판매량, 판매 금액
 
             Long refundCount = orderRepository.orderRefundCountByHostIdAndDate(hostId, yesterday); // 어제의 환불 건수
@@ -74,7 +74,7 @@ public class HostDailySalesStatsUpdateStepConfig {
                 reviewRepository.reviewSummaryByHostIdAndDate(hostId, yesterday); // 어제의 리뷰 수, 리뷰 평점
 
             return StatsEntityMapper.INSTANCE.toHostDailySalesStatsEntity(
-                hostId, orderSummaryByHostIdDto, refundCount,
+                hostId, orderSummaryDto, refundCount,
                 reviewSummaryDto, HOST_DAILY_SALES_STATS_ALT_ID);
         };
     }

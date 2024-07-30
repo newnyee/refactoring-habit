@@ -1,7 +1,7 @@
 package com.refactoringhabit.stats.domain.mapper;
 
-import com.refactoringhabit.order.dto.OrderSummaryByHostIdDto;
-import com.refactoringhabit.order.dto.OrderSummaryByProductIdDto;
+import com.refactoringhabit.order.dto.OrderSummaryDto;
+import com.refactoringhabit.product.dto.ProductSummaryDto;
 import com.refactoringhabit.review.dto.ReviewSummaryDto;
 import com.refactoringhabit.stats.domain.entity.HostDailySalesStats;
 import com.refactoringhabit.stats.domain.entity.HostTotalSalesStats;
@@ -16,16 +16,18 @@ import javax.annotation.processing.Generated;
 public class StatsEntityMapperImpl implements StatsEntityMapper {
 
     @Override
-    public void updateProductTotalSalesStatsEntity(ProductTotalSalesStats productTotalSalesStats, OrderSummaryByProductIdDto orderSummaryDto, ReviewSummaryDto reviewSummaryDto, Long viewCount, Long wishCount) {
-        if ( orderSummaryDto == null && reviewSummaryDto == null && viewCount == null && wishCount == null ) {
+    public void updateProductTotalSalesStatsEntity(ProductTotalSalesStats productTotalSalesStats, OrderSummaryDto orderSummaryDto, ProductSummaryDto productSummaryDto, ReviewSummaryDto reviewSummaryDto, Long viewCount, Long wishCount) {
+        if ( orderSummaryDto == null && productSummaryDto == null && reviewSummaryDto == null && viewCount == null && wishCount == null ) {
             return;
         }
 
         if ( orderSummaryDto != null ) {
             productTotalSalesStats.setSalesVolume( orderSummaryDto.salesVolume() );
             productTotalSalesStats.setSalesAmount( orderSummaryDto.salesAmount() );
-            productTotalSalesStats.setMinPrice( orderSummaryDto.minPrice() );
-            productTotalSalesStats.setMaxPrice( orderSummaryDto.maxPrice() );
+        }
+        if ( productSummaryDto != null ) {
+            productTotalSalesStats.setMinPrice( productSummaryDto.minPrice() );
+            productTotalSalesStats.setMaxPrice( productSummaryDto.maxPrice() );
         }
         if ( reviewSummaryDto != null ) {
             productTotalSalesStats.setReviewCount( reviewSummaryDto.reviewCount() );
@@ -36,7 +38,7 @@ public class StatsEntityMapperImpl implements StatsEntityMapper {
     }
 
     @Override
-    public void updateHostTotalSalesStatsEntity(HostTotalSalesStats hostTotalSalesStats, OrderSummaryByHostIdDto orderSummaryDto, Long refundCount, ReviewSummaryDto reviewSummaryDto) {
+    public void updateHostTotalSalesStatsEntity(HostTotalSalesStats hostTotalSalesStats, OrderSummaryDto orderSummaryDto, Long refundCount, ReviewSummaryDto reviewSummaryDto) {
         if ( orderSummaryDto == null && refundCount == null && reviewSummaryDto == null ) {
             return;
         }
@@ -58,7 +60,7 @@ public class StatsEntityMapperImpl implements StatsEntityMapper {
     }
 
     @Override
-    public HostDailySalesStats toHostDailySalesStatsEntity(Long hostId, OrderSummaryByHostIdDto orderSummaryDto, Long refundCount, ReviewSummaryDto reviewSummaryDto, String altId) {
+    public HostDailySalesStats toHostDailySalesStatsEntity(Long hostId, OrderSummaryDto orderSummaryDto, Long refundCount, ReviewSummaryDto reviewSummaryDto, String altId) {
         if ( hostId == null && orderSummaryDto == null && refundCount == null && reviewSummaryDto == null && altId == null ) {
             return null;
         }
