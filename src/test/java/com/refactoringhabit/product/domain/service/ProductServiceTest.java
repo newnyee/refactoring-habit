@@ -3,7 +3,7 @@ package com.refactoringhabit.product.domain.service;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.refactoringhabit.common.domain.repository.RedisRepository;
-import com.refactoringhabit.product.dto.HomeProductDto;
+import com.refactoringhabit.product.dto.ProductCardDto;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +30,9 @@ class ProductServiceTest {
         Object beforeCacheValue = redisRepository.getCache(CACHE_NAME_POPULAR, CACHE_KEY);
         assertNull(beforeCacheValue);
 
-        List<HomeProductDto> result = productService.getPopularProducts();
-        List<HomeProductDto> afterCacheValue =
-            (List<HomeProductDto>) redisRepository.getCache(CACHE_NAME_POPULAR, CACHE_KEY);
+        List<ProductCardDto> result = productService.getPopularProducts();
+        List<ProductCardDto> afterCacheValue =
+            (List<ProductCardDto>) redisRepository.getCache(CACHE_NAME_POPULAR, CACHE_KEY);
 
         assertEquals(SEARCH_RESULT_LIMIT, afterCacheValue.size(), result.size());
     }
@@ -42,9 +42,9 @@ class ProductServiceTest {
         Object beforeCacheValue = redisRepository.getCache(CACHE_NAME_NEW, CACHE_KEY);
         assertNull(beforeCacheValue);
 
-        List<HomeProductDto> result = productService.getNewProducts();
-        List<HomeProductDto> afterCacheValue =
-            (List<HomeProductDto>) redisRepository.getCache(CACHE_NAME_NEW, CACHE_KEY);
+        List<ProductCardDto> result = productService.getNewProducts();
+        List<ProductCardDto> afterCacheValue =
+            (List<ProductCardDto>) redisRepository.getCache(CACHE_NAME_NEW, CACHE_KEY);
 
         assertEquals(SEARCH_RESULT_LIMIT, afterCacheValue.size(), result.size());
     }

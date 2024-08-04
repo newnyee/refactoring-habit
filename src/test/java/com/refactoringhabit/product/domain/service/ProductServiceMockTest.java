@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import com.refactoringhabit.common.domain.repository.RedisRepository;
 import com.refactoringhabit.product.domain.repository.ProductRepository;
-import com.refactoringhabit.product.dto.HomeProductDto;
+import com.refactoringhabit.product.dto.ProductCardDto;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +23,7 @@ class ProductServiceMockTest {
     private RedisRepository redisRepository;
 
     @Mock
-    private List<HomeProductDto> productDtos;
+    private List<ProductCardDto> productDtos;
 
     @InjectMocks
     private ProductService productService;
