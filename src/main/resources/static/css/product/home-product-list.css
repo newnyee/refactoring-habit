@@ -1,0 +1,59 @@
+/*================주 컨텐츠 ========================*/
+.PageWrapper {
+  cursor: default;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  font-size: 14px;
+  color: black;
+  word-break: normal;
+  overflow-wrap: break-word;
+  background-repeat: no-repeat;
+  box-sizing: inherit;
+  outline: none;
+  font-family: inherit;
+  display: flex;
+  flex-flow: column nowrap;
+  align-content: flex-start;
+  margin: 0px auto;
+  max-width: 808px;
+  width: 780px;
+  padding: 0px 20px;
+  min-height: 1px;
+}
+
+.ProductSectionHeader_Wrapper {
+  cursor: default;
+  -webkit-text-size-adjust: 100%;
+  color: black;
+  word-break: normal;
+  overflow-wrap: break-word;
+  background-repeat: no-repeat;
+  box-sizing: inherit;
+  outline: none;
+  font-family: inherit;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  margin: 30px 0;
+  line-height: 18px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.ProductSectionHeader_Header {
+  display: flex;
+  max-width: calc(100% - 62px);
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.ProductSectionHeader_Title {
+  display: block;
+  margin-right: 8px;
+  font-weight: bold;
+  color: black;
+  font-size: inherit;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
