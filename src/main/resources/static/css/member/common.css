@@ -345,3 +345,36 @@ a:hover{
 .logout_button:hover {
   cursor: pointer;
 }
+
+/* 페이징 */
+.Wrapper_Paging{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 30px 0;
+}
+
+.paging>button {
+  padding: 35px;
+  font-size: 18px;
+  background-color: white;
+  border: none;
+}
+
+.paging-button-active:hover {
+  color:#e83e8c;
+}
+
+.paging-button-active {
+  color: black;
+}
+
+.paging-button-disabled {
+  cursor: default;
+  color: gray;
+}
+
+.now {
+  color: #e83e8c;
+  font-weight: bold;
+}
