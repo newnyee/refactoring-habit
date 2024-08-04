@@ -4,5 +4,6 @@ import java.io.Serializable;
 
 public record CategoryMiddleResponseDto(
     String altId,
-    String name) implements Serializable {
+    String name,
+    String engName) implements Serializable {
 }

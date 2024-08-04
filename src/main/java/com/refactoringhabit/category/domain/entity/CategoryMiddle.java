@@ -27,6 +27,9 @@ public class CategoryMiddle extends BaseCreateTimeEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "eng_name")
+    private String engName;
+
     @ManyToOne
     @JoinColumn(name = "category_large_id")
     private CategoryLarge categoryLarge;

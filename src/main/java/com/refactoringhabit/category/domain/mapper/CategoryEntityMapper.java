@@ -20,5 +20,7 @@ public interface CategoryEntityMapper {
     @Mapping(target = "categoryMiddleList", source = "categoryLarge.categoryMiddles")
     CategoryLargeResponseDto toCategoryLargeResponseDto(CategoryLarge categoryLarge);
 
+    List<CategoryMiddleResponseDto> toCategoryMiddleResponseDtoList(List<CategoryMiddle> categoryMiddles);
+
     CategoryMiddleResponseDto toCategoryMiddleResponseDto(CategoryMiddle categoryMiddle);
 }
