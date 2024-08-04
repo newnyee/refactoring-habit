@@ -25,7 +25,7 @@ public class ApiConfig implements WebMvcConfigurer {
                 "/api/v2/auth/reset-password",
                 "/api/v2/auth/sign-in",
                 "/api/v2/products/**",
-                "/api/v2/large-categories/**",
+                "/api/v2/categories/**",
                 "/api/v2/members");
 
         // 인가
