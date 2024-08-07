@@ -10,6 +10,6 @@ public interface ProductRepositoryCustom {
     ProductSummaryDto findMinAndMaxProductPrice(Long productId);
     List<ProductCardDto> productsOrderByCreatedAt();
     List<ProductCardDto> productsOrderBySalesVolumeAndReviewAverage();
-    List<ProductCardDto> findByCategoryName(String categoryLargeEngName, Pageable pageable);
+    List<ProductCardDto> findByCategoryName(String categoryLargeEngName, Pageable pageable, String orderByValue);
     Long countByCategoryName(String categoryEngName);
 }

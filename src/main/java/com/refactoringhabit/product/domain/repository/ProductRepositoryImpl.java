@@ -6,10 +6,13 @@ import static com.refactoringhabit.product.domain.entity.QProduct.product;
 import static com.refactoringhabit.product.domain.enums.ProductStatus.OPENED;
 import static com.refactoringhabit.stats.domain.entity.QProductTotalSalesStats.productTotalSalesStats;
 
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.refactoringhabit.product.dto.ProductCardDto;
 import com.refactoringhabit.product.dto.ProductSummaryDto;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,12 +22,20 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    private static final String ORDER_BY_VALUE_CREATE_AT = "createAt";
+    private static final String ORDER_BY_VALUE_POPULAR = "popular";
+    private static final String ORDER_BY_VALUE_REVIEW_AVERAGE = "reviewAverage";
+    private static final String ORDER_BY_VALUE_MIN_PRICE = "minPrice";
+    private static final String ORDER_BY_VALUE_MAX_PRICE = "maxPrice";
+    private static final String ALIAS_MIN_PRICE = "minPrice";
+    private static final String ALIAS_MAX_PRICE = "maxPrice";
+
     public ProductSummaryDto findMinAndMaxProductPrice(Long productId) {
         return jpaQueryFactory
             .select(Projections.constructor(
                 ProductSummaryDto.class,
-                option.price.min().as("minPrice"),
-                option.price.max().as("maxPrice")))
+                option.price.min().as(ALIAS_MIN_PRICE),
+                option.price.max().as(ALIAS_MAX_PRICE)))
             .from(product)
             .join(option)
             .on(product.id.eq(option.product.id))
@@ -75,7 +86,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
     }
 
     @Override
-    public List<ProductCardDto> findByCategoryName(String categoryEngName, Pageable pageable) {
+    public List<ProductCardDto> findByCategoryName(String categoryEngName, Pageable pageable,
+        String orderByValue) {
+        List<OrderSpecifier<?>> orderSpecifiers = getOrderSpecifierList(orderByValue);
         return jpaQueryFactory
             .select(Projections.constructor(
                 ProductCardDto.class,
@@ -91,7 +104,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
             .where(product.categoryMiddle.categoryLarge.engName.eq(categoryEngName)
                 .or(product.categoryMiddle.engName.eq(categoryEngName))
                 .and(product.status.eq(OPENED)))
-            .orderBy(product.createdAt.desc())
+            .orderBy(orderSpecifiers.toArray(new OrderSpecifier[orderSpecifiers.size()]))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
@@ -109,5 +122,28 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
                 .and(product.status.eq(OPENED)))
             .orderBy(product.createdAt.desc())
             .fetchOne();
+    }
+
+    private List<OrderSpecifier<?>> getOrderSpecifierList(String orderByValue) {
+        List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
+        if (orderByValue != null) {
+            orderSpecifiers.add(getOrderSpecifier(orderByValue));
+        }
+        if (orderByValue == null || !orderByValue.equals(ORDER_BY_VALUE_CREATE_AT)) {
+            orderSpecifiers.add(getOrderSpecifier(ORDER_BY_VALUE_CREATE_AT));
+        }
+        return orderSpecifiers;
+    }
+
+    private OrderSpecifier<?> getOrderSpecifier(String orderByValue) {
+        return switch (orderByValue) {
+            case ORDER_BY_VALUE_POPULAR -> Expressions.numberTemplate(
+                Double.class, "{0} * {1}", productTotalSalesStats.salesVolume,
+                    productTotalSalesStats.reviewAverage).desc();
+            case ORDER_BY_VALUE_REVIEW_AVERAGE -> productTotalSalesStats.reviewAverage.desc();
+            case ORDER_BY_VALUE_MIN_PRICE -> productTotalSalesStats.minPrice.asc();
+            case ORDER_BY_VALUE_MAX_PRICE -> productTotalSalesStats.minPrice.desc();
+            default -> product.createdAt.desc();
+        };
     }
 }

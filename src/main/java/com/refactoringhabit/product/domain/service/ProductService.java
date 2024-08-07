@@ -49,8 +49,9 @@ public class ProductService {
         redisRepository.setCache(CACHE_NAME_NEW_PRODUCT, CACHE_KEY_NAME, newProducts);
     }
 
-    public List<ProductCardDto> getProductsByCategoryLarge(String categoryName, Pageable pageable) {
-        return productRepository.findByCategoryName(categoryName, pageable);
+    public List<ProductCardDto> getProductsByCategoryLarge(String categoryName, Pageable pageable,
+        String orderByValue) {
+        return productRepository.findByCategoryName(categoryName, pageable, orderByValue);
     }
 
     public Long getProductCountByCategoryLarge(String categoryName) {
