@@ -19,19 +19,21 @@
     <!-- 중분류 목록 -->
     <div>
       <div class="ItemList_Wrapper">
-        <a th:href="@{/category/{categoryLargeName}(categoryLargeName=${categoryLarge.engName})}" class="category-middle-name now">전체</a>
+        <a th:href="@{/category/{categoryLargeName}(categoryLargeName=${categoryLarge.engName})}"
+           th:class="category-middle-name" th:classappend="${#strings.equals(categoryName, categoryLarge.engName)?'now':''}">전체</a>
         <a th:each="categoryMiddle : ${categoryLarge.categoryMiddleList}"
            th:href="@{/category/{categoryLargeName}/{categoryMiddleName}(categoryLargeName=${categoryLarge.engName}, categoryMiddleName=${categoryMiddle.engName})}"
            th:text="${categoryMiddle.name}"
-           class="category-middle-name"></a>
+           th:class="category-middle-name" th:classappend="${#strings.equals(categoryName, categoryMiddle.engName)?'now':''}"></a>
       </div>
     </div>
     <!-- 필터 버튼 -->
     <div class="Filter__FilterButtonWrapper">
       <button class="FilterOpenButton">필터</button>
+      <span class="filter-selected-value"></span>
     </div>
     <!-- 필터 모달창-->
-    <div class="Filter_Container_Modal" >
+    <div class="Filter_Container_Modal">
       <div class="Filter_Wrapper_Modal">
         <header class="Filter_HeaderWrapper">
           <div class="FilterModalHeader_ModalTitle">필터</div>
@@ -45,35 +47,35 @@
               <div>
                 <div class="FilterOthers_FilterTitle">정렬</div>
                 <div class="FilterRadio">
-                  <div direction="column" class="FilterRadio_RadioInput">
+                  <div class="FilterRadio_RadioInput">
                     <div class="radio-box">
                       <label class="filter-radio">
-                        <span>인기순</span>
-                        <input type="radio" id="radio-hot" name="filter" value="popularity">
+                        <span>등록일순</span>
+                        <input type="radio" name="filter" value="createAt" checked>
                       </label>
                     </div>
                     <div class="radio-box">
                       <label class="filter-radio">
-                        <span>등록일순</span>
-                        <input type="radio" id="radio-date" name="filter" value="date">
+                        <span>인기순</span>
+                        <input type="radio" name="filter" value="popular">
                       </label>
                     </div>
                     <div class="radio-box">
                       <label class="filter-radio">
                         <span>평점순</span>
-                        <input type="radio" id="radio-review" name="filter" value="rating">
+                        <input type="radio" name="filter" value="reviewAverage">
                       </label>
                     </div>
                     <div class="radio-box">
                       <label class="filter-radio">
                         <span>가격 높은순</span>
-                        <input type="radio" id="radio-pricehigh" name="filter" value="highPrice">
+                        <input type="radio" name="filter" value="maxPrice">
                       </label>
                     </div>
                     <div class="radio-box">
                       <label class="filter-radio">
                         <span>가격 낮은순</span>
-                        <input type="radio" id="radio-pricelow" name="filter" value="lowPrice">
+                        <input type="radio" name="filter" value="minPrice">
                       </label>
                     </div>
                   </div>
@@ -82,7 +84,7 @@
             </div>
           </div>
           <footer class="Filter_FooterWrapper">
-            <button width="280px" height="50px" color="white" font-size="13px" font-weight="bold" class="Button_btn">적용하기</button>
+            <button class="Button_btn filter-button">적용하기</button>
           </footer>
         </div>
       </div>
@@ -90,7 +92,7 @@
     </div>
     <!-- 중분류 카테고리 이름 -->
     <div class="ProductSectionHeader_Wrapper">
-      <div font-size="18px" class="ProductSectionHeader_Header">
+      <div class="ProductSectionHeader_Header">
         <h2 class="ProductSectionHeader_Title"><span class="category-name"></span> 해빗</h2>
         <span class="product-list-size"></span>
       </div>

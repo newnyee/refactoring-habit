@@ -1,7 +1,7 @@
 .PageWrapper {
   margin: 0 auto;
   width: 780px;
-  padding: 0 20px;
+  padding: 0 50px;
 }
 
 .CategoryNav_Wrapper {
@@ -25,19 +25,29 @@
 
 .category-middle-name {
   margin-right: 20px;
-  color: inherit;
+  /*color: inherit;*/
   text-decoration: none;
   font-weight: bold;
 }
 
 /* 필터 모달 시작 */
+.filter-selected-value {
+  font-size: small;
+  margin-left: 10px;
+}
+
 .Filter__FilterButtonWrapper {
   padding-top: 5px;
   padding-bottom: 40px;
 }
 
 .FilterOpenButton{
-  padding: 11px 20px;
+  width: 80px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 14px;
   background-color: transparent;
   border: 1px solid rgb(238, 238, 238);
   border-radius: 5px;

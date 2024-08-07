@@ -39,9 +39,10 @@ const callGetCategoriesApi = () => {
 const callGetProductsByCategoryLargeApi = (page) => {
   let requestUrl = '/api/v2/categories/' + categoryEngName + '/products'
   if (page) {
-    let pageNumber = Number(page) -1
+    let pageNumber = Number(page) - 1
     requestUrl += '?page=' + pageNumber + '&size=' + paging.recordPerPage
   }
+  requestUrl += '&order-by=' + $('[name=filter]:checked').val()
 
   $.ajax({
     url: requestUrl,
@@ -68,12 +69,12 @@ const callGetProductsByCategoryLargeApi = (page) => {
         alert("오류가 발생했습니다. 관리자에게 문의하세요.")
       }
     }
-  });
+  })
 }
 
 $(document).ready(() => {
   callGetCategoriesApi()
-  callGetProductsByCategoryLargeApi()
+  callGetProductsByCategoryLargeApi(1)
 
   // 필터 모달창 열기
   $('.FilterOpenButton').on('click', () => {
@@ -83,5 +84,15 @@ $(document).ready(() => {
   // 필터 모달창 닫기
   $('.filter-close').on('click', () => {
     $('.Filter_Container_Modal').css('display', 'none')
+  })
+
+  // 필터 적용
+  $('.filter-button').on('click', () => {
+    callGetProductsByCategoryLargeApi(1)
+    $('.Filter_Container_Modal').css('display', 'none')
+    let filterOpenButton = $('.FilterOpenButton')
+    filterOpenButton.text('적용됨')
+    filterOpenButton.css('color', '#e83e8c')
+    filterOpenButton.css('font-weight', 'bold')
   })
 })
