@@ -68,24 +68,24 @@ public class ProductTotalSalesStatsUpdateStepConfig {
     private ItemProcessor<ProductTotalSalesStats, ProductTotalSalesStats> productTotalSalesStatsUpdateProcessor() {
         return productTotalSalesStats -> {
             Long productId = productTotalSalesStats.getProductId();
+            productRepository.findById(productId).ifPresent(product -> {
+                OrderSummaryDto orderSummaryDto =
+                    orderRepository.orderSummaryByProductId(productId); // 판매량, 판매금액
 
-            OrderSummaryDto orderSummaryDto =
-                orderRepository.orderSummaryByProductId(productId); // 판매량, 판매금액
+                ProductSummaryDto productSummaryDto =
+                    productRepository.findMinAndMaxProductPrice(productId);// 최소 가격, 최대 가격
 
-            ProductSummaryDto productSummaryDto =
-                productRepository.findMinAndMaxProductPrice(productId);// 최소 가격, 최대 가격
+                ReviewSummaryDto reviewSummaryDto =
+                    reviewRepository.reviewSummaryByProductId(productId); // 리뷰 수, 리뷰 평점
 
-            ReviewSummaryDto reviewSummaryDto =
-                reviewRepository.reviewSummaryByProductId(productId); // 리뷰 수, 리뷰 평점
+                Long viewCount = statsService.getCacheViewCount(product.getAltId()); // 조회 수
 
-            Long viewCount = statsService.getCacheViewCount(productTotalSalesStats.getAltId()); // 조회 수
+                Long wishCount = wishRepository.countByProductId(productId); // 찜 수
 
-            Long wishCount = wishRepository.countByProductId(productId); // 찜 수
-
-            StatsEntityMapper.INSTANCE.updateProductTotalSalesStatsEntity(
-                productTotalSalesStats, orderSummaryDto, productSummaryDto, reviewSummaryDto,
-                viewCount, wishCount);
-
+                StatsEntityMapper.INSTANCE.updateProductTotalSalesStatsEntity(
+                    productTotalSalesStats, orderSummaryDto, productSummaryDto, reviewSummaryDto,
+                    viewCount, wishCount);
+            });
             return productTotalSalesStats;
         };
     }
