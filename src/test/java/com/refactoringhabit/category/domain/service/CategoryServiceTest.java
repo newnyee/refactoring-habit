@@ -25,6 +25,7 @@ class CategoryServiceTest {
     private CategoryLargeRepository categoryLargeRepository;
 
     private static final String CACHE_NAME_CATEGORIES = "categories";
+    private static final String CACHE_NAME_CATEGORIES_LARGE = "categories-large";
     private static final String CACHE_KEY = "SimpleKey []";
 
     @Test
@@ -40,5 +41,20 @@ class CategoryServiceTest {
             redisRepository.getCache(CACHE_NAME_CATEGORIES, CACHE_KEY);
 
         assertEquals(categoriesSize, afterCacheValue.size(), result.size());
+    }
+
+    @Test
+    void testGetCategoryLarge() {
+        String categoryLargeEngName = "outdoor";
+
+        Object beforeCacheValue =
+            redisRepository.getCache(CACHE_NAME_CATEGORIES_LARGE, categoryLargeEngName);
+        assertNull(beforeCacheValue);
+
+        CategoryLargeResponseDto result = categoryService.getCategoryLarge(categoryLargeEngName);
+        CategoryLargeResponseDto afterCacheValue = (CategoryLargeResponseDto)
+            redisRepository.getCache(CACHE_NAME_CATEGORIES_LARGE, categoryLargeEngName);
+
+        assertEquals(result.name(), afterCacheValue.name());
     }
 }
