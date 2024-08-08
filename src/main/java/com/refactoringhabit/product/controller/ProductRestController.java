@@ -1,7 +1,7 @@
 package com.refactoringhabit.product.controller;
 
 import com.refactoringhabit.common.response.ApiResponse;
-import com.refactoringhabit.product.dto.HomeProductDto;
+import com.refactoringhabit.product.dto.ProductCardDto;
 import com.refactoringhabit.product.domain.service.ProductService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,12 @@ public class ProductRestController {
     private final ProductService productService;
 
     @GetMapping("/popular")
-    public ApiResponse<List<HomeProductDto>> popularProducts() {
+    public ApiResponse<List<ProductCardDto>> popularProducts() {
         return ApiResponse.ok(productService.getPopularProducts());
     }
 
     @GetMapping("/new")
-    public ApiResponse<List<HomeProductDto>> newProducts() {
+    public ApiResponse<List<ProductCardDto>> newProducts() {
         return ApiResponse.ok(productService.getNewProducts());
     }
 }

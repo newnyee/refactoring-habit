@@ -2,15 +2,16 @@
       xmlns:th="http://www.thymeleaf.org"
       th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
   <head>
-    <link rel="stylesheet" th:href="@{/css/product/product-list.css}">
+    <link rel="stylesheet" th:href="@{/css/product/home-product-list.css}">
+    <link rel="stylesheet" th:href="@{/css/product/product-card.css}">
   </head>
 
   <title>해빗 목록 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
   <section class="PageWrapper">
     <div>
       <!-- 콘텐츠 리스트 -->
-      <div font-size="14px" class="ProductSectionHeader_Wrapper">
-        <div font-size="18" class="ProductSectionHeader_Header">
+      <div class="ProductSectionHeader_Wrapper">
+        <div class="ProductSectionHeader_Header">
           <h2 class="ProductSectionHeader_Title" th:text="${pageTitle}"></h2>
           <span th:text="${productList.size()}"></span>
         </div>

@@ -10,7 +10,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-07-01T15:37:48+0900",
+    date = "2024-08-08T10:45:24+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class CategoryEntityMapperImpl implements CategoryEntityMapper {
@@ -35,13 +35,33 @@ public class CategoryEntityMapperImpl implements CategoryEntityMapper {
             return null;
         }
 
-        CategoryLargeResponseDto.CategoryLargeResponseDtoBuilder categoryLargeResponseDto = CategoryLargeResponseDto.builder();
+        String name = null;
+        List<CategoryMiddleResponseDto> categoryMiddleList = null;
+        String engName = null;
+        String image = null;
 
-        categoryLargeResponseDto.name( categoryLarge.getName() );
-        categoryLargeResponseDto.categoryMiddleList( categoryMiddleListToCategoryMiddleResponseDtoList( categoryLarge.getCategoryMiddles() ) );
-        categoryLargeResponseDto.engName( categoryLarge.getEngName() );
+        name = categoryLarge.getName();
+        categoryMiddleList = toCategoryMiddleResponseDtoList( categoryLarge.getCategoryMiddles() );
+        engName = categoryLarge.getEngName();
+        image = categoryLarge.getImage();
 
-        return categoryLargeResponseDto.build();
+        CategoryLargeResponseDto categoryLargeResponseDto = new CategoryLargeResponseDto( name, engName, image, categoryMiddleList );
+
+        return categoryLargeResponseDto;
+    }
+
+    @Override
+    public List<CategoryMiddleResponseDto> toCategoryMiddleResponseDtoList(List<CategoryMiddle> categoryMiddles) {
+        if ( categoryMiddles == null ) {
+            return null;
+        }
+
+        List<CategoryMiddleResponseDto> list = new ArrayList<CategoryMiddleResponseDto>( categoryMiddles.size() );
+        for ( CategoryMiddle categoryMiddle : categoryMiddles ) {
+            list.add( toCategoryMiddleResponseDto( categoryMiddle ) );
+        }
+
+        return list;
     }
 
     @Override
@@ -50,24 +70,16 @@ public class CategoryEntityMapperImpl implements CategoryEntityMapper {
             return null;
         }
 
-        CategoryMiddleResponseDto.CategoryMiddleResponseDtoBuilder categoryMiddleResponseDto = CategoryMiddleResponseDto.builder();
+        String altId = null;
+        String name = null;
+        String engName = null;
 
-        categoryMiddleResponseDto.altId( categoryMiddle.getAltId() );
-        categoryMiddleResponseDto.name( categoryMiddle.getName() );
+        altId = categoryMiddle.getAltId();
+        name = categoryMiddle.getName();
+        engName = categoryMiddle.getEngName();
 
-        return categoryMiddleResponseDto.build();
-    }
+        CategoryMiddleResponseDto categoryMiddleResponseDto = new CategoryMiddleResponseDto( altId, name, engName );
 
-    protected List<CategoryMiddleResponseDto> categoryMiddleListToCategoryMiddleResponseDtoList(List<CategoryMiddle> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<CategoryMiddleResponseDto> list1 = new ArrayList<CategoryMiddleResponseDto>( list.size() );
-        for ( CategoryMiddle categoryMiddle : list ) {
-            list1.add( toCategoryMiddleResponseDto( categoryMiddle ) );
-        }
-
-        return list1;
+        return categoryMiddleResponseDto;
     }
 }

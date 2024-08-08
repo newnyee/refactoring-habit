@@ -1,138 +1,209 @@
-/*================주 컨텐츠 ========================*/
 .PageWrapper {
-  cursor: default;
-  line-height: 1.5;
-  -webkit-text-size-adjust: 100%;
-  font-size: 14px;
-  color: black;
-  word-break: normal;
-  overflow-wrap: break-word;
-  background-repeat: no-repeat;
-  box-sizing: inherit;
-  outline: none;
-  font-family: inherit;
-  display: flex;
-  flex-flow: column nowrap;
-  align-content: flex-start;
-  margin: 0px auto;
-  max-width: 808px;
+  margin: 0 auto;
   width: 780px;
-  padding: 0px 20px;
-  min-height: 1px;
+  padding: 0 50px;
 }
 
-.ProductSectionHeader_Wrapper {
-  cursor: default;
-  -webkit-text-size-adjust: 100%;
-  color: black;
-  word-break: normal;
-  overflow-wrap: break-word;
-  background-repeat: no-repeat;
-  box-sizing: inherit;
-  outline: none;
-  font-family: inherit;
-  display: flex;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  margin: 30px 0;
-  line-height: 18px;
-  font-size: 14px;
+.CategoryNav_Wrapper {
+  padding: 20px 0;
+  font-size: 20px;
   font-weight: bold;
+}
+
+.CategoryNav_Wrapper>img {
+  transform: rotate(90deg);
+  width: 18px;
+  height: 18px;
+  vertical-align: initial;
+}
+
+.ItemList_Wrapper {
+  color: black;
+  padding-bottom: 20px;
+  font-size: 12px;
+}
+
+.category-middle-name {
+  margin-right: 20px;
+  /*color: inherit;*/
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* 필터 모달 시작 */
+.filter-selected-value {
+  font-size: small;
+  margin-left: 10px;
+}
+
+.Filter__FilterButtonWrapper {
+  padding-top: 5px;
+  padding-bottom: 40px;
+}
+
+.FilterOpenButton{
+  width: 80px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 14px;
+  background-color: transparent;
+  border: 1px solid rgb(238, 238, 238);
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.Filter_Container_Modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 3000;
+}
+
+.Filter_Wrapper_Modal {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  overflow: hidden;
+  z-index: 2;
+  border-radius: 5px;
+}
+
+.Filter_HeaderWrapper {
+  display: flex;
+  justify-content: space-between;
+  flex: 0 0 60px;
+  align-items: center;
+  padding: 0 18px;
+  border-bottom: 1px solid rgb(238, 238, 238);
+}
+
+.FilterModalHeader_ModalTitle {
+  padding-left: 22px;
+  font-weight: bold;
+}
+
+.Filter_Button {
+  background-color: white;
+  border: none;
+}
+
+.FilterOther_Momo {
+  padding: 0 40px;
+  min-width: 360px;
+  height: 446px;
+}
+
+.FilterOther_ModalSection {
+  padding-top: 30px;
+}
+
+.FilterOthers_FilterTitle {
+  padding-bottom: 20px;
+  font-weight: bold;
+}
+
+.FilterRadio {
+  font-family: inherit;
+}
+
+.FilterRadio_RadioInput {
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(238, 238, 238);
+}
+
+input[type=radio] {
+  appearance: none;
+  border: max(2px, 0.1em) solid gray;
+  border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+input[type=radio]:checked {
+  border: 0.4em solid #e83e8c;
+}
+
+input[type=radio]:hover {
+  box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+  cursor: pointer;
+}
+
+input[type=radio]:hover + span {
+  cursor: pointer;
+}
+
+[type="radio"]:disabled {
+  background-color: lightgray;
+  box-shadow: none;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+[type="radio"]:disabled + span {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.filter-radio {
+  display: flex;
+  justify-content: space-between;
+}
+
+.radio-box {
+  margin-bottom: 15px;
+}
+
+.radio-box label:hover {
+  cursor: pointer;
+}
+
+.Filter_FooterWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.Button_btn {
+  width: 100%;
+  height: 50px;
+  background-color: #e83e8c;
+  border-radius: 5px;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  border: none;
+}
+
+.Filter_Overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+/* 필터 모달 끝 */
+
+/* 본문 시작 */
+.ProductSectionHeader_Wrapper {
+  margin-bottom: 30px;
 }
 
 .ProductSectionHeader_Header {
   display: flex;
-  max-width: calc(100% - 62px);
   font-size: 18px;
   line-height: 22px;
 }
 
 .ProductSectionHeader_Title {
-  display: block;
   margin-right: 8px;
   font-weight: bold;
   color: black;
-  font-size: inherit;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
-
-/*product*/
-
-.card-product-list-wrapper {
-  width: 100%;
-  margin: 20px 0;
-}
-
-.card-product-wrapper {
-  width: calc(100%/4);
-  height: 350px;
-  display: inline-block;
-  float: left;
-  padding: 7px;
-}
-
-.product-info-wrapper {
-  font-size: 14px;
-  text-align: left;
-  padding: 13px;
-  color: black;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-
-.product-image {
-  text-align: center;
-}
-
-.product-image>img {
-  border-radius: 5%;
-  width: 150px;
-  height: 150px;
-}
-
-.product-name {
-  margin-bottom: 15px;
-  height: 34px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  line-height: 1.2;
-  display: -webkit-box;
-  -webkit-line-clamp: 2 ;
-  -webkit-box-orient: vertical;
-}
-
-.review-info {
-  margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-}
-
-.review-average {
-  display: flex;
-}
-
-.review-star {
-  width: 13px;
-}
-
-.review-count {
-  margin-left: 15px;
-  font-size: smaller;
-  font-weight: normal;
-}
-
-.Home_recommend_hr {
-  margin:10px 0;
-}
-
-.wish-button {
-  background-color:transparent;
-  border:none;
-  transform: translate(105px,-50px);
-  position: absolute;
-  height: 35px;
-  width: 40px;
-}
+/* 본문 끝 */

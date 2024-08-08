@@ -3,7 +3,6 @@ package com.refactoringhabit.stats.domain.batch.step;
 import com.refactoringhabit.order.domain.repository.OrderRepository;
 import com.refactoringhabit.order.dto.OrderSummaryDto;
 import com.refactoringhabit.product.domain.repository.ProductRepository;
-import com.refactoringhabit.common.domain.repository.RedisRepository;
 import com.refactoringhabit.product.dto.ProductSummaryDto;
 import com.refactoringhabit.review.domain.repository.ReviewRepository;
 import com.refactoringhabit.review.dto.ReviewSummaryDto;
@@ -11,6 +10,7 @@ import com.refactoringhabit.stats.domain.batch.listener.CustomChunkListener;
 import com.refactoringhabit.stats.domain.batch.listener.CustomStepListener;
 import com.refactoringhabit.stats.domain.entity.ProductTotalSalesStats;
 import com.refactoringhabit.stats.domain.mapper.StatsEntityMapper;
+import com.refactoringhabit.stats.domain.service.StatsService;
 import com.refactoringhabit.wish.domain.repository.WishRepository;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
@@ -34,10 +34,8 @@ public class ProductTotalSalesStatsUpdateStepConfig {
     private final ProductRepository productRepository;
     private final WishRepository wishRepository;
     private final ReviewRepository reviewRepository;
-    private final RedisRepository redisRepository;
+    private final StatsService statsService;
     private final EntityManagerFactory entityManagerFactory;
-
-    private static final String VIEW_COUNT_CACHE_PREFIX = "view-count::";
 
     @Bean(name = "productTotalSalesStatsUpdateStep")
     public Step productTotalSalesStatsUpdateStep(JobRepository jobRepository,
@@ -70,23 +68,24 @@ public class ProductTotalSalesStatsUpdateStepConfig {
     private ItemProcessor<ProductTotalSalesStats, ProductTotalSalesStats> productTotalSalesStatsUpdateProcessor() {
         return productTotalSalesStats -> {
             Long productId = productTotalSalesStats.getProductId();
+            productRepository.findById(productId).ifPresent(product -> {
+                OrderSummaryDto orderSummaryDto =
+                    orderRepository.orderSummaryByProductId(productId); // 판매량, 판매금액
 
-            OrderSummaryDto orderSummaryDto =
-                orderRepository.orderSummaryByProductId(productId); // 판매량, 판매금액
+                ProductSummaryDto productSummaryDto =
+                    productRepository.findMinAndMaxProductPrice(productId);// 최소 가격, 최대 가격
 
-            ProductSummaryDto productSummaryDto =
-                productRepository.findMinAndMaxProductPrice(productId);// 최소 가격, 최대 가격
+                ReviewSummaryDto reviewSummaryDto =
+                    reviewRepository.reviewSummaryByProductId(productId); // 리뷰 수, 리뷰 평점
 
-            ReviewSummaryDto reviewSummaryDto =
-                reviewRepository.reviewSummaryByProductId(productId); // 리뷰 수, 리뷰 평점
+                Long viewCount = statsService.getCacheViewCount(product.getAltId()); // 조회 수
 
-            Long viewCount = getViewCount(productTotalSalesStats.getAltId(),
-                productTotalSalesStats.getViewCount());// 조회 수
+                Long wishCount = wishRepository.countByProductId(productId); // 찜 수
 
-            Long wishCount = wishRepository.countByProductId(productId); // 찜 수
-
-            StatsEntityMapper.INSTANCE.updateProductTotalSalesStatsEntity(
-                productTotalSalesStats, orderSummaryDto, productSummaryDto, reviewSummaryDto, viewCount, wishCount);
+                StatsEntityMapper.INSTANCE.updateProductTotalSalesStatsEntity(
+                    productTotalSalesStats, orderSummaryDto, productSummaryDto, reviewSummaryDto,
+                    viewCount, wishCount);
+            });
             return productTotalSalesStats;
         };
     }
@@ -95,16 +94,5 @@ public class ProductTotalSalesStatsUpdateStepConfig {
         JpaItemWriter<ProductTotalSalesStats> jpaItemWriter = new JpaItemWriter<>();
         jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
         return jpaItemWriter;
-    }
-
-    private Long getViewCount(String productAltId, Long oldViewCount) {
-        Long todayViewCount = (Long) redisRepository
-            .getValue(VIEW_COUNT_CACHE_PREFIX + productAltId);
-        if (todayViewCount != null) {
-            redisRepository.setValue(VIEW_COUNT_CACHE_PREFIX + productAltId, 0L);
-        } else {
-            todayViewCount = 0L;
-        }
-        return oldViewCount + todayViewCount;
     }
 }
