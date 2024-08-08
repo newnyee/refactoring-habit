@@ -13,7 +13,7 @@ public class StatsService {
 
     private static final String CACHE_NAME_VIEW_COUNT = "view-count";
 
-    @Cacheable(value = CACHE_NAME_VIEW_COUNT, key = "productAltId", cacheManager = "redisCacheManager")
+    @Cacheable(value = CACHE_NAME_VIEW_COUNT, key = "#p0", cacheManager = "redisCacheManager")
     public Long getCacheViewCount(String productAltId) {
         return productTotalSalesStatsRepository.getViewCount(productAltId);
     }
