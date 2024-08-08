@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -49,11 +50,13 @@ public class ProductService {
         redisRepository.setCache(CACHE_NAME_NEW_PRODUCT, CACHE_KEY_NAME, newProducts);
     }
 
+    @Transactional(readOnly = true)
     public List<ProductCardDto> getProductsByCategoryLarge(String categoryName, Pageable pageable,
         String orderByValue) {
         return productRepository.findByCategoryName(categoryName, pageable, orderByValue);
     }
 
+    @Transactional(readOnly = true)
     public Long getProductCountByCategoryLarge(String categoryName) {
         return productRepository.countByCategoryName(categoryName);
     }
