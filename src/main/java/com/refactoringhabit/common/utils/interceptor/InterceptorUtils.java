@@ -2,6 +2,7 @@ package com.refactoringhabit.common.utils.interceptor;
 
 import static com.refactoringhabit.common.enums.AttributeNames.*;
 import static com.refactoringhabit.common.enums.UriAccessLevel.NULL_SESSION_ONLY_URI;
+import static com.refactoringhabit.common.enums.UriAccessLevel.PUBLIC_API;
 import static com.refactoringhabit.common.enums.UriAccessLevel.PUBLIC_URI;
 import static com.refactoringhabit.common.enums.UriMappings.VIEW_HOME;
 import static com.refactoringhabit.host.domain.mapper.HostEntityMapper.INSTANCE;
@@ -93,5 +94,10 @@ public class InterceptorUtils {
             modelAndView
                 .addObject(HOST_INFO.getName(), INSTANCE.toHostInfoDto(member.getHost()));
         }
+    }
+
+    public boolean isPublicApi(String nowUri) {
+        return PUBLIC_API.getUriMappingsList().stream()
+            .anyMatch(uriMappings -> nowUri.startsWith(uriMappings.getUri()));
     }
 }
