@@ -1,6 +1,7 @@
 package com.refactoringhabit.product.domain.repository;
 
 import com.refactoringhabit.product.dto.ProductCardDto;
+import com.refactoringhabit.product.dto.ProductDetailDto;
 import com.refactoringhabit.product.dto.ProductSummaryDto;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
@@ -12,4 +13,5 @@ public interface ProductRepositoryCustom {
     List<ProductCardDto> productsOrderBySalesVolumeAndReviewAverage();
     List<ProductCardDto> findByCategoryName(String categoryLargeEngName, Pageable pageable, String orderByValue);
     Long countByCategoryName(String categoryEngName);
+    ProductDetailDto getProductDetailsByAltId(String altId);
 }
