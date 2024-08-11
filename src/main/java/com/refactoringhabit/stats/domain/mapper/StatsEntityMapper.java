@@ -24,7 +24,7 @@ public interface StatsEntityMapper {
         ReviewSummaryDto reviewSummaryDto, Long viewCount, Long wishCount);
 
     void updateHostTotalSalesStatsEntity(
-        @MappingTarget HostTotalSalesStats hostTotalSalesStats,
+        @MappingTarget HostTotalSalesStats hostTotalSalesStats, Long totalProductCount,
         OrderSummaryDto orderSummaryDto, Long refundCount,
         ReviewSummaryDto reviewSummaryDto
     );

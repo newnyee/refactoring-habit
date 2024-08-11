@@ -40,6 +40,8 @@ public class QHostTotalSalesStats extends EntityPathBase<HostTotalSalesStats> {
 
     public final NumberPath<Long> salesVolume = createNumber("salesVolume", Long.class);
 
+    public final NumberPath<Long> totalProductCount = createNumber("totalProductCount", Long.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 

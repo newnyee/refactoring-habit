@@ -33,6 +33,10 @@ public class HostTotalSalesStats extends BaseTimeEntity {
     private String altId;
 
     @Setter
+    @Column(name = "total_product_count")
+    private Long totalProductCount;
+
+    @Setter
     @Column(name = "sales_volume")
     private Long salesVolume;
 

@@ -10,7 +10,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-07-21T21:23:22+0900",
+    date = "2024-08-10T07:48:27+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class StatsEntityMapperImpl implements StatsEntityMapper {
@@ -38,8 +38,8 @@ public class StatsEntityMapperImpl implements StatsEntityMapper {
     }
 
     @Override
-    public void updateHostTotalSalesStatsEntity(HostTotalSalesStats hostTotalSalesStats, OrderSummaryDto orderSummaryDto, Long refundCount, ReviewSummaryDto reviewSummaryDto) {
-        if ( orderSummaryDto == null && refundCount == null && reviewSummaryDto == null ) {
+    public void updateHostTotalSalesStatsEntity(HostTotalSalesStats hostTotalSalesStats, Long totalProductCount, OrderSummaryDto orderSummaryDto, Long refundCount, ReviewSummaryDto reviewSummaryDto) {
+        if ( totalProductCount == null && orderSummaryDto == null && refundCount == null && reviewSummaryDto == null ) {
             return;
         }
 
@@ -56,6 +56,7 @@ public class StatsEntityMapperImpl implements StatsEntityMapper {
                 hostTotalSalesStats.setReviewAverage( null );
             }
         }
+        hostTotalSalesStats.setTotalProductCount( totalProductCount );
         hostTotalSalesStats.setRefundCount( refundCount );
     }
 
