@@ -24,6 +24,8 @@ public class WishService {
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
 
+    public static final String WISH_ALT_ID = null;
+
     @Transactional(readOnly = true)
     public String getWishAltId(String memberAltId, String productAltId) {
         try {
@@ -34,6 +36,20 @@ public class WishService {
             log.debug("[{}] ex", e.getClass().getSimpleName(), e);
             return "";
         }
+    }
+
+    @Transactional
+    public String createWish(String memberAltId, String productAltId) {
+        return wishRepository
+            .save(WishEntityMapper.INSTANCE
+                .toEntity(getMember(memberAltId), getProduct(productAltId), WISH_ALT_ID))
+            .getAltId();
+    }
+
+    @Transactional
+    public void deleteWish(String memberAltId, String productAltId, String wishAltId) {
+        wishRepository.deleteByMemberAndProductAndAltId(
+            getMember(memberAltId), getProduct(productAltId), wishAltId);
     }
 
     private Member getMember(String memberAltId) {
