@@ -6,6 +6,7 @@ import static com.refactoringhabit.member.domain.enums.MemberType.HOST;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -18,6 +19,7 @@ import com.refactoringhabit.host.domain.repository.HostRepository;
 import com.refactoringhabit.host.dto.HostInfoRequestDto;
 import com.refactoringhabit.host.dto.HostOptionInfoDto;
 import com.refactoringhabit.host.dto.HostProductInfoDto;
+import com.refactoringhabit.host.dto.SimpleHostInfoDto;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
@@ -93,7 +95,8 @@ class HostServiceTest {
     @InjectMocks
     private HostService hostService;
 
-    private final static String CATEGORY_MIDDLE_ALT_ID = "categoryMiddleAltId";
+    private static final String CATEGORY_MIDDLE_ALT_ID = "categoryMiddleAltId";
+    private static final Long HOST_ID = 0L;
 
     @Test
     @DisplayName("호스트 가입 - 성공")
@@ -252,5 +255,15 @@ class HostServiceTest {
             hostService
                 .hostProductCreate(HOST_ALT_ID.getName(), hostProductInfoDto, multipartFiles)
         );
+    }
+
+    @Test
+    @DisplayName("호스트 간단 정보 얻기")
+    void testGetSimpleHostInfo() {
+        SimpleHostInfoDto simpleHostInfoDto = mock(SimpleHostInfoDto.class);
+        when(hostRepository.getSimpleHostInfoById(HOST_ID)).thenReturn(simpleHostInfoDto);
+
+        SimpleHostInfoDto getSimpleHostInfo = hostService.getSimpleHostInfo(HOST_ID);
+        assertEquals(simpleHostInfoDto, getSimpleHostInfo);
     }
 }

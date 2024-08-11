@@ -34,6 +34,8 @@ public class QOption extends EntityPathBase<Option> {
 
     public final NumberPath<Integer> quantity = createNumber("quantity", Integer.class);
 
+    public final ListPath<com.refactoringhabit.review.domain.entity.Review, com.refactoringhabit.review.domain.entity.QReview> reviews = this.<com.refactoringhabit.review.domain.entity.Review, com.refactoringhabit.review.domain.entity.QReview>createList("reviews", com.refactoringhabit.review.domain.entity.Review.class, com.refactoringhabit.review.domain.entity.QReview.class, PathInits.DIRECT2);
+
     public final EnumPath<com.refactoringhabit.product.domain.enums.OptionStatus> status = createEnum("status", com.refactoringhabit.product.domain.enums.OptionStatus.class);
 
     public QOption(String variable) {

@@ -7,7 +7,8 @@ import java.util.List;
 
 public enum UriAccessLevel {
     NULL_SESSION_ONLY_URI(Arrays.asList(VIEW_JOIN, VIEW_FIND_MEMBER, VIEW_LOGIN)),
-    PUBLIC_URI(Arrays.asList(VIEW_CATEGORY, VIEW_PRODUCT, VIEW_SEARCH_LIST));
+    PUBLIC_URI(Arrays.asList(VIEW_CATEGORY, VIEW_PRODUCT, VIEW_SEARCH_LIST)),
+    PUBLIC_API(Arrays.asList(API_PRODUCT));
 
     private final List<UriMappings> uriMappingsList;
 

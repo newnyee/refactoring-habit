@@ -2,6 +2,7 @@ package com.refactoringhabit.stats.domain.batch.step;
 
 import com.refactoringhabit.order.domain.repository.OrderRepository;
 import com.refactoringhabit.order.dto.OrderSummaryDto;
+import com.refactoringhabit.product.domain.repository.ProductRepository;
 import com.refactoringhabit.review.domain.repository.ReviewRepository;
 import com.refactoringhabit.review.dto.ReviewSummaryDto;
 import com.refactoringhabit.stats.domain.batch.listener.CustomChunkListener;
@@ -27,6 +28,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class HostTotalSalesStatsUpdateStepConfig {
 
     private final EntityManagerFactory entityManagerFactory;
+    private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final ReviewRepository reviewRepository;
 
@@ -62,6 +64,8 @@ public class HostTotalSalesStatsUpdateStepConfig {
         return hostTotalSalesStats -> {
             Long hostId = hostTotalSalesStats.getHostId();
 
+            Long totalProductCount = productRepository.countByHostId(hostId); // 호스트 총 상품 갯수
+
             OrderSummaryDto orderSummaryDto =
                 orderRepository.orderSummaryByHostId(hostId); // 판매량, 판매 금액
 
@@ -69,8 +73,8 @@ public class HostTotalSalesStatsUpdateStepConfig {
 
             ReviewSummaryDto reviewSummaryDto = reviewRepository.reviewSummaryByHostId(hostId); // 리뷰 수, 리뷰 평점
 
-            StatsEntityMapper.INSTANCE.updateHostTotalSalesStatsEntity(
-                hostTotalSalesStats, orderSummaryDto, refundCount, reviewSummaryDto);
+            StatsEntityMapper.INSTANCE.updateHostTotalSalesStatsEntity(hostTotalSalesStats,
+                totalProductCount, orderSummaryDto, refundCount, reviewSummaryDto);
 
             return hostTotalSalesStats;
         };

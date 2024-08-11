@@ -11,7 +11,8 @@ public enum UriMappings {
     VIEW_PRODUCT("/product"),
     VIEW_SEARCH_LIST("/search"),
     VIEW_HOST_JOIN("/host/join"),
-    VIEW_HOST_HOME("/host");
+    VIEW_HOST_HOME("/host"),
+    API_PRODUCT("/api/v2/products");
 
     private final String uri;
 

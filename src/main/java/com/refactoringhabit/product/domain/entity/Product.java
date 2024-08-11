@@ -5,6 +5,7 @@ import com.refactoringhabit.common.domain.entity.BaseCreateTimeEntity;
 import com.refactoringhabit.host.domain.entity.Host;
 import com.refactoringhabit.product.domain.enums.ProductStatus;
 import com.refactoringhabit.product.domain.enums.ProductType;
+import com.refactoringhabit.wish.domain.entity.Wish;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -89,6 +90,9 @@ public class Product extends BaseCreateTimeEntity {
 
     @OneToMany(mappedBy = "product")
     private List<Option> options;
+
+    @OneToMany(mappedBy = "product")
+    private List<Wish> wishes;
 
     @Builder
     public Product(String altId, String name, String zipCode, String address1, String address2,

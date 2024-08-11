@@ -1,117 +1,132 @@
 .PageWrapper {
-  cursor: default;
   line-height: 1.5;
-  -webkit-text-size-adjust: 100%;
   font-size: 14px;
-  color: black;
-  word-break: normal;
   overflow-wrap: break-word;
-  background-repeat: no-repeat;
-  box-sizing: inherit;
-  outline: none;
-  font-family: inherit;
-  display: flex;
-  flex-flow: column nowrap;
-  align-content: flex-start;
-  margin: 0px auto;
-  max-width: 808px;
-  width: 100%;
-  padding: 0px 20px;
-  min-height: 1px;
+  margin: 0 auto;
+  width: 780px;
+  padding: 0 20px;
 }
 
-.SearchResultPage_Header {
+.head-section-wrapper {
+  margin-top: 30px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.image-slider {
+  width: 350px;
+  overflow: hidden;
+  position: relative;
+}
+
+.image-slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.product-image {
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.image-prev {
+  transform: rotate(180deg);
+}
+
+.product-info-wrapper {
+  width: 360px;
+}
+
+.product-info {
+  margin: 20px 0 0 25px;
+  height: 269px;
+}
+
+.BasicInfoSection {
+  display: flex;
+  justify-content: space-between;
+}
+
+.BasicInfoSection_Title {
+  display: flex;
+  flex-direction: column;
+}
+
+.BIS_title {
+  width: 284px;
+  line-height: 28px;
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(51, 51, 51);
+}
+
+.BasicInfoSection_Action {
+  white-space: nowrap;
+}
+
+.ButtonShare {
+  border: none;
+  background-color: white;
+  margin-top: 15px;
+}
+
+.product-price {
+  margin-top: 20px;
   font-weight: bold;
   font-size: 20px;
 }
 
-
-.Filter__FilterButtonWrapper {
-  cursor: default;
-  line-height: 1.5;
-  -webkit-text-size-adjust: 100%;
-  font-size: 14px;
-  color: black;
-  word-break: normal;
-  overflow-wrap: break-word;
-  background-repeat: no-repeat;
-  box-sizing: inherit;
-  outline: none;
-  font-family: inherit;
+.host-info-wrapper {
   display: flex;
-  padding-top: 5px;
-  padding-bottom: 40px;
-  overflow-x: auto;
-  white-space: nowrap;
+  align-items: center;
+  justify-content: space-around;
 }
 
-.FilterDate {
-  cursor: default;
-  line-height: 1.5;
-  -webkit-text-size-adjust: 100%;
-  font-size: 14px;
-  color: black;
-  word-break: normal;
-  overflow-wrap: break-word;
-  white-space: nowrap;
-  background-repeat: no-repeat;
-  box-sizing: inherit;
-  outline: none;
-  font-family: inherit;
+.host-profile-wrapper {
   display: flex;
-  margin-right: 16px;
-}
-
-.FilterOpenButton {
-  display: flex;
-  position: relative;
-  -webkit-box-align: center;
   align-items: center;
 }
 
-.Button1 {
-  width: auto;
-  height: auto;
-  line-height: 14px;
-  padding: 11px 20px;
-  background-color: transparent;
-  text-align: center;
-  cursor: pointer;
-  border: 1px solid rgb(238, 238, 238);
-  border-radius: 5px;
-  color: initial;
-  font-size: 14px;
-  font-weight: bold;
+.host-image {
+  border-radius: 20px;
+  width: 40px;
+  height: 40px;
 }
+
+.host-nickname {
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 20px;
+}
+
+.host-info {
+  margin-top: 2px;
+  color: rgb(170, 170, 170);
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: -0.36px;
+}
+
 .ReviewSummary{
-  padding: 20px 0px 24px;
+  padding: 20px 0 24px;
   border-top:  1px solid rgb(244, 244, 244);
 }
 
 .ReviewSummary_info {
   display: flex;
-  -webkit-box-align: center;
   align-items: center;
 }
 
-.Readonly_star{
-  cursor: default;
-  line-height: 1.5;
-  -webkit-text-size-adjust: 100%;
-  font-size: 14px;
-  color: black;
-  word-break: normal;
-  overflow-wrap: break-word;
-  background-repeat: no-repeat;
-  box-sizing: inherit;
-  outline: none;
-  font-family: inherit;
+.review-star-wrapper {
   display: flex;
-  flex-flow: row nowrap;
+  align-items: center;
 }
 
 .ReviewSummary_Aver {
-  margin: 0px 0px 0px 8px;
+  margin-left: 8px;
   font-size: 16px;
   font-weight: 700;
   line-height: 24px;
@@ -142,12 +157,20 @@
 }
 
 .Reviewblack {
-  padding-top: 24px;
+  padding-top: 25px;
   border-top: 1px solid rgb(244, 244, 244);
   border-bottom: 1px solid rgb(244, 244, 244);
   background-color: rgb(250, 250, 250);
   overflow: hidden;
-  height: 405px;
+  height: 390px;
+}
+
+.no-review {
+  text-align: center;
+  background-color: transparent;
+  height: inherit;
+  padding-bottom: 25px;
+  font-size: medium;
 }
 
 .Reviewflex {
@@ -157,52 +180,18 @@
 }
 
 .Reviewgreen {
-  width: 160px;
+  width: calc(100%/4);
   height: 300px;
-  margin: 10px;
+  padding: 10px;
   box-sizing: border-box;
 }
 
 .Reviewgreen img {
   width: 100%;
-}
-
-.Reviewgreen1 {
-  width: 20%;
-  height: 200px;
-  margin: 10px;
-}
-
-.Reviewgreen1 img {
-  width: 100%;
-}
-
-.Reviewgreen2 {
-  width: 20%;
-  height: 200px;
-  margin: 10px;
-}
-
-.Reviewgreen2 img {
-  width: 100%;
-}
-
-.Reviewgreen3 {
-  width: 20%;
-  height: 200px;
-  margin: 10px;
-}
-
-.Reviewgreen3 img {
-  width: 100%;
-}
-
-.hostcls {
-  margin-top: 2px;
-  color: rgb(170, 170, 170);
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: -0.36px;
+  aspect-ratio: 1 / 1;
+  max-height: 155px;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
 .parent-container {
@@ -212,10 +201,8 @@
 .prev, .next {
   position: absolute;
   z-index: 1;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 42%;
   cursor: pointer;
-
 }
 
 .prev {
@@ -230,15 +217,16 @@
   color: deeppink;
 }
 
-.review_stylelink {
+.see-more-review {
+  height: 63px;
   display: flex;
-  -webkit-box-pack: center;
   justify-content: center;
-  -webkit-box-align: center;
   align-items: center;
-  color: deeppink;
-  height: 56px;
   border-top: 1px solid rgb(244, 244, 244);
+}
+
+.review_stylelink {
+  color: deeppink;
   font-size: 16px;
   font-weight: bold;
   line-height: 24px;
@@ -249,8 +237,6 @@
   padding: 40px 0px;
   display: block;
 }
-
-
 
 .DescriptionSection{
   display: flex;
@@ -289,7 +275,6 @@
 .LinkAccordion {
   color: rgb(51, 51, 51);
   font-size: 16px;
-  cursor: pointer;
 }
 
 .Accordion_Container {
@@ -298,6 +283,8 @@
   justify-content: space-between;
   padding: 20px 20px 12px;
   border-bottom: 1px solid rgb(244, 244, 244);
+  transition: font-weight 0.5s ease;
+  cursor: pointer;
 }
 
 .Accordion_IconArrow {
@@ -305,7 +292,7 @@
   height: 100%;
   transform: rotate(90deg);
   border-style: none;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s linear;
 }
 
 .LinkAccordion.active .Accordion_IconArrow {
@@ -313,21 +300,24 @@
 }
 
 .Accordion_Content {
-  margin: 0px;
-  padding: 0px;
+  padding: 10px;
   overflow: hidden auto;
   transform-origin: left top;
   white-space: pre-line;
   font-size: 14px;
   line-height: 22px;
   height: auto;
-  transform: translateY(0) scale(1, 1);
-  margin-left: 20px
+  max-height: 0;
+  transition: max-height 0.5s ease;
+  margin-left: 20px;
+}
+
+.Accordion_Content.show {
+  max-height: 400px;
 }
 
 .DescriptionSection_Container {
-  height: 400px;
-  margin: 0px 0px 82px;
+  margin: 0 0 82px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 768px; /* 원하는 최대 너비 설정 */
@@ -338,7 +328,6 @@
 }
 
 .product-description {
-  padding: 0 50px;
   margin: 0;
   font-weight: bold;
 }
@@ -397,20 +386,6 @@
   max-width: 768px;
 }
 
-.SaveActionButton,
-.SaveActionButton:active{
-  padding: 0px;
-  margin-right: 20px;
-  height: 48px;
-  display: flex;
-  flex-direction: column;
-  -webkit-box-align: center;
-  align-items: center;
-  background-color: white;
-  border: none;
-  outline: none;
-}
-
 .SaveActionButton>img,
 .SaveActionButton:active>img{
   width: 37px;
@@ -437,67 +412,13 @@
   border-radius: 10px;
   color: white;
   font-size: 16px;
-  margin: 0px;
+  margin: 0;
   border: none;
 }
 
 .DefaultButton{
   -webkit-box-flex: 0;
   flex: 0 0 auto;
-
-}
-
-.Wrapper_Paging {
-  display: flex;
-  -webkit-box-pack: center;
-  justify-content: center;
-  -webkit-box-flex: 0;
-  flex: 0 0 auto;
-  width: 100%;
-  padding: 30px 0px;
-  background-color: white;
-}
-
-.Wrapper_Paging .paging button {
-  width: 40px;
-  height: 40px;
-  float: left;
-  padding: 35px;
-  margin: auto;
-  width: 15px;
-  color: #000;
-  font-size: 18px;
-  font-weight: normal;
-  border-radius: 50%;
-  border: none;
-  text-align: center;
-  text-decoration: none;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  align-items: center;
-}
-
-.Wrapper_Paging .paging button:hover,
-.Wrapper_Paging .paging button:focus {
-  color: rgb(51, 151, 255);
-  background-color: white;
-  text-align: center;
-  font-weight: bold;
-  text-decoration: none;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  align-items: center;
-}
-
-.paging>button {
-  border: none;
-  font-weight: bold;
-  padding: 10px;
-  background-color: white;
 }
 
 .RoundTag{
@@ -517,50 +438,10 @@
   background-color: rgb(255, 249, 247);
 }
 
-.BasicInfoSection {
-  display: flex;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
+.review-star {
   -webkit-box-align: center;
   align-items: center;
-}
-
-.BasicInfoSecion_Title {
-  display: flex;
-  flex-direction: column;
-}
-
-.BIS_title {
-  margin: 0px;
-  max-width: 320px;
-  line-height: 28px;
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: -0.6px;
-  word-break: keep-all;
-  overflow-wrap: break-word;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 2;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  color: rgb(51, 51, 51);
-}
-
-.BasicInfoSection_Action {
-  white-space: nowrap;
-}
-
-.ButtonShare {
-  border: none;
-  background-color: white;
-  margin-top: 15px;
-}
-
-.detail-star {
-  -webkit-box-align: center;
-  align-items: center;
-  width: 25px;
+  width: 20px;
   display: inline-block;
   color: deeppink;
 }
@@ -629,7 +510,7 @@
   border-radius: 5px;
   cursor: pointer;
   background-color: rgb(250, 250, 250);
-  border: 1px solid rgb(51, 51, 51);
+  border: 1px solid #ccc;
 }
 
 .OptionSelect_Title {
@@ -764,31 +645,33 @@
 }
 
 .SaveActionButton {
-  padding: 0px;
   margin-right: 20px;
   height: 48px;
   display: flex;
   flex-direction: column;
   -webkit-box-align: center;
   align-items: center;
-
+  background-color: white;
+  border: none;
+  outline: none;
 }
 
 .SaveActionButton > span {
   font-size: 12px;
   color : rgb(51, 51, 51);
 }
+
 .CoverReviewCard_User {
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-  margin-bottom: 16px;
+  margin: 10px;
 }
 
 .CoverReviewCard_ProfileImg {
   width: 40px;
   height: 40px;
-  border-radius: 3px;
+  border-radius: 20px;
 }
 
 .CoverReviewCard_UserInfo {
@@ -816,7 +699,6 @@
   -webkit-box-orient: vertical;
   color: rgb(51, 51, 51);
   letter-spacing: -0.42px;
-  /*margin-bottom: 22px;*/
   word-break: break-all;
   font-size: 14px;
   line-height: 22px;
@@ -864,14 +746,13 @@
 .PurchaseCell_Wrapper {
   display: flex;
   flex-direction: column;
-  -webkit-box-pack: justify;
   justify-content: space-between;
   width: 100%;
   min-height: 124px;
   padding: 16px;
   margin-top: 18px;
   border: 1px solid rgb(221, 221, 221);
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: rgb(250, 250, 250);
 }
 
@@ -956,10 +837,4 @@
 .Classsupplies {
   display: flex;
   flex-wrap: wrap;
-}
-
-.host-info {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
 }

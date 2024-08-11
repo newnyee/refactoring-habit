@@ -61,6 +61,8 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final EnumPath<com.refactoringhabit.product.domain.enums.ProductType> type = createEnum("type", com.refactoringhabit.product.domain.enums.ProductType.class);
 
+    public final ListPath<com.refactoringhabit.wish.domain.entity.Wish, com.refactoringhabit.wish.domain.entity.QWish> wishes = this.<com.refactoringhabit.wish.domain.entity.Wish, com.refactoringhabit.wish.domain.entity.QWish>createList("wishes", com.refactoringhabit.wish.domain.entity.Wish.class, com.refactoringhabit.wish.domain.entity.QWish.class, PathInits.DIRECT2);
+
     public final StringPath zipCode = createString("zipCode");
 
     public QProduct(String variable) {

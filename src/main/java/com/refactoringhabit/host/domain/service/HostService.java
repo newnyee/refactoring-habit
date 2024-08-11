@@ -13,6 +13,7 @@ import com.refactoringhabit.host.dto.HostInfoResponseDto;
 import com.refactoringhabit.host.dto.HostInfoRequestDto;
 import com.refactoringhabit.host.dto.HostOptionInfoDto;
 import com.refactoringhabit.host.dto.HostProductInfoDto;
+import com.refactoringhabit.host.dto.SimpleHostInfoDto;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
 import com.refactoringhabit.member.domain.repository.MemberRepository;
@@ -100,6 +101,11 @@ public class HostService {
         productTotalSalesStatsRepository.save(StatsEntityMapper.INSTANCE
             .toProductTotalSalesStatsEntity(host.getId(), savedProduct.getId(),
                 categoryMiddle.getId(), STATS_ALT_ID));
+    }
+
+    @Transactional
+    public SimpleHostInfoDto getSimpleHostInfo(Long hostId) {
+        return hostRepository.getSimpleHostInfoById(hostId);
     }
 
     private Member findMember(String memberAltId) {

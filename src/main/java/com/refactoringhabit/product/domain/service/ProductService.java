@@ -3,6 +3,7 @@ package com.refactoringhabit.product.domain.service;
 import com.refactoringhabit.common.domain.repository.RedisRepository;
 import com.refactoringhabit.product.dto.ProductCardDto;
 import com.refactoringhabit.product.domain.repository.ProductRepository;
+import com.refactoringhabit.product.dto.ProductDetailDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,5 +60,10 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Long getProductCountByCategoryLarge(String categoryName) {
         return productRepository.countByCategoryName(categoryName);
+    }
+
+    @Transactional(readOnly = true)
+    public ProductDetailDto getProductDetailsById(String productAltId) {
+        return productRepository.getProductDetailsByAltId(productAltId);
     }
 }

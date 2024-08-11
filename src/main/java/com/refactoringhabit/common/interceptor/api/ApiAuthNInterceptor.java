@@ -53,6 +53,12 @@ public class ApiAuthNInterceptor implements HandlerInterceptor {
                         tokenUtil.verifyToken(sessionCookie.accessToken()));
                     return true;
                 }
+
+                // public api인 경우
+                if (interceptorUtils.isPublicApi(request.getRequestURI())) {
+                    return true;
+                }
+
                 throw new NullTokenException();
 
             } catch (TokenExpiredException e) { // 만료된 토큰

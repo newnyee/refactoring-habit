@@ -5,12 +5,15 @@ import static com.refactoringhabit.review.domain.entity.QReview.review;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.refactoringhabit.review.domain.enums.ReviewStatus;
+import com.refactoringhabit.review.dto.ReviewDetailDto;
 import com.refactoringhabit.review.dto.ReviewSummaryDto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
@@ -70,5 +73,24 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .fetchFirst();
         }
         return new ReviewSummaryDto(0L, BigDecimal.valueOf(0));
+    }
+
+    @Override
+    public List<ReviewDetailDto> findByProductIdLimit(String productAltId, Pageable pageable) {
+        return jpaQueryFactory
+            .select(Projections.constructor(ReviewDetailDto.class,
+                review.member.nickName.as("memberNickName"),
+                review.member.profileImage.as("memberProfileImage"),
+                review.altId.as("reviewAltId"),
+                review.content,
+                review.starScore,
+                review.image))
+            .from(review)
+            .where(review.option.product.altId.eq(productAltId)
+                .and(review.status.eq(ReviewStatus.SHOW)))
+            .orderBy(review.createdAt.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
     }
 }

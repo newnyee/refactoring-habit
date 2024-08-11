@@ -11,6 +11,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.refactoringhabit.product.dto.ProductCardDto;
+import com.refactoringhabit.product.dto.ProductDetailDto;
 import com.refactoringhabit.product.dto.ProductSummaryDto;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,6 +122,31 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
                 .or(product.categoryMiddle.engName.eq(categoryEngName))
                 .and(product.status.eq(OPENED)))
             .orderBy(product.createdAt.desc())
+            .fetchOne();
+    }
+
+    @Override
+    public ProductDetailDto getProductDetailsByAltId(String altId) {
+        return jpaQueryFactory
+            .select(Projections.constructor(ProductDetailDto.class,
+                product.host.id.as("hostId"),
+                product.name,
+                product.imageFileNames,
+                product.description,
+                product.zipCode,
+                product.address1,
+                product.address2,
+                product.extraAddress,
+                product.tagGender,
+                product.tagAge,
+                product.tagWith,
+                productTotalSalesStats.minPrice.as("price"),
+                productTotalSalesStats.reviewCount,
+                productTotalSalesStats.reviewAverage,
+                product.wishes.size().as("wishCount")))
+            .from(product).join(productTotalSalesStats)
+            .on(product.id.eq(productTotalSalesStats.productId))
+            .where(product.altId.eq(altId))
             .fetchOne();
     }
 

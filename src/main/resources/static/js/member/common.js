@@ -54,6 +54,26 @@ const formatCurrency = (amount) => {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' 원';
 }
 
+const createStarScoreImage = (starScore) => {
+    let starScoreImages = '';
+    if (starScore > 0) {
+        let fullStar = '                            <img src="/img/star.png" alt="" class="review-star">\n';
+        let halfStar = '                            <img src="/img/halfstar.png" alt="" class="review-star">\n'
+        let fullStarCount = Math.floor(starScore)
+        let hasHalfStar = (starScore - fullStarCount) >= 0.5
+
+        for (let i = 0; i < fullStarCount; i++) {
+            starScoreImages += fullStar
+        }
+
+        if (hasHalfStar) {
+            starScoreImages += halfStar
+        }
+    }
+
+    return starScoreImages
+}
+
 // 로그아웃 api 호출
 const callLogoutApi = () => {
     $.ajax({
