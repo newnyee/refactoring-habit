@@ -1,23 +1,3 @@
-const createStarScoreImage = (starScore) => {
-  let starScoreImage = '';
-  if (starScore > 0) {
-    let fullStar = '                            <img src="/img/star.png" alt="" class="review-star">\n';
-    let halfStar = '                            <img src="/img/halfstar.png" alt="" class="review-star">\n'
-    let fullStarCount = Math.floor(starScore)
-    let hasHalfStar = (starScore - fullStarCount) >= 0.5
-
-    for (let i = 0; i < fullStarCount; i++) {
-      starScoreImage += fullStar
-    }
-
-    if (hasHalfStar) {
-      starScoreImage += halfStar
-    }
-  }
-
-  return starScoreImage
-}
-
 const createProductElement = (product) => {
   const imageFileNameList = getImageFileNameList(product.imageFileNames)
   return '    <div class="card-product-wrapper">\n'
