@@ -2,6 +2,7 @@ package com.refactoringhabit.common.interceptor.api;
 
 import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
 import static com.refactoringhabit.common.enums.AttributeNames.SESSION_COOKIE_NAME;
+import static com.refactoringhabit.common.enums.UriMappings.API_PRODUCT;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -85,14 +86,25 @@ class ApiAuthNInterceptorTest {
         verify(response).setStatus(UNAUTHORIZED.value());
     }
 
-    @DisplayName("ApiAuthInterceptor 접근 - token(null)")
+    @DisplayName("ApiAuthInterceptor 접근 - token(null, not public uri)")
     @Test
-    void testInterceptorAccess_NullToken() throws IOException {
+    void testInterceptorAccess_NullTokenAndNotPublicUri() throws IOException {
         when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
             .thenReturn(null);
 
         assertFalse(apiAuthNInterceptor.preHandle(request, response, handler));
         verify(response).setStatus(UNAUTHORIZED.value());
+    }
+
+    @DisplayName("ApiAuthInterceptor 접근 - token(null, not public uri)")
+    @Test
+    void testInterceptorAccess_NullTokenAndPublicUri() throws IOException {
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
+            .thenReturn(null);
+        when(request.getRequestURI()).thenReturn(API_PRODUCT.getUri());
+        when(interceptorUtils.isPublicApi(API_PRODUCT.getUri())).thenReturn(true);
+
+        assertTrue(apiAuthNInterceptor.preHandle(request, response, handler));
     }
 
     @DisplayName("ApiAuthInterceptor 접근 - token(not null)")
