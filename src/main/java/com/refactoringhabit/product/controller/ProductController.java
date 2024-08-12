@@ -37,6 +37,7 @@ public class ProductController {
 
     @GetMapping("/{productId}/review")
     public String review(@PathVariable("productId") String productAltId, Model model) {
+        model.addAttribute("productId", productAltId);
         return "/pages/product/product-review-list";
     }
 }

@@ -2,6 +2,7 @@ package com.refactoringhabit.review.domain.repository;
 
 import static com.refactoringhabit.review.domain.entity.QReview.review;
 
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.refactoringhabit.review.domain.enums.ReviewStatus;
@@ -22,6 +23,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     private static final String REVIEW_COUNT = "reviewCount";
     private static final String REVIEW_AVERAGE = "reviewAverage";
+    private static final String ORDER_BY_VALUE_CREATE_AT = "createAt";
+    private static final String ORDER_BY_VALUE_REVIEW_AVERAGE_DESC = "reviewAverageDesc";
 
     @Override
     public ReviewSummaryDto reviewSummaryByProductId(Long productId) {
@@ -76,7 +79,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     }
 
     @Override
-    public List<ReviewDetailDto> findByProductIdLimit(String productAltId, Pageable pageable) {
+    public List<ReviewDetailDto> findByProductIdLimit(String productAltId, Pageable pageable,
+        String orderByValue) {
         return jpaQueryFactory
             .select(Projections.constructor(ReviewDetailDto.class,
                 review.member.nickName.as("memberNickName"),
@@ -84,13 +88,37 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 review.altId.as("reviewAltId"),
                 review.content,
                 review.starScore,
-                review.image))
+                review.image,
+                review.updatedAt,
+                review.createdAt,
+                review.option.product.name.as("productName"),
+                review.option.product.altId.as("productAltId"),
+                review.option.name.as("optionName")))
+            .from(review)
+            .where(review.option.product.altId.eq(productAltId)
+                .and(review.status.eq(ReviewStatus.SHOW)))
+            .orderBy(getOrderSpecifier(orderByValue), review.createdAt.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
+    }
+
+    @Override
+    public Long countByProductId(String productAltId) {
+        return jpaQueryFactory
+            .select(review.count())
             .from(review)
             .where(review.option.product.altId.eq(productAltId)
                 .and(review.status.eq(ReviewStatus.SHOW)))
             .orderBy(review.createdAt.desc())
-            .offset(pageable.getOffset())
-            .limit(pageable.getPageSize())
-            .fetch();
+            .fetchOne();
+    }
+
+    private OrderSpecifier<?> getOrderSpecifier(String orderByValue) {
+        return switch (orderByValue) {
+            case ORDER_BY_VALUE_CREATE_AT -> review.createdAt.desc();
+            case ORDER_BY_VALUE_REVIEW_AVERAGE_DESC -> review.starScore.desc();
+            default -> review.starScore.asc();
+        };
     }
 }

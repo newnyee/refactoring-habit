@@ -10,6 +10,7 @@ import com.refactoringhabit.common.domain.repository.RedisRepository;
 import com.refactoringhabit.product.domain.repository.ProductRepository;
 import com.refactoringhabit.product.dto.ProductCardDto;
 import com.refactoringhabit.product.dto.ProductDetailDto;
+import com.refactoringhabit.product.dto.SimpleProductInfoDto;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -95,5 +96,17 @@ class ProductServiceMockTest {
         ProductDetailDto getproductDetailDto =
             productService.getProductDetailsById(PRODUCT_ALT_ID.getName());
         assertEquals(productDetailDto, getproductDetailDto);
+    }
+
+    @Test
+    @DisplayName("상품 아이디에 따른 간단 상품 정보 얻기")
+    void testGetSimpleProductInfo() {
+        SimpleProductInfoDto productInfoDto = mock(SimpleProductInfoDto.class);
+        when(productRepository.getSimpleProductInfoByAltId(PRODUCT_ALT_ID.getName()))
+            .thenReturn(productInfoDto);
+
+        SimpleProductInfoDto getSimpleProductInfo = productService.getSimpleProductInfo(
+            PRODUCT_ALT_ID.getName());
+        assertEquals(productInfoDto, getSimpleProductInfo);
     }
 }

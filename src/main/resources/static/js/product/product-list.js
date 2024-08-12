@@ -1,4 +1,51 @@
 let categories = []
+const paging = {
+  displayPageNumber: 4,
+  recordPerPage: 12
+}
+
+const addCallGetProductsByCategoryLargeApiMethod = (pageNumber) => {
+  return ' onclick="callGetProductsByCategoryLargeApi(' + pageNumber + ')"'
+}
+
+const createPageArrowButton = (buttonType, buttonStatus, pageNumber) => {
+  let element = '          <button class="paging-button-' + buttonStatus + '"'
+  if (buttonStatus === 'active') {
+    element += addCallGetProductsByCategoryLargeApiMethod(pageNumber)
+  }
+  if (buttonType === 'prev') {
+    element += '><</button>\n'
+  } else {
+    element += '>></button>'
+  }
+  return element;
+}
+
+const createPageNumberButton = (pageNumber, addClass) => {
+  return '          <button onclick="callGetProductsByCategoryLargeApi(' + pageNumber + ')" class="paging-button-active '+ addClass +'">' + pageNumber + '</button>\n'
+}
+
+const addPageButton = (pagingWrapper, currentPage, totalRecord) => {
+  let displayPageNumber = paging.displayPageNumber
+  let totalPages = Math.ceil(totalRecord / paging.recordPerPage)
+  let startPage = (Math.ceil(currentPage / displayPageNumber) - 1) * displayPageNumber + 1
+  let endPage = (Math.ceil(currentPage / displayPageNumber) * displayPageNumber)
+  if (endPage > totalPages) {
+    endPage = totalPages
+  }
+  let prevStatus = (startPage === 1) ? 'disabled' : 'active'
+  let nextStatus = (endPage === totalPages) ? 'disabled' : 'active'
+
+  pagingWrapper.append(createPageArrowButton('prev', prevStatus, startPage - 1))
+  for (let i = startPage; i <= endPage; i++) {
+    if (i === currentPage) {
+      pagingWrapper.append(createPageNumberButton(i, 'now'));
+      continue
+    }
+    pagingWrapper.append(createPageNumberButton(i));
+  }
+  pagingWrapper.append(createPageArrowButton('next', nextStatus, endPage + 1))
+}
 
 const findCategoryName = (categories, categoryEngName) => {
   return categories.find(value => value.engName === categoryEngName)
