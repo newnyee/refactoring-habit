@@ -10,5 +10,6 @@ public interface ReviewRepositoryCustom {
     ReviewSummaryDto reviewSummaryByProductId(Long productId);
     ReviewSummaryDto reviewSummaryByHostId(Long hostId);
     ReviewSummaryDto reviewSummaryByHostIdAndDate(Long hostId, LocalDate date);
-    List<ReviewDetailDto> findByProductIdLimit(String productAltId, Pageable pageable);
+    List<ReviewDetailDto> findByProductIdLimit(String productAltId, Pageable pageable, String orderByValue);
+    Long countByProductId(String productAltId);
 }

@@ -13,6 +13,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.refactoringhabit.product.dto.ProductCardDto;
 import com.refactoringhabit.product.dto.ProductDetailDto;
 import com.refactoringhabit.product.dto.ProductSummaryDto;
+import com.refactoringhabit.product.dto.SimpleProductInfoDto;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -144,6 +145,18 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
                 productTotalSalesStats.reviewCount,
                 productTotalSalesStats.reviewAverage,
                 product.wishes.size().as("wishCount")))
+            .from(product).join(productTotalSalesStats)
+            .on(product.id.eq(productTotalSalesStats.productId))
+            .where(product.altId.eq(altId))
+            .fetchOne();
+    }
+
+    @Override
+    public SimpleProductInfoDto getSimpleProductInfoByAltId(String altId) {
+        return jpaQueryFactory
+            .select(Projections.constructor(SimpleProductInfoDto.class,
+                product.name,
+                productTotalSalesStats.reviewAverage))
             .from(product).join(productTotalSalesStats)
             .on(product.id.eq(productTotalSalesStats.productId))
             .where(product.altId.eq(altId))
