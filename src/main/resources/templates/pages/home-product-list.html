@@ -21,7 +21,7 @@
         <div class="card-product-wrapper" th:each="product : ${productList}">
           <a th:href="@{/product/{productId}(productId=*{product.productAltId()})}">
             <div class="product-image">
-              <img th:src="@{/storage/{fileName}(fileName=*{product.imageFileNames()})}">
+              <img th:src="@{/storage/{fileName}(fileName=${product.imageFileNames().split('\|')[0]})}">
             </div>
             <div class="wish-button-wrapper">
               <button class="wish-button" onclick="hello()" onsubmit="return false">

@@ -5,14 +5,14 @@
   padding:0 100px;
 }
 
-.review-container {
+.review-card {
   border: 1px solid rgba(210, 210, 210, 0.45);
   border-radius: 6px;
   padding: 15px 45px;
   margin: 10px 0 30px;
 }
 
-.review-container div {
+.review-card div {
   margin: 10px 0;
 }
 
