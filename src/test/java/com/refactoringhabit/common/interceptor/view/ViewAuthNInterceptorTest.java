@@ -144,9 +144,26 @@ class ViewAuthNInterceptorTest {
         when(tokenUtil.verifyToken(session.accessToken())).thenThrow(TokenExpiredException.class);
         when(tokenUtil.getClaimMemberId(session.accessToken()))
             .thenReturn(MEMBER_ALT_ID.getName());
+        when(interceptorUtils.handleExpiredToken(request, response, MEMBER_ALT_ID.getName()))
+            .thenReturn(true);
 
         assertTrue(viewAuthNInterceptor.preHandle(request, response, handler));
-        verify(interceptorUtils).handleExpiredToken(request, response, MEMBER_ALT_ID.getName());
+    }
+
+    @DisplayName("ViewAuthInterceptor 접근 - token(expired), uri(public), refresh token(invalid)")
+    @Test
+    void testInterceptorAccess_ExpiredTokenAndPublicUriAndInvalidRefreshToken() throws IOException {
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
+            .thenReturn(session);
+        when(request.getRequestURI()).thenReturn(VIEW_HOME.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOME.getUri())).thenReturn(false);
+        when(tokenUtil.verifyToken(session.accessToken())).thenThrow(TokenExpiredException.class);
+        when(tokenUtil.getClaimMemberId(session.accessToken()))
+            .thenReturn(MEMBER_ALT_ID.getName());
+        when(interceptorUtils.handleExpiredToken(request, response, MEMBER_ALT_ID.getName()))
+            .thenReturn(false);
+
+        assertFalse(viewAuthNInterceptor.preHandle(request, response, handler));
     }
 
     @DisplayName("ViewAuthInterceptor 접근 - token(invalid), uri(public)")
@@ -200,9 +217,28 @@ class ViewAuthNInterceptorTest {
         when(tokenUtil.verifyToken(session.accessToken())).thenThrow(TokenExpiredException.class);
         when(tokenUtil.getClaimMemberId(session.accessToken()))
             .thenReturn(MEMBER_ALT_ID.getName());
+        when(interceptorUtils.handleExpiredToken(request, response, MEMBER_ALT_ID.getName()))
+            .thenReturn(true);
 
         assertTrue(viewAuthNInterceptor.preHandle(request, response, handler));
-        verify(interceptorUtils).handleExpiredToken(request, response, MEMBER_ALT_ID.getName());
+    }
+
+    @DisplayName("ViewAuthInterceptor 접근 - token(expired), uri(required authentication), refresh token(invalid)")
+    @Test
+    void testInterceptorAccess_ExpiredTokenAndRequiredAuthenticationUriAndInvalidRefreshToken()
+        throws IOException {
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
+            .thenReturn(session);
+        when(request.getRequestURI()).thenReturn(VIEW_HOST_JOIN.getUri());
+        when(interceptorUtils.isNullSessionOnlyUri(VIEW_HOST_JOIN.getUri()))
+            .thenReturn(false);
+        when(tokenUtil.verifyToken(session.accessToken())).thenThrow(TokenExpiredException.class);
+        when(tokenUtil.getClaimMemberId(session.accessToken()))
+            .thenReturn(MEMBER_ALT_ID.getName());
+        when(interceptorUtils.handleExpiredToken(request, response, MEMBER_ALT_ID.getName()))
+            .thenReturn(false);
+
+        assertFalse(viewAuthNInterceptor.preHandle(request, response, handler));
     }
 
     @DisplayName("ViewAuthInterceptor 접근 - token(invalid), uri(required authentication)")

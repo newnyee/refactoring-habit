@@ -126,9 +126,24 @@ class ApiAuthNInterceptorTest {
         when(tokenUtil.verifyToken(session.accessToken())).thenThrow(TokenExpiredException.class);
         when(tokenUtil.getClaimMemberId(session.accessToken()))
             .thenReturn(MEMBER_ALT_ID.getName());
+        when(interceptorUtils.handleExpiredToken(request, response, MEMBER_ALT_ID.getName()))
+            .thenReturn(true);
 
         assertTrue(apiAuthNInterceptor.preHandle(request, response, handler));
-        verify(interceptorUtils).handleExpiredToken(request, response, MEMBER_ALT_ID.getName());
+    }
+
+    @DisplayName("ApiAuthInterceptor 접근 - token(expired), refreshToken(invalid)")
+    @Test
+    void testInterceptorAccess_ExpiredTokenAndInvalidRefreshToken() throws IOException {
+        when(cookieUtil.getValueInCookie(request, SESSION_COOKIE_NAME.getName(), Session.class))
+            .thenReturn(session);
+        when(tokenUtil.verifyToken(session.accessToken())).thenThrow(TokenExpiredException.class);
+        when(tokenUtil.getClaimMemberId(session.accessToken()))
+            .thenReturn(MEMBER_ALT_ID.getName());
+        when(interceptorUtils.handleExpiredToken(request, response, MEMBER_ALT_ID.getName()))
+            .thenReturn(false);
+
+        assertFalse(apiAuthNInterceptor.preHandle(request, response, handler));
     }
 
     @DisplayName("ApiAuthInterceptor 접근 - token(invalid)")
