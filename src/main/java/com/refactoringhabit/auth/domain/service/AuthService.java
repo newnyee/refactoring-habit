@@ -96,6 +96,8 @@ public class AuthService {
             .equals(valueInCookie.refreshToken())) {
             createAndSaveSession(response, memberAltId);
         } else {
+            redisRefreshTokenRepository.deleteRefreshTokenById(memberAltId);
+            cookieUtil.removeSessionCookie(response);
             throw new InvalidTokenException();
         }
     }
