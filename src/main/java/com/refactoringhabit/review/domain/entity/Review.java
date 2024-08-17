@@ -17,11 +17,14 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Table(name = "reviews")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
 public class Review extends BaseTimeEntity {
 
     @Id
@@ -32,15 +35,19 @@ public class Review extends BaseTimeEntity {
     @Column(name = "alt_id")
     private String altId; // 대체키
 
+    @Setter
     @Column(name = "content")
     private String content;
 
+    @Setter
     @Column(name = "star_score")
     private int starScore;
 
+    @Setter
     @Column(name = "image")
     private String image;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ReviewStatus status; // default 'SHOW'

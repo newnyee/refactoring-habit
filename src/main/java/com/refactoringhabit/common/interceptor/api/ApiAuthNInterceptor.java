@@ -64,9 +64,8 @@ public class ApiAuthNInterceptor implements HandlerInterceptor {
             } catch (TokenExpiredException e) { // 만료된 토큰
                 log.info("Expired token detected. Issued a new token for member.");
                 log.debug("[{}] ex", e.getClass().getSimpleName(), e);
-                interceptorUtils.handleExpiredToken(request, response,
+                return interceptorUtils.handleExpiredToken(request, response,
                     tokenUtil.getClaimMemberId(sessionCookie.accessToken()));
-                return true;
 
             } catch (Exception e) { // 유효하지 않은 토큰
                 log.warn("[{}] ex ", e.getClass().getSimpleName(), e);

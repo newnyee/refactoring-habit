@@ -72,9 +72,8 @@ public class ViewAuthNInterceptor implements HandlerInterceptor {
             } catch (TokenExpiredException e) { // expired token
                 log.info("Expired token detected. Issued a new token for member.");
                 log.debug("[{}] ex", e.getClass().getSimpleName(), e);
-                interceptorUtils.handleExpiredToken(request, response,
+                return interceptorUtils.handleExpiredToken(request, response,
                     tokenUtil.getClaimMemberId(sessionCookie.accessToken()));
-                return true;
 
             } catch (Exception e) { // invalid token
                 // public URIs

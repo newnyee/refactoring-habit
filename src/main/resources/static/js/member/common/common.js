@@ -2,6 +2,13 @@ const getImageFileNameList = (imageFileNames) => {
     return imageFileNames.split("|")
 }
 
+const formatToYearMonthDayHour = (localDateTime) => {
+    let splitUpdateAt = localDateTime.split('T')
+    let date = splitUpdateAt[0].split('-')
+    let time = splitUpdateAt[1].slice(0, 5)
+    return date[0] + '년 ' + date[1] + '월 ' + date[2] + '일 ' + time
+}
+
 const formatCurrency = (amount) => {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' 원';
 }

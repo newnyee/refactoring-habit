@@ -186,7 +186,7 @@
   box-sizing: border-box;
 }
 
-.Reviewgreen img {
+.Reviewgreen>img {
   width: 100%;
   aspect-ratio: 1 / 1;
   max-height: 155px;
@@ -668,7 +668,7 @@
   margin: 10px;
 }
 
-.CoverReviewCard_ProfileImg {
+.CoverReviewCard_ProfileImg img {
   width: 40px;
   height: 40px;
   border-radius: 20px;

@@ -3,7 +3,11 @@
           th:replace="~{common/layouts/basic-layout :: basic-layout (~{::head}, ~{::title}, ~{::section})}">
   <head>
     <link rel="stylesheet" th:href="@{/css/member/member-review-list.css}">
+    <link rel="stylesheet" th:href="@{/css/member/common/review-modal.css}">
     <script th:src="@{/js/member/member-review-list.js}"></script>
+    <script th:src="@{/js/member/common/review-card.js}"></script>
+    <script th:src="@{/js/member/common/review-validation.js}"></script>
+    <script th:src="@{/js/member/member-review-edit.js}"></script>
   </head>
 
   <title>리뷰 관리 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
@@ -11,88 +15,75 @@
   <section class="Home">
     <h1 style="font-size: 20px; font-weight: bold; margin-top: 20px">리뷰 관리</h1>
     <hr>
-    내가 쓴 총 리뷰 : 00 개
+    <div class="review-count-container">
+      <span>내가 쓴 총 리뷰 <span class="review-count"></span> 개</span>
+    </div>
     <hr>
-    <div class="review-card">
-      <div class="review-product-name-container">
-        <div class="review-product-name">
-          <span>해빗명 > </span>
-        </div>
-        <div>
-          <button class="review_modify_btn">수정</button>
-          <button class="review_delete_btn">삭제</button>
-        </div>
-      </div>
-      <div class="review-option-name">
-        <span>옵션명</span>
-      </div>
-      <div class="review-star-score-container">
-        <img src="../../img/star.png" alt="">
-        <img src="../../img/star.png" alt="">
-        <img src="../../img/star.png" alt="">
-        <img src="../../img/star.png" alt="">
-        <img src="../../img/star.png" alt="">
-        <span style="margin-left: 15px">0000년 00월 00일, 수정됨 (수정했을 경우 수정일 & 수정됨 표시)</span>
-      </div>
-      <textarea class="review-content-text" readonly>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-      </textarea>
+    <div class="review-cards-container">
     </div>
-    <div class="review-card">
-      <div class="review-product-name-container">
-        <div class="review-product-name">
-          <span>해빗명 > </span>
+    <div class="see-more-button-container">
+      <button class="see-more">더보기</button>
+    </div>
+    <!-- 리뷰 수정 모달 -->
+    <div class="modal-review-edit-background">
+      <div class="modal-review-edit-container">
+        <div class="modal-review-edit-header">
+          <div class="modal-review-edit-header-title">리뷰 수정</div>
+          <img class="modal-exit" src="/img/close_button.png">
         </div>
-        <div>
-          <button class="review_modify_btn">수정</button>
-          <button class="review_delete_btn">삭제</button>
+        <hr>
+        <div class="modal-review-edit-body">
+          <div class="modal-review-edit-body-title">
+            <p class="modal-review-edit-product-name">해빗 명</p>
+            <p>만족 하셨나요?</p>
+          </div>
+          <div class="modal-review-edit-star-score-container">
+            <div class="modal-review-edit-star-image-container">
+              <img src="/img/review-star-empty.png" class="modal-review-edit-star-image">
+              <img src="/img/review-star-empty.png" class="modal-review-edit-star-image">
+              <img src="/img/review-star-empty.png" class="modal-review-edit-star-image">
+              <img src="/img/review-star-empty.png" class="modal-review-edit-star-image">
+              <img src="/img/review-star-empty.png" class="modal-review-edit-star-image">
+            </div>
+            <p class="modal-review-edit-guide">선택해 주세요</p>
+            <p class="error-message"></p>
+          </div>
+          <div class="modal-review-edit-content-container">
+            <textarea class="modal-review-edit-content"
+                      placeholder="아래의 내용에 해당되는 경우 사전 고지 없이 삭제될 수 있습니다.
+1. 무분별한 비방 또는 욕설이 포함된 후기
+2. 아무런 내용이 없는 후기, 불참자의 후기
+3. 방송 통신 위원회 심의 절차 결과에 따른 후기 삭제 대상에 해당되는 경우"></textarea>
+            <p class="modal-review-edit-content-length"><span class="content-length">0</span> / 1200</p>
+            <p class="error-message"></p>
+          </div>
+          <hr>
+          <div class="modal-review-edit-attach-image-container">
+            <div class="modal-review-edit-attach-image-title">사진 첨부하기</div>
+            <div>
+              <div class="modal-review-edit-image-preview-input-container">
+                <input type="file" class="modal-review-edit-image-preview-input" id="modalInputImage0">
+                <input type="file" class="modal-review-edit-image-preview-input" id="modalInputImage1">
+                <input type="file" class="modal-review-edit-image-preview-input" id="modalInputImage2">
+              </div>
+              <div class="modal-review-edit-image-preview-container">
+                <label class="modal-review-edit-image-preview" id="image-preview1" for="modalInputImage0">+</label>
+                <label class="modal-review-edit-image-preview" id="image-preview2" for="modalInputImage1">+</label>
+                <label class="modal-review-edit-image-preview" id="image-preview3" for="modalInputImage2">+</label>
+              </div>
+            </div>
+            <p class="error-message"></p>
+          </div>
+          <div class="modal-review-edit-submit-button-container">
+            <input type="hidden" id="reviewAltId">
+            <button class="modal-review-edit-cancel-button">취소</button>
+            <button class="modal-review-edit-submit-button">확인</button>
+          </div>
         </div>
-      </div>
-      <div class="review-option-name">
-        <span>옵션명</span>
-      </div>
-      <div class="review-star-score-container">
-        <img src="../../img/star.png" alt="">
-        <img src="../../img/star.png" alt="">
-        <img src="../../img/star.png" alt="">
-        <img src="../../img/star.png" alt="">
-        <img src="../../img/star.png" alt="">
-        <span>0000년 00월 00일, 수정됨 (수정했을 경우 수정일 & 수정됨 표시)</span>
-      </div>
-      <div>
-        <textarea class="review-content-text" readonly>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-리뷰 내용<br>
-        </textarea>
-        <div class="review-content-img">
-          <img src="/img/bake.png">
-          <img src="/img/bake.png">
-        </div>
-        <!--        <div class="review-content-text">-->
-        <!--        </div>-->
       </div>
     </div>
-    <button class="see-more">더보기</button>
+    <script th:inline="javascript">
+      let memberAltId = [[${memberAltId}]]
+    </script>
   </section>
 </th:block>

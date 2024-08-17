@@ -2,21 +2,22 @@
 .Home{
   width: 840px;
   margin: 0 auto;
-  padding:0 100px;
+  padding:0 80px;
+}
+
+.review-count-container {
+  font-weight: bold;
 }
 
 .review-card {
   border: 1px solid rgba(210, 210, 210, 0.45);
   border-radius: 6px;
-  padding: 15px 45px;
+  padding: 25px 35px;
   margin: 10px 0 30px;
 }
 
-.review-card div {
-  margin: 10px 0;
-}
-
 .review-product-name-container {
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -49,20 +50,25 @@
 }
 
 .review-option-name {
+  margin-bottom: 10px;
   font-size: small;
   color: gray;
 }
 
 .review-star-score-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
   font-size: small;
 }
 
 .review-star-score-container img {
-  width: 13px;
+  width: 15px;
 }
 
 .review-star-score-container>span {
   margin-left: 15px;
+  color: gray;
 }
 
 .review-content {
@@ -75,21 +81,16 @@
 
 .review-content-img > img {
   width: 120px;
-  border-radius: 15px;
-  margin-right: 20px;
-  padding: 5px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 15px;
 }
 
 .review-content-text {
-  margin-top: 10px;
+  margin-bottom: 20px;
   width: 100%;
   line-height: 25px;
-  border: none;
-  resize: none;
-}
-
-.review-content-text:focus {
-  outline: none;
 }
 
 .see-more {

@@ -36,4 +36,10 @@ public class MemberController {
         model.addAttribute(MEMBER_ALT_ID.getName(), memberAltId);
         return "/pages/member/member-password-change";
     }
+
+    @GetMapping("/my-page/review-list")
+    public String myReview(@RequestAttribute("memberAltId") String memberAltId, Model model) {
+        model.addAttribute(MEMBER_ALT_ID.getName(), memberAltId);
+        return "/pages/member/member-review-list";
+    }
 }

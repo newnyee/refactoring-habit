@@ -110,7 +110,40 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
             .from(review)
             .where(review.option.product.altId.eq(productAltId)
                 .and(review.status.eq(ReviewStatus.SHOW)))
+            .fetchOne();
+    }
+
+    @Override
+    public List<ReviewDetailDto> findByMemberIdLimit(String memberAltId, Pageable pageable) {
+        return jpaQueryFactory
+            .select(Projections.constructor(ReviewDetailDto.class,
+                review.member.nickName.as("memberNickName"),
+                review.member.profileImage.as("memberProfileImage"),
+                review.altId.as("reviewAltId"),
+                review.content,
+                review.starScore,
+                review.image,
+                review.updatedAt,
+                review.createdAt,
+                review.option.product.name.as("productName"),
+                review.option.product.altId.as("productAltId"),
+                review.option.name.as("optionName")))
+            .from(review)
+            .where(review.member.altId.eq(memberAltId)
+                .and(review.status.eq(ReviewStatus.SHOW)))
             .orderBy(review.createdAt.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
+    }
+
+    @Override
+    public Long countByMemberId(String memberAltId) {
+        return jpaQueryFactory
+            .select(review.count())
+            .from(review)
+            .where(review.member.altId.eq(memberAltId)
+                .and(review.status.eq(ReviewStatus.SHOW)))
             .fetchOne();
     }
 

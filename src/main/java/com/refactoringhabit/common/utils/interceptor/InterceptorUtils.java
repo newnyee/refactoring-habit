@@ -7,8 +7,9 @@ import static com.refactoringhabit.common.enums.UriAccessLevel.PUBLIC_URI;
 import static com.refactoringhabit.common.enums.UriMappings.VIEW_HOME;
 import static com.refactoringhabit.host.domain.mapper.HostEntityMapper.INSTANCE;
 import static com.refactoringhabit.member.domain.enums.MemberType.HOST;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
 import com.refactoringhabit.auth.domain.service.AuthService;
 import com.refactoringhabit.common.enums.UriMappings;
 import com.refactoringhabit.common.utils.cookies.CookieUtil;
@@ -20,9 +21,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class InterceptorUtils {
@@ -40,11 +43,22 @@ public class InterceptorUtils {
         }
     }
 
-    public void handleExpiredToken(HttpServletRequest request, HttpServletResponse response,
-        String memberAltId) throws JsonProcessingException {
+    public boolean handleExpiredToken(HttpServletRequest request, HttpServletResponse response,
+        String memberAltId) throws IOException {
 
-        authService.reissueSession(request, response, memberAltId);
-        request.setAttribute(MEMBER_ALT_ID.getName(), memberAltId);
+        try {
+            authService.reissueSession(request, response, memberAltId);
+            request.setAttribute(MEMBER_ALT_ID.getName(), memberAltId);
+            return true;
+        } catch (InvalidTokenException e) {
+            log.warn("Invalid Refresh Token.");
+            if (isApi(request.getRequestURI())) {
+                response.setStatus(UNAUTHORIZED.value());
+            } else {
+                response.sendRedirect(VIEW_HOME.getUri());
+            }
+            return false;
+        }
     }
 
     public boolean redirectToUrl(HttpServletResponse response, String redirectURL)
@@ -99,5 +113,9 @@ public class InterceptorUtils {
     public boolean isPublicApi(String nowUri) {
         return PUBLIC_API.getUriMappingsList().stream()
             .anyMatch(uriMappings -> nowUri.startsWith(uriMappings.getUri()));
+    }
+
+    public boolean isApi(String nowUri) {
+        return nowUri.startsWith("/api/v2");
     }
 }

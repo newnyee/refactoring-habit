@@ -1,0 +1,173 @@
+/* 리뷰 모달 */
+.modal-review-edit-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(128, 128, 128, 0.38);
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-review-edit-container {
+  background-color: white;
+  width: 500px;
+  border-radius: 10px;
+}
+
+.modal-review-edit-header {
+  margin: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-review-edit-header img {
+  cursor: pointer
+}
+
+.modal-review-edit-header-title {
+  font-size: large;
+  font-weight: bold;
+}
+
+.modal-review-edit-body {
+  padding: 0 50px;
+  height: 80%;
+  overflow-y: auto;
+}
+
+.modal-review-edit-body-title {
+  margin: 70px 0 40px;
+  text-align: center;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.modal-review-edit-body-title p {
+  margin-bottom: 15px
+}
+
+.modal-review-edit-star-score-container {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.modal-review-edit-star-image-container {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-review-edit-star-image {
+  cursor: pointer;
+  padding: 5px;
+  width: 48px;
+}
+
+.modal-review-edit-guide {
+  color: #b2b2b2; font-weight: bold
+}
+
+.modal-review-edit-content {
+  margin-bottom: 8px;
+  padding: 22px;
+  width: 100%;
+  height: 200px;
+  color: gray;
+  background-color: #f0f1f5;
+  border: none;
+  border-radius: 5px;
+  resize: none;
+}
+
+.modal-review-edit-content:focus {
+  outline: none;
+}
+
+.modal-review-edit-content::placeholder {
+  color: #c4c4c4;
+  line-height: 25px;
+}
+
+.modal-review-edit-content-length {
+  color: #b2b2b2;
+}
+
+.modal-review-edit-attach-image-container {
+  margin: 30px 0 65px;
+}
+
+.modal-review-edit-attach-image-title {
+  margin: 50px;
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+}
+
+.modal-review-edit-content-container {
+  margin-bottom: 40px;
+}
+
+input[type=file] {
+  display: none;
+}
+
+.modal-review-edit-image-preview-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-review-edit-image-preview {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #b2b2b2;
+  width: 120px;
+  height: 120px;
+  font-weight: lighter;
+  font-size: xxx-large;
+  color: #b2b2b2;
+}
+
+.modal-review-edit-image-preview img{
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.modal-review-edit-submit-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.modal-review-edit-submit-button-container button {
+  border: none;
+  border-radius: 5px;
+  width: 185px;
+  height: 45px;
+}
+
+.modal-review-edit-submit-button.active {
+  background-color: #e83e8c;
+  color: white;
+}
+
+.modal-review-edit-submit-button.active:hover {
+  border: 1px solid #e83e8c;
+  background-color: white;
+  color: #e83e8c;
+}
+
+.error-message {
+  margin-top: 10px;
+  text-align: center;
+}

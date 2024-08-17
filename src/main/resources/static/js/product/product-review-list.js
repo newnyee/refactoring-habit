@@ -1,8 +1,3 @@
-const paging = {
-  displayPageNumber: 4,
-  recordPerPage: 6
-}
-
 const addCallGetReviewsByProductIdApiMethod = (pageNumber) => {
   return ' onclick="callGetReviewsByProductIdApi(' + pageNumber + ')"'
 }
@@ -46,29 +41,7 @@ const addPageButton = (pagingWrapper, currentPage, totalRecord) => {
   pagingWrapper.append(createPageArrowButton('next', nextStatus, endPage + 1))
 }
 
-const formatToYearMonthDayHour = (localDateTime) => {
-  let splitUpdateAt = localDateTime.split('T')
-  let date = splitUpdateAt[0].split('-')
-  let time = splitUpdateAt[1].slice(0, 5)
-  return date[0] + '년 ' + date[1] + '월 ' + date[2] + '일 ' + time
-}
-
-const isModifiedReview = (review) => {
-  if (review.updateAt !== review.createAt) {
-  return '(수정됨)'
-  }
-}
-
-const createImageElements = (imageFileNames) => {
-  let imageFileNameList = getImageFileNameList(imageFileNames);
-  let elements = ''
-  for (const imageFileName of imageFileNameList) {
-    elements += '<img src="/storage/' + imageFileName + '" class="review-image">\n'
-  }
-  return elements
-}
-
-const createReviewElement = (review) => {
+const createReviewCard = (review) => {
   return '        <div class="review-card">\n'
       + '          <div class="review-card-header">\n'
       + '            <div class="member-info-container">\n'
@@ -85,28 +58,18 @@ const createReviewElement = (review) => {
       + '                </div>\n'
       + '              </div>\n'
       + '            </div>\n'
-      // + '            <div>\n'
-      // + '              <button class="review_modify_btn">수정</button>\n'
-      // + '              <button class="review_delete_btn">삭제</button>\n'
-      // + '            </div>\n'
       + '          </div>\n'
       + '          <div class="product-and-option-name-container">\n'
-      + '            <a href="/product/' + review.productAltId + '"><p class="product-name">' + review.productName + '</p></a>\n'
+      + '            <div class="product-name-container"><a class="product-name" href="/product/' + review.productAltId + '">' + review.productName + '</a></div>\n'
       + '            <p class="option-name">' + review.optionName + ' 참여</p>\n'
       + '          </div>\n'
       + '          <div class="review-card-content">\n'
       + '            <p class="review-content-text">' + review.content + '</p>\n'
       + '          </div>\n'
       + '          <div class="review-img-container">\n'
-      + createImageElements(review.image)
+      + createReviewImageElements(review.image)
       + '          </div>\n'
       + '        </div>'
-}
-
-const addReviews = (containerElement, reviewList) => {
-  for (const review of reviewList) {
-    containerElement.append(createReviewElement(review))
-  }
 }
 
 const updateOrderByButtonText = () => {
@@ -155,7 +118,7 @@ const callGetReviewsByProductIdApi = (page) => {
 
       let reviewsWrapper = $('.review-card-container')
       reviewsWrapper.children().remove()
-      addReviews(reviewsWrapper, reviewList, reviewList.length)
+      addReviewCards(reviewsWrapper, reviewList, reviewList.length)
 
       $('html, body').animate({ scrollTop: 0 }, 'slow')
     },
