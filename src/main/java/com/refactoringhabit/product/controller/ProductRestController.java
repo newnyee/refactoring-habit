@@ -7,7 +7,7 @@ import com.refactoringhabit.product.domain.service.ProductService;
 import com.refactoringhabit.product.dto.ProductDetailDto;
 import com.refactoringhabit.product.dto.ProductResponseDto;
 import com.refactoringhabit.review.domain.service.ReviewService;
-import com.refactoringhabit.review.dto.ReviewDetailListResponseDto;
+import com.refactoringhabit.review.dto.ReviewDetailListByProductResponseDto;
 import com.refactoringhabit.wish.domain.service.WishService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -53,21 +53,21 @@ public class ProductRestController {
             ProductResponseDto.builder()
                 .productDetailDto(productDetails)
                 .simpleHostInfoDto(hostService.getSimpleHostInfo(productDetails.hostId()))
-                .reviewDetailDto(reviewService.getReviewDetailDtoList(productAltId, pageable))
+                .reviewDetailDto(reviewService.getReviewDetailDtoListByProductId(productAltId, pageable))
                 .wishAltId(wishService.getWishAltId(memberAltId, productAltId))
                 .build());
     }
 
     @GetMapping("/{productId}/reviews")
-    public ApiResponse<ReviewDetailListResponseDto> getReviewsByProductIdApi(Pageable pageable,
+    public ApiResponse<ReviewDetailListByProductResponseDto> getReviewsByProductIdApi(Pageable pageable,
         @PathVariable("productId") String productAltId,
         @RequestParam("order-by") String orderByValue) {
         return ApiResponse.ok(
-            ReviewDetailListResponseDto.builder()
+            ReviewDetailListByProductResponseDto.builder()
                 .simpleProductInfoDto(productService.getSimpleProductInfo(productAltId))
-                .reviewCount(reviewService.getReviewCount(productAltId))
+                .reviewCount(reviewService.getReviewCountByProductId(productAltId))
                 .reviewDetailDtos(reviewService
-                    .getReviewDetailDtoList(productAltId, pageable, orderByValue))
+                    .getReviewDetailDtoListByProductId(productAltId, pageable, orderByValue))
                 .build());
     }
 }

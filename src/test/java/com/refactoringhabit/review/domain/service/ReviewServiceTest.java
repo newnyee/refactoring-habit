@@ -35,7 +35,7 @@ class ReviewServiceTest {
             .findByProductIdLimit(PRODUCT_ALT_ID.getName(), pageable, orderByValue))
             .thenReturn(reviewDetailDtoList);
 
-        List<ReviewDetailDto> getReviewDetailDtoList = reviewService.getReviewDetailDtoList(
+        List<ReviewDetailDto> getReviewDetailDtoList = reviewService.getReviewDetailDtoListByProductId(
             PRODUCT_ALT_ID.getName(), pageable);
         assertEquals(reviewDetailDtoList, getReviewDetailDtoList);
     }
@@ -50,18 +50,18 @@ class ReviewServiceTest {
             .findByProductIdLimit(PRODUCT_ALT_ID.getName(), pageable, orderByValue))
             .thenReturn(reviewDetailDtoList);
 
-        List<ReviewDetailDto> getReviewDetailDtoList = reviewService.getReviewDetailDtoList(
+        List<ReviewDetailDto> getReviewDetailDtoList = reviewService.getReviewDetailDtoListByProductId(
             PRODUCT_ALT_ID.getName(), pageable, orderByValue);
         assertEquals(reviewDetailDtoList, getReviewDetailDtoList);
     }
 
     @Test
     @DisplayName("상품 아이디에 따른 리뷰 수 얻기")
-    void testGetReviewCount() {
+    void testGetReviewCountByProductId() {
         Long reviewCount = 10L;
         when(reviewRepository.countByProductId(PRODUCT_ALT_ID.getName())).thenReturn(reviewCount);
 
-        Long getReviewCount = reviewService.getReviewCount(PRODUCT_ALT_ID.getName());
+        Long getReviewCount = reviewService.getReviewCountByProductId(PRODUCT_ALT_ID.getName());
         assertEquals(reviewCount, getReviewCount);
     }
 }

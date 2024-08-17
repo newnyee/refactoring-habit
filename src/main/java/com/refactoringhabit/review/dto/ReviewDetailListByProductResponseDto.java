@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Builder;
 
 @Builder
-public record ReviewDetailListResponseDto(
+public record ReviewDetailListByProductResponseDto(
     SimpleProductInfoDto simpleProductInfoDto,
     Long reviewCount,
     List<ReviewDetailDto> reviewDetailDtos) {
