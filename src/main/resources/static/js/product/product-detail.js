@@ -204,7 +204,7 @@ const renderProductDetails = (productDetails) => {
 
 const createReviewCardElement = (review) => {
   return '<div class="Reviewgreen">\n'
-      + '  <img src="/storage/' + review.image + '" alt=""/>\n'
+      + '  <img src="/storage/' + getImageFileNameList(review.image)[0] + '" alt=""/>\n'
       + '  <div class="CoverReviewCard_User">\n'
       + '    <div class="CoverReviewCard_ProfileImg">\n'
       + '      <img src="/storage/' + review.memberProfileImage + '" alt=""/>\n'
