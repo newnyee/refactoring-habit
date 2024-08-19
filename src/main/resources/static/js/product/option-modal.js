@@ -104,10 +104,10 @@ const getCreateCartRequestDto = (shouldDeleteCart) => {
   }
 }
 
-const callCreateCartApi = (shouldDeleteCart) => {
+const callCreateOrUpdateCartApi = (shouldDeleteCart) => {
   $.ajax({
     url: '/api/v2/carts',
-    method: 'POST',
+    method: 'PUT',
     contentType: 'application/json',
     data: JSON.stringify(getCreateCartRequestDto(shouldDeleteCart)),
     success: () => {
@@ -131,10 +131,10 @@ const callExistsCartsByProductApi = () => {
       if (response.data) {
         if (confirm("같은 해빗의 옵션만 담을 수 있습니다."
             + "다른 해빗의 옵션을 카트에 담으실 경우 이전에 담은 해빗 옵션이 삭제됩니다.")) {
-          callCreateCartApi(true)
+          callCreateOrUpdateCartApi(true)
         }
       } else {
-        callCreateCartApi(false)
+        callCreateOrUpdateCartApi(false)
       }
     },
     error: (e) => {
