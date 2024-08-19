@@ -1,13 +1,11 @@
 package com.refactoringhabit.wish.domain.service;
 
-import com.refactoringhabit.common.exception.CustomException;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
 import com.refactoringhabit.member.domain.repository.MemberRepository;
 import com.refactoringhabit.product.domain.entity.Product;
-import com.refactoringhabit.product.domain.exception.NotFoundProduct;
+import com.refactoringhabit.product.domain.exception.NotFoundProductException;
 import com.refactoringhabit.product.domain.repository.ProductRepository;
-import com.refactoringhabit.wish.domain.exception.NotFoundWish;
 import com.refactoringhabit.wish.domain.mapper.WishEntityMapper;
 import com.refactoringhabit.wish.domain.repository.WishRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,18 +23,6 @@ public class WishService {
     private final ProductRepository productRepository;
 
     public static final String WISH_ALT_ID = null;
-
-    @Transactional(readOnly = true)
-    public String getWishAltId(String memberAltId, String productAltId) {
-        try {
-            return wishRepository
-                .findAltIdByMemberAndProduct(getMember(memberAltId), getProduct(productAltId))
-                .orElseThrow(NotFoundWish::new);
-        } catch (CustomException e) {
-            log.debug("[{}] ex", e.getClass().getSimpleName(), e);
-            return "";
-        }
-    }
 
     @Transactional
     public String createWish(String memberAltId, String productAltId) {
@@ -59,6 +45,6 @@ public class WishService {
 
     private Product getProduct(String productAltId) {
         return productRepository.findByAltId(productAltId)
-            .orElseThrow(NotFoundProduct::new);
+            .orElseThrow(NotFoundProductException::new);
     }
 }

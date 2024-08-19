@@ -1,10 +1,25 @@
 package com.refactoringhabit.product.domain.service;
 
 import com.refactoringhabit.common.domain.repository.RedisRepository;
+import com.refactoringhabit.common.exception.CustomException;
+import com.refactoringhabit.host.domain.repository.HostRepository;
+import com.refactoringhabit.host.dto.SimpleHostInfoDto;
+import com.refactoringhabit.member.domain.entity.Member;
+import com.refactoringhabit.member.domain.exception.UserNotFoundException;
+import com.refactoringhabit.member.domain.repository.MemberRepository;
+import com.refactoringhabit.product.domain.entity.Product;
+import com.refactoringhabit.product.domain.exception.NotFoundProductException;
+import com.refactoringhabit.product.domain.mapper.ProductEntityMapper;
+import com.refactoringhabit.product.domain.repository.OptionRepository;
+import com.refactoringhabit.product.dto.OptionDetailDto;
 import com.refactoringhabit.product.dto.ProductCardDto;
 import com.refactoringhabit.product.domain.repository.ProductRepository;
 import com.refactoringhabit.product.dto.ProductDetailDto;
-import com.refactoringhabit.product.dto.SimpleProductInfoDto;
+import com.refactoringhabit.product.dto.ProductResponseDto;
+import com.refactoringhabit.review.domain.repository.ReviewRepository;
+import com.refactoringhabit.review.dto.ReviewDetailDto;
+import com.refactoringhabit.wish.domain.exception.NotFoundWishException;
+import com.refactoringhabit.wish.domain.repository.WishRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +36,17 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final RedisRepository redisRepository;
+    private final OptionRepository optionRepository;
+    private final HostRepository hostRepository;
+    private final ReviewRepository reviewRepository;
+    private final MemberRepository memberRepository;
+    private final WishRepository wishRepository;
 
     private static final String CACHE_NAME_POPULAR_PRODUCT = "popular-products";
     private static final String CACHE_NAME_NEW_PRODUCT = "new-products";
     private static final String CACHE_KEY_NAME = "SimpleKey []";
+    private static final int REVIEW_PAGE_SIZE = 8;
+    private static final String ORDER_BY_VALUE = "createAt";
 
     @Cacheable(value = CACHE_NAME_POPULAR_PRODUCT, cacheManager = "redisCacheManager")
     public List<ProductCardDto> getPopularProducts() {
@@ -64,12 +86,44 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public ProductDetailDto getProductDetailsById(String productAltId) {
-        return productRepository.getProductDetailsByAltId(productAltId);
+    public ProductResponseDto getProductDetailsById(String memberAltId, String productAltId) {
+        ProductDetailDto productDetailDto =
+            productRepository.getProductDetailsByAltId(productAltId);
+
+        List<OptionDetailDto> optionDetailDtos = optionRepository.getOptionDetailDtos(productAltId);
+
+        SimpleHostInfoDto simpleHostInfoDto =
+            hostRepository.getSimpleHostInfoById(productDetailDto.hostId());
+
+        Pageable pageable = Pageable.ofSize(REVIEW_PAGE_SIZE);
+        List<ReviewDetailDto> reviewDetailDtos =
+            reviewRepository.findByProductIdLimit(productAltId, pageable, ORDER_BY_VALUE);
+
+        String wishAltId = getWishAltId(memberAltId, productAltId);
+
+        return ProductEntityMapper.INSTANCE
+            .toProductResponseDto(productDetailDto, optionDetailDtos,
+                simpleHostInfoDto, reviewDetailDtos, wishAltId);
     }
 
-    @Transactional(readOnly = true)
-    public SimpleProductInfoDto getSimpleProductInfo(String productAltId) {
-        return productRepository.getSimpleProductInfoByAltId(productAltId);
+    private String getWishAltId(String memberAltId, String productAltId) {
+        try {
+            return wishRepository
+                .findAltIdByMemberAndProduct(getMember(memberAltId), getProduct(productAltId))
+                .orElseThrow(NotFoundWishException::new);
+        } catch (CustomException e) {
+            log.debug("[{}] ex", e.getClass().getSimpleName(), e);
+            return "";
+        }
+    }
+
+    private Member getMember(String memberAltId) {
+        return memberRepository.findByAltId(memberAltId)
+            .orElseThrow(UserNotFoundException::new);
+    }
+
+    private Product getProduct(String productAltId) {
+        return productRepository.findByAltId(productAltId)
+            .orElseThrow(NotFoundProductException::new);
     }
 }

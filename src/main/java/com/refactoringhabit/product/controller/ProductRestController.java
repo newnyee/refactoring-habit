@@ -1,14 +1,11 @@
 package com.refactoringhabit.product.controller;
 
 import com.refactoringhabit.common.response.ApiResponse;
-import com.refactoringhabit.host.domain.service.HostService;
 import com.refactoringhabit.product.dto.ProductCardDto;
 import com.refactoringhabit.product.domain.service.ProductService;
-import com.refactoringhabit.product.dto.ProductDetailDto;
 import com.refactoringhabit.product.dto.ProductResponseDto;
 import com.refactoringhabit.review.domain.service.ReviewService;
 import com.refactoringhabit.review.dto.ReviewDetailListByProductResponseDto;
-import com.refactoringhabit.wish.domain.service.WishService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductRestController {
 
     private final ProductService productService;
-    private final HostService hostService;
     private final ReviewService reviewService;
-    private final WishService wishService;
-
-    private static final int REVIEW_PAGE_SIZE = 8;
 
     @GetMapping("/popular")
     public ApiResponse<List<ProductCardDto>> popularProductsApi() {
@@ -47,27 +40,15 @@ public class ProductRestController {
     public ApiResponse<ProductResponseDto> getProductByIdApi(
         @RequestAttribute(value = "memberAltId", required = false) String memberAltId,
         @PathVariable("productId") String productAltId) {
-        Pageable pageable = Pageable.ofSize(REVIEW_PAGE_SIZE);
-        ProductDetailDto productDetails = productService.getProductDetailsById(productAltId);
         return ApiResponse.ok(
-            ProductResponseDto.builder()
-                .productDetailDto(productDetails)
-                .simpleHostInfoDto(hostService.getSimpleHostInfo(productDetails.hostId()))
-                .reviewDetailDto(reviewService.getReviewDetailDtoListByProductId(productAltId, pageable))
-                .wishAltId(wishService.getWishAltId(memberAltId, productAltId))
-                .build());
+            productService.getProductDetailsById(memberAltId, productAltId));
     }
 
     @GetMapping("/{productId}/reviews")
-    public ApiResponse<ReviewDetailListByProductResponseDto> getReviewsByProductIdApi(Pageable pageable,
-        @PathVariable("productId") String productAltId,
+    public ApiResponse<ReviewDetailListByProductResponseDto> getReviewsByProductIdApi(
+        @PathVariable("productId") String productAltId, Pageable pageable,
         @RequestParam("order-by") String orderByValue) {
         return ApiResponse.ok(
-            ReviewDetailListByProductResponseDto.builder()
-                .simpleProductInfoDto(productService.getSimpleProductInfo(productAltId))
-                .reviewCount(reviewService.getReviewCountByProductId(productAltId))
-                .reviewDetailDtos(reviewService
-                    .getReviewDetailDtoListByProductId(productAltId, pageable, orderByValue))
-                .build());
+            reviewService.getReviewDetailDtoListByProductId(productAltId, pageable, orderByValue));
     }
 }

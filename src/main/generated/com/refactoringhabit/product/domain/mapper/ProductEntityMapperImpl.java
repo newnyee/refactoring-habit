@@ -3,13 +3,20 @@ package com.refactoringhabit.product.domain.mapper;
 import com.refactoringhabit.category.domain.entity.CategoryMiddle;
 import com.refactoringhabit.host.domain.entity.Host;
 import com.refactoringhabit.host.dto.HostProductInfoDto;
+import com.refactoringhabit.host.dto.SimpleHostInfoDto;
 import com.refactoringhabit.product.domain.entity.Product;
 import com.refactoringhabit.product.domain.enums.ProductType;
+import com.refactoringhabit.product.dto.OptionDetailDto;
+import com.refactoringhabit.product.dto.ProductDetailDto;
+import com.refactoringhabit.product.dto.ProductResponseDto;
+import com.refactoringhabit.review.dto.ReviewDetailDto;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-07-01T17:08:58+0900",
+    date = "2024-08-17T16:37:13+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class ProductEntityMapperImpl implements ProductEntityMapper {
@@ -43,5 +50,28 @@ public class ProductEntityMapperImpl implements ProductEntityMapper {
         product.host( host );
 
         return product.build();
+    }
+
+    @Override
+    public ProductResponseDto toProductResponseDto(ProductDetailDto productDetailDto, List<OptionDetailDto> optionDetailDtos, SimpleHostInfoDto simpleHostInfoDto, List<ReviewDetailDto> reviewDetailDtos, String wishAltId) {
+        if ( productDetailDto == null && optionDetailDtos == null && simpleHostInfoDto == null && reviewDetailDtos == null && wishAltId == null ) {
+            return null;
+        }
+
+        ProductResponseDto.ProductResponseDtoBuilder productResponseDto = ProductResponseDto.builder();
+
+        productResponseDto.productDetailDto( productDetailDto );
+        List<OptionDetailDto> list = optionDetailDtos;
+        if ( list != null ) {
+            productResponseDto.optionDetailDtos( new ArrayList<OptionDetailDto>( list ) );
+        }
+        productResponseDto.simpleHostInfoDto( simpleHostInfoDto );
+        List<ReviewDetailDto> list1 = reviewDetailDtos;
+        if ( list1 != null ) {
+            productResponseDto.reviewDetailDtos( new ArrayList<ReviewDetailDto>( list1 ) );
+        }
+        productResponseDto.wishAltId( wishAltId );
+
+        return productResponseDto.build();
     }
 }

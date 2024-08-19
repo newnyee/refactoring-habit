@@ -8,7 +8,8 @@ import lombok.Builder;
 @Builder
 public record ProductResponseDto(
     ProductDetailDto productDetailDto,
+    List<OptionDetailDto> optionDetailDtos,
     SimpleHostInfoDto simpleHostInfoDto,
-    List<ReviewDetailDto> reviewDetailDto,
+    List<ReviewDetailDto> reviewDetailDtos,
     String wishAltId) {
 }
