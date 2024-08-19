@@ -4,6 +4,8 @@ let totalSlides
 let slideIndex = 1;
 let maxSlides = 4; // 한 번에 보여줄 슬라이드 개수
 
+let options = []
+
 const tagGender = {
   MALE: '남자',
   FEMALE: '여자',
@@ -47,21 +49,6 @@ const plusSlides = (n) => {
     slideIndex = maxIndex;
   }
   showSlides(slideIndex);
-}
-
-const calcAll = () => {
-  let qty = 0
-  let price = 0
-  for (let i = 0; i < $(".PurchaseCell_Wrapper").length; i++) {
-    let one_qty = parseInt($(".Counter_Value").eq(i).val());
-    let one_price = parseInt(
-        $(".PurchaseCell_Price").eq(i).text().replace(",", "").replace("원", ""));
-    qty += one_qty;
-    price += one_qty * one_price;
-  }
-
-  $(".OptionBottomSheet_Count").text("총  " + qty + "개");
-  $(".OptionBottomSheet_Price").text(price.toLocaleString() + " 원");
 }
 
 const createImageElement = (imageFileName) => {
@@ -249,14 +236,15 @@ const callGetProductByIdApi = () => {
     url: '/api/v2/products/' + productId,
     method: 'GET',
     success: (response) => {
-      console.log(response.data)
       let simpleHostInfo = response.data.simpleHostInfoDto
       let productDetails = response.data.productDetailDto
-      let reviewList = response.data.reviewDetailDto
+      let optionList = response.data.optionDetailDtos
+      let reviewList = response.data.reviewDetailDtos
       let wishAltId = response.data.wishAltId
 
       renderSimpleHostInfo(simpleHostInfo)
       renderProductDetails(productDetails)
+      renderOptionDetails(optionList)
       renderReviewList(reviewList)
       renderWishAltId(wishAltId)
     },
@@ -273,14 +261,16 @@ const updateSlide = (currentIndex) => {
   $('.image-slides').css('transform', newTransformValue);
 }
 
-const callCreateWishApi = (wishId, wishButtonImage, wishCount) => {
+const callCreateWishApi = (wishIdElement, wishButtonImageElements, wishCountElements) => {
+  let wishCount = parseInt($(wishCountElements[0]).text()) + 1
+  console.log(wishCount)
   $.ajax({
     url: '/api/v2/wishes/' + productId,
     method: 'POST',
     success: (response) => {
-      wishId.val(response.data)
-      wishButtonImage.attr('src', '/img/redheart2.png')
-      wishCount.text(parseInt(wishCount.text()) + 1)
+      wishIdElement.val(response.data)
+      wishButtonImageElements.attr('src', '/img/redheart2.png')
+      wishCountElements.text(wishCount)
     },
     error: (e) => {
       if (e.status === 401) {
@@ -293,14 +283,15 @@ const callCreateWishApi = (wishId, wishButtonImage, wishCount) => {
   })
 }
 
-const callDeleteWishApi = (wishId, wishButtonImage, wishCount) => {
+const callDeleteWishApi = (wishIdElement, wishButtonImageElements, wishCountElements) => {
+  let wishCount = parseInt($(wishCountElements[0]).text()) - 1
   $.ajax({
-    url: `/api/v2/wishes/${productId}/${wishId.val()}`,
+    url: `/api/v2/wishes/${productId}/${wishIdElement.val()}`,
     method: 'DELETE',
     success: () => {
-      wishId.val('')
-      wishButtonImage.attr('src', '/img/black2.png')
-      wishCount.text(parseInt(wishCount.text()) - 1)
+      wishIdElement.val('')
+      wishButtonImageElements.attr('src', '/img/black2.png')
+      wishCountElements.text(wishCount)
     },
     error: (e) => {
       if (e.status === 401) {
@@ -347,93 +338,6 @@ $(document).ready(() => {
         : descriptionSectionContainer.css('max-height', '')
   })
 
-  // 참여하기 모달창 open
-  $('#openModalButton').on('click', () => {
-    $('#FloatingActionBar').css('display', 'none')
-    $('#productOptionsModal').css('display', 'block')
-  })
-
-  // 참여하기 모달창 close
-  $('.Toggle_Purch').on('click', () => {
-    $('#FloatingActionBar').css('display', 'block')
-    $('#productOptionsModal').css('display', 'none')
-  })
-
-  // 기본 옵션 창 토글
-  $('.OptionSelect_Title').on('click', (e) => {
-    // 화살표 방향 변경
-    let arrowIcon = e.currentTarget.querySelector('.arrow-icon')
-    arrowIcon.classList.toggle('rotated')
-
-    // 기본 옵션 창 토글
-    let optionItemsWrapper = $('.OptionItem_Wrapper')
-    if (optionItemsWrapper.css('display') === 'none' || optionItemsWrapper.css(
-        'display') === '') {
-      optionItemsWrapper.css('display', 'block');
-    } else {
-      optionItemsWrapper.css('display', 'none');
-    }
-  })
-
-  // 옵션 클릭
-  $(".OptionItem_Container").on('click', (e) => {
-    // 클릭한 상품명과 가격을 PurchaseCell_Wrapper 내에 적용합니다.
-    let selectedItemName = e.currentTarget.querySelector(
-        '.OptionItem_Title').textContent
-    let selectedItemPrice = e.currentTarget.querySelector(
-        '#option_price').textContent
-
-    let optionAppend =
-        '      <div class="PurchaseCell_Wrapper">\n'
-        + '        <div class="purchaseCell_TitleWrapper">\n'
-        + '          <div class="PurchaseCell_Title">' + selectedItemName
-        + '</div>\n'
-        + '          <img src="/img/close_button.png" class="PurchaseCell_DeleteIcon">\n'
-        + '        </div>\n'
-        + '        <div class="PurchaseCell_PriceWrapper">\n'
-        + '          <div class="Counter_Wrapper">\n'
-        + '            <img src="/img/minus-btn.svg" class="Counter_ControlButton minus-btn">\n'
-        + '            <input type="hidden" class="option-price" value='
-        + selectedItemPrice + '>'
-        + '            <input type="number" min="1" class="Counter_Value" value="1" readonly>\n'
-        + '            <img src="/img/plus-btn.svg" class="Counter_ControlButton plus-btn">\n'
-        + '          </div>\n'
-        + '          <span class="PurchaseCell_Price"><span class="option-total-price">'
-        + selectedItemPrice + '</span>원</span>\n'
-        + '        </div>\n'
-        + '      </div>'
-    $(".OptionBottomSheet").append(optionAppend)
-
-    // 수량이 변경될 때마다 calculateTotal 함수를 호출하도록 이벤트 리스너를 추가
-    calcAll()
-  })
-
-  // 옵션 삭제
-  $(document).on('click', '.PurchaseCell_DeleteIcon', (e) => {
-    $(e.target).parent().parent().remove()
-    calcAll()
-  })
-
-  // 옵션 수량 조절 - 마이너스
-  $(document).on('click', '.minus-btn', (e) => {
-    // 수량 조절
-    let counterWrapper = $(e.currentTarget).closest('.Counter_Wrapper')
-    let qty = counterWrapper.find('.Counter_Value')
-    if (qty.val() > 1) {
-      qty.val(parseInt(qty.val()) - 1)
-    }
-    calcAll()
-  })
-
-  // 옵션 수량 조절 - 플러스
-  $(document).on('click', '.plus-btn', (e) => {
-    // 수량 조절
-    let counterWrapper = $(e.currentTarget).closest('.Counter_Wrapper')
-    let qty = counterWrapper.find('.Counter_Value')
-    qty.val(parseInt(qty.val()) + 1)
-    calcAll()
-  })
-
   // 아코디언 박스 클릭
   $('.Accordion_Container').on('click', (e) => {
     let parentElement = $(e.currentTarget).parent()
@@ -456,14 +360,14 @@ $(document).ready(() => {
 
   // 찜 버튼 클릭
   $('.wish-button').on('click', () => {
-    let wishButtonImage = $('.wish-button-image')
-    let wishCount = $('.wish-count')
-    let wishId = $('.wish-id')
+    let wishIdElement = $('.wish-id')
+    let wishButtonImageElement = $('.wish-button-image')
+    let wishCountElements = $('.wish-count')
 
-    if (wishId.val() === '') {
-      callCreateWishApi(wishId, wishButtonImage, wishCount);
+    if (wishIdElement.val() === '') {
+      callCreateWishApi(wishIdElement, wishButtonImageElement, wishCountElements);
     } else {
-      callDeleteWishApi(wishId, wishButtonImage, wishCount)
+      callDeleteWishApi(wishIdElement, wishButtonImageElement, wishCountElements)
     }
   })
 })
