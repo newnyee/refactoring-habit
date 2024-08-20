@@ -32,7 +32,7 @@ public class CartService {
     }
 
     @Transactional
-    public void cartCreate(String memberAltId, CreateCartRequestDto createCartRequestDto) {
+    public void cartCreateOrUpdate(String memberAltId, CreateCartRequestDto createCartRequestDto) {
         Member member = getMember(memberAltId);
 
         if (Boolean.TRUE.equals(createCartRequestDto.getShouldDeleteCart())) {

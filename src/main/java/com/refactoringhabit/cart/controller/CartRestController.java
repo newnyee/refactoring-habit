@@ -28,7 +28,7 @@ public class CartRestController {
     @PutMapping
     public ApiResponse<String> createOrUpdateCartApi(@RequestAttribute("memberAltId") String memberAltId,
         @RequestBody CreateCartRequestDto createCartRequestDto) {
-        cartService.cartCreate(memberAltId, createCartRequestDto);
+        cartService.cartCreateOrUpdate(memberAltId, createCartRequestDto);
         return ApiResponse.created();
     }
 }
