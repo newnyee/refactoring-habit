@@ -76,11 +76,11 @@ const updateOrderByButtonText = () => {
   let currentTargetValue = $('[name=orderBy]:checked').val()
   let value = ''
   if (currentTargetValue === 'createAt') {
-    value += '최신순'
-  } else if (currentTargetValue === 'reviewAveragedDesc') {
-    value += '평점 높은순'
+    value = '최신순'
+  } else if (currentTargetValue === 'reviewAverageDesc') {
+    value = '평점 높은순'
   } else {
-    value += '평점 낮은순'
+    value = '평점 낮은순'
   }
   $('.order-by-button').text(value)
 }
@@ -147,6 +147,9 @@ $(document).ready(() => {
 
   $('[name=orderBy]').on('change', () => {
     callGetReviewsByProductIdApi(1)
-    $('.order-by-list').css('display', 'none');
+    let orderByList = $('.order-by-list')
+    let orderByArrowImage = $('.order-by-arrow-image')
+    orderByList.css('display', 'none');
+    orderByArrowImage.css('transform', 'rotate(90deg)')
   })
 })

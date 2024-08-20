@@ -1,13 +1,18 @@
 package com.refactoringhabit.review.domain.mapper;
 
+import com.refactoringhabit.product.dto.SimpleProductInfoDto;
 import com.refactoringhabit.review.domain.entity.Review;
+import com.refactoringhabit.review.dto.ReviewDetailDto;
+import com.refactoringhabit.review.dto.ReviewDetailListByProductResponseDto;
 import com.refactoringhabit.review.dto.ReviewUpdateRequestDto;
 import com.refactoringhabit.review.dto.ReviewUpdateResponseDto;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-08-16T18:25:28+0900",
+    date = "2024-08-19T15:40:02+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Oracle Corporation)"
 )
 public class ReviewEntityMapperImpl implements ReviewEntityMapper {
@@ -42,5 +47,23 @@ public class ReviewEntityMapperImpl implements ReviewEntityMapper {
             review.setStarScore( reviewUpdateRequestDto.getStarScore() );
         }
         review.setImage( imageFileNames );
+    }
+
+    @Override
+    public ReviewDetailListByProductResponseDto toReviewDetailListByProductResponseDto(SimpleProductInfoDto simpleProductInfoDto, Long reviewCount, List<ReviewDetailDto> reviewDetailDtos) {
+        if ( simpleProductInfoDto == null && reviewCount == null && reviewDetailDtos == null ) {
+            return null;
+        }
+
+        ReviewDetailListByProductResponseDto.ReviewDetailListByProductResponseDtoBuilder reviewDetailListByProductResponseDto = ReviewDetailListByProductResponseDto.builder();
+
+        reviewDetailListByProductResponseDto.simpleProductInfoDto( simpleProductInfoDto );
+        reviewDetailListByProductResponseDto.reviewCount( reviewCount );
+        List<ReviewDetailDto> list = reviewDetailDtos;
+        if ( list != null ) {
+            reviewDetailListByProductResponseDto.reviewDetailDtos( new ArrayList<ReviewDetailDto>( list ) );
+        }
+
+        return reviewDetailListByProductResponseDto.build();
     }
 }

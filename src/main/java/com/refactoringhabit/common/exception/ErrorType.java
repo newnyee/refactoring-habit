@@ -11,8 +11,9 @@ import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
 import com.refactoringhabit.member.domain.exception.NotFoundEmailException;
 import com.refactoringhabit.auth.domain.exception.NotHostException;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
-import com.refactoringhabit.product.domain.exception.NotFoundProduct;
-import com.refactoringhabit.wish.domain.exception.NotFoundWish;
+import com.refactoringhabit.product.domain.exception.NotFoundOptionException;
+import com.refactoringhabit.product.domain.exception.NotFoundProductException;
+import com.refactoringhabit.wish.domain.exception.NotFoundWishException;
 import java.util.Arrays;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -53,10 +54,13 @@ public enum ErrorType {
         CategoryNotFoundException.class, HttpStatus.NOT_FOUND),
 
     P001("P001", "상품을 찾을 수 없습니다.",
-        NotFoundProduct.class, HttpStatus.NOT_FOUND),
+        NotFoundProductException.class, HttpStatus.NOT_FOUND),
 
     W001("W001", "찜을 찾을 수 없습니다.",
-        NotFoundWish.class, HttpStatus.NOT_FOUND);
+        NotFoundWishException.class, HttpStatus.NOT_FOUND),
+
+    O001("O001", "옵션을 찾을 수 없습니다.",
+        NotFoundOptionException.class, HttpStatus.NOT_FOUND);
 
     private final String code;
     private final String message;

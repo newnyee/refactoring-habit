@@ -3,6 +3,7 @@
   <head>
     <link rel="stylesheet" th:href="@{/css/product/product-detail.css}">
     <script th:src="@{/js/product/product-detail.js}"></script>
+    <script th:src="@{/js/product/option-modal.js}"></script>
   </head>
 
   <title>해빗 상세보기 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
@@ -149,22 +150,10 @@
       <div class="OptionBottomSheet">
         <div role="button" class="OptionSelect_Wrapper">
           <div class="OptionSelect_Title">
-            <span class="OptionSelect_Title">기본 옵션</span>
+            <span>기본 옵션</span>
             <img src="/img/arrow.svg" class="arrow-icon">
           </div>
           <div class="OptionItem_Wrapper">
-            <div class="OptionItem_Container" data-price="${option.one_price}">
-              <input type="hidden" value="${option.pro_no}" class="Option_Head">
-              <div class="OptionItem_ContentContainer">
-                <div class="OptionItem_TitleContainer">
-                  <span class="OptionItem_Title" color="#333333">00월 00일 (요일) 00:00</span>
-                </div>
-                <div class="OptionItem_PriceContainer">
-                  <span color="#333333" class="OptionItem_Price"><span id="option_price">5000</span>원</span>
-                  <span color="#999999" class="OptionItem_Remains"><span id="option_remains">0</span>개 남음</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -174,12 +163,12 @@
           <strong class="OptionBottomSheet_Price"><span id="total_price">0</span>원</strong> <!--총가격-->
         </div>
         <div class="OptionBottomSheet_ProductInfo">
-          <button class="SaveActionButton" type="button">
+          <button class="SaveActionButton wish-button" type="button">
             <input type="hidden" class="wish-id" value="">
-            <img src="/img/black2.png" id="cont_no${detail.cont_no}">
-            <span class="SaveActionButton_Count"></span> <!--찜갯수-->
+            <img src="/img/black2.png" class="wish-button-image" id="cont_no${detail.cont_no}">
+            <span class="SaveActionButton_Count wish-count"></span> <!--찜갯수-->
           </button>
-          <button class="OptionBottomSheet_Button">참여하기</button>
+          <button class="OptionBottomSheet_Button">장바구니</button>
         </div>
       </div>
     </div>

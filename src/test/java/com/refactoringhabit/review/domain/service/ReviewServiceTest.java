@@ -11,10 +11,13 @@ import com.refactoringhabit.common.utils.CustomFileUtil;
 import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.exception.UserNotFoundException;
 import com.refactoringhabit.member.domain.repository.MemberRepository;
+import com.refactoringhabit.product.domain.repository.ProductRepository;
+import com.refactoringhabit.product.dto.SimpleProductInfoDto;
 import com.refactoringhabit.review.domain.entity.Review;
 import com.refactoringhabit.review.domain.enums.ReviewStatus;
 import com.refactoringhabit.review.domain.repository.ReviewRepository;
 import com.refactoringhabit.review.dto.ReviewDetailDto;
+import com.refactoringhabit.review.dto.ReviewDetailListByProductResponseDto;
 import com.refactoringhabit.review.dto.ReviewUpdateRequestDto;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +43,9 @@ class ReviewServiceTest {
     private MemberRepository memberRepository;
 
     @Mock
+    private ProductRepository productRepository;
+
+    @Mock
     private CustomFileUtil customFileUtil;
 
     @Mock
@@ -54,47 +60,30 @@ class ReviewServiceTest {
     private static final String REVIEW_ALT_ID = "reviewAltId";
 
     @Test
-    @DisplayName("상품 아이디에 따른 리뷰 목록 얻기 - two parameters")
-    void testGetReviewDetailDtoListByProductId_TwoParameters() {
-        List<ReviewDetailDto> reviewDetailDtoList = mock(List.class);
+    @DisplayName("상품 아이디에 따른 리뷰 상세 목록 얻기")
+    void testGetReviewDetailDtoListByProductId() {
+        SimpleProductInfoDto simpleProductInfoDto = mock(SimpleProductInfoDto.class);
         Pageable pageable = mock(Pageable.class);
+        ReviewDetailDto reviewDetailDto = mock(ReviewDetailDto.class);
+        List<ReviewDetailDto> reviewDetailDtoList = List.of(reviewDetailDto);
+        Long reviewCount = 1L;
         String orderByValue = "createAt";
-        when(reviewRepository
-            .findByProductIdLimit(PRODUCT_ALT_ID.getName(), pageable, orderByValue))
-            .thenReturn(reviewDetailDtoList);
 
-        List<ReviewDetailDto> getReviewDetailDtoList = reviewService.getReviewDetailDtoListByProductId(
-            PRODUCT_ALT_ID.getName(), pageable);
-        assertEquals(reviewDetailDtoList, getReviewDetailDtoList);
+        when(productRepository.getSimpleProductInfoByAltId(PRODUCT_ALT_ID.getName()))
+            .thenReturn(simpleProductInfoDto);
+        when(reviewRepository.countByProductId(PRODUCT_ALT_ID.getName()))
+            .thenReturn(reviewCount);
+        when(reviewRepository.findByProductIdLimit(PRODUCT_ALT_ID.getName(), pageable,
+            orderByValue)).thenReturn(reviewDetailDtoList);
+
+        ReviewDetailListByProductResponseDto getReviewDetailListByProductResponseDto =
+            reviewService.getReviewDetailDtoListByProductId(
+                PRODUCT_ALT_ID.getName(), pageable, orderByValue);
+        assertEquals(reviewCount, getReviewDetailListByProductResponseDto.reviewCount());
     }
 
     @Test
-    @DisplayName("상품 아이디에 따른 리뷰 목록 얻기 - three parameters")
-    void testGetReviewDetailDtoListByProductId_ThreeParameters() {
-        List<ReviewDetailDto> reviewDetailDtoList = mock(List.class);
-        Pageable pageable = mock(Pageable.class);
-        String orderByValue = "createAt";
-        when(reviewRepository
-            .findByProductIdLimit(PRODUCT_ALT_ID.getName(), pageable, orderByValue))
-            .thenReturn(reviewDetailDtoList);
-
-        List<ReviewDetailDto> getReviewDetailDtoList = reviewService.getReviewDetailDtoListByProductId(
-            PRODUCT_ALT_ID.getName(), pageable, orderByValue);
-        assertEquals(reviewDetailDtoList, getReviewDetailDtoList);
-    }
-
-    @Test
-    @DisplayName("상품 아이디에 따른 리뷰 수 얻기")
-    void testGetReviewCountByProductId() {
-        Long reviewCount = 10L;
-        when(reviewRepository.countByProductId(PRODUCT_ALT_ID.getName())).thenReturn(reviewCount);
-
-        Long getReviewCount = reviewService.getReviewCountByProductId(PRODUCT_ALT_ID.getName());
-        assertEquals(reviewCount, getReviewCount);
-    }
-
-    @Test
-    @DisplayName("회원 아이디에 따른 리뷰 목록 얻기")
+    @DisplayName("회원 아이디에 따른 리뷰 상세 목록 얻기")
     void testGetReviewDetailDtoByMemberId() {
         Pageable pageable = mock(Pageable.class);
         List<ReviewDetailDto> reviewDetailDtoList = mock(List.class);
