@@ -8,6 +8,8 @@ import com.refactoringhabit.member.dto.MemberJoinRequestDto;
 import com.refactoringhabit.member.dto.MemberUpdateInfoRequestDto;
 import com.refactoringhabit.review.domain.service.ReviewService;
 import com.refactoringhabit.review.dto.ReviewDetailListByMemberResponseDto;
+import com.refactoringhabit.wish.domain.service.WishService;
+import com.refactoringhabit.wish.dto.WishesInfoResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,7 @@ public class MemberRestController {
     private final MemberService memberService;
     private final ReviewService reviewService;
     private final CartService cartService;
+    private final WishService wishService;
 
     @PostMapping
     public ApiResponse<String> joinApi(
@@ -69,5 +72,11 @@ public class MemberRestController {
         @PathVariable("memberAltId") String memberAltId) {
         cartService.deleteCartsByMember(memberAltId);
         return ApiResponse.noContent();
+    }
+
+    @GetMapping("/{memberAltId}/wishes")
+    public ApiResponse<WishesInfoResponseDto> getWishesApi(
+        @PathVariable("memberAltId") String memberAltId, Pageable pageable) {
+        return ApiResponse.ok(wishService.getWishesInfo(memberAltId, pageable));
     }
 }

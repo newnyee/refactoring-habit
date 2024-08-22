@@ -74,3 +74,10 @@
   height: 35px;
   width: 40px;
 }
+
+.no-content {
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
+  margin: 80px;
+}

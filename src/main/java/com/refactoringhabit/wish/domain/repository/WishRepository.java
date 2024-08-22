@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface WishRepository extends JpaRepository<Wish, Long>, WishRepositoryCustom {
     Long countByProductId(Long productId);
     void deleteByMemberAndProductAndAltId(Member member, Product product, String altId);
+    Long countByMember(Member member);
 }

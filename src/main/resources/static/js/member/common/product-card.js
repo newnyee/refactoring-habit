@@ -33,8 +33,17 @@ const createProductElement = (product) => {
       + '    </div>'
 }
 
+const createNoContentElement = () => {
+  return '<div class="no-content">해빗이 존재하지 않습니다</div>'
+}
+
 const addProducts = (containerElement, productList, limit) => {
+  if (productList.length === 0) {
+    containerElement.append(createNoContentElement())
+    return
+  }
+
   for (let i = 0; i < limit; i++) {
-    containerElement.append(createProductElement(productList[i]))
+    containerElement.append(createProductElement(productList[i]));
   }
 }
