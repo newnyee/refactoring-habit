@@ -4,6 +4,7 @@ import static com.refactoringhabit.common.enums.AttributeNames.MEMBER_ALT_ID;
 import static com.refactoringhabit.common.enums.AttributeNames.PRODUCT_ALT_ID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -11,8 +12,11 @@ import com.refactoringhabit.member.domain.entity.Member;
 import com.refactoringhabit.member.domain.repository.MemberRepository;
 import com.refactoringhabit.product.domain.entity.Product;
 import com.refactoringhabit.product.domain.repository.ProductRepository;
+import com.refactoringhabit.product.dto.ProductCardDto;
 import com.refactoringhabit.wish.domain.entity.Wish;
 import com.refactoringhabit.wish.domain.repository.WishRepository;
+import com.refactoringhabit.wish.dto.WishesInfoResponseDto;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class WishServiceTest {
@@ -74,5 +79,21 @@ class WishServiceTest {
         verify(wishRepository).deleteByMemberAndProductAndAltId(member, product, WISH_ALT_ID);
         verify(memberRepository).findByAltId(MEMBER_ALT_ID.getName());
         verify(productRepository).findByAltId(PRODUCT_ALT_ID.getName());
+    }
+
+    @Test
+    @DisplayName("찜 목록 가져오기")
+    void testGetWishesInfo() {
+        Pageable pageable = mock(Pageable.class);
+        List<ProductCardDto> wishes = mock(List.class);
+        Long wishCount = 1L;
+        when(memberRepository.findByAltId(MEMBER_ALT_ID.getName()))
+            .thenReturn(Optional.of(member));
+        when(wishRepository.getWishesByMember(member, pageable)).thenReturn(wishes);
+        when(wishRepository.countByMember(member)).thenReturn(wishCount);
+
+        WishesInfoResponseDto wishesInfo =
+            wishService.getWishesInfo(MEMBER_ALT_ID.getName(), pageable);
+        assertEquals(wishCount, wishesInfo.wishCount());
     }
 }
