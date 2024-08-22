@@ -1,6 +1,7 @@
 package com.refactoringhabit.cart.domain.service;
 
 import com.refactoringhabit.cart.domain.entity.Cart;
+import com.refactoringhabit.cart.domain.exception.NotFoundCartException;
 import com.refactoringhabit.cart.domain.mapper.CartEntityMapper;
 import com.refactoringhabit.cart.domain.repository.CartRepository;
 import com.refactoringhabit.cart.dto.CartDetailResponseDto;
@@ -62,6 +63,17 @@ public class CartService {
     @Transactional
     public void deleteCartsByMember(String memberAltId) {
         cartRepository.deleteByMember(getMember(memberAltId));
+    }
+
+    @Transactional
+    public void updateCart(String memberAltId, String cartAltId, int quantity) {
+        cartRepository.findByMemberAndAltId(getMember(memberAltId), cartAltId)
+            .orElseThrow(NotFoundCartException::new).setQuantity(quantity);
+    }
+
+    @Transactional
+    public void deleteCart(String memberAltId, String cartAltId) {
+        cartRepository.deleteByMemberAndAltId(getMember(memberAltId), cartAltId);
     }
 
     private Option getOption(String optionAltId) {
