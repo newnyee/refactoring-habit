@@ -152,7 +152,9 @@ const renderProductDetails = (productDetails) => {
   $('.review-star-wrapper').append(createStarScoreImage(reviewAverage))
 
   // 리뷰 평점
-  $('.ReviewSummary_Aver').text(reviewAverage)
+  if (reviewAverage > 0) {
+    $('.ReviewSummary_Aver').text(reviewAverage);
+  }
 
   // 리뷰 수
   $('.review-count').text(productDetails.reviewCount)
@@ -209,15 +211,16 @@ const renderReviewList = (reviewList) => {
   let reviewContainer = $('.Reviewflex');
 
   if (reviewList.length === 0) {
-    let reviewWrapper = $('.Reviewblack')
-    reviewWrapper.children().remove()
-    reviewWrapper.append('<div>해당 리뷰가 없습니다</div>\n<div>첫 리뷰를 작성해주세요!</div>')
-    reviewWrapper.addClass('no-review')
+    let reviewWrapper = $('.Reviewblack');
+    reviewWrapper.children().remove();
+    reviewWrapper.append('<div>해당 리뷰가 없습니다</div>\n<div>첫 리뷰를 작성해주세요!</div>');
+    reviewWrapper.addClass('no-review');
+  } else {
+    for (const review of reviewList) {
+      reviewContainer.append(createReviewCardElement(review));
+    }
   }
 
-  for (const review of reviewList) {
-    reviewContainer.append(createReviewCardElement(review))
-  }
   // 리뷰 슬라이드 초기화
   showSlides(slideIndex);
 }
