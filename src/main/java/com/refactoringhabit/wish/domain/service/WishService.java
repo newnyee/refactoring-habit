@@ -8,8 +8,10 @@ import com.refactoringhabit.product.domain.exception.NotFoundProductException;
 import com.refactoringhabit.product.domain.repository.ProductRepository;
 import com.refactoringhabit.wish.domain.mapper.WishEntityMapper;
 import com.refactoringhabit.wish.domain.repository.WishRepository;
+import com.refactoringhabit.wish.dto.WishesInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,15 @@ public class WishService {
     public void deleteWish(String memberAltId, String productAltId, String wishAltId) {
         wishRepository.deleteByMemberAndProductAndAltId(
             getMember(memberAltId), getProduct(productAltId), wishAltId);
+    }
+
+    @Transactional(readOnly = true)
+    public WishesInfoResponseDto getWishesInfo(String memberAltId, Pageable pageable) {
+        Member member = getMember(memberAltId);
+        return WishesInfoResponseDto.builder()
+            .wishes(wishRepository.getWishesByMember(member, pageable))
+            .wishCount(wishRepository.countByMember(member))
+            .build();
     }
 
     private Member getMember(String memberAltId) {
