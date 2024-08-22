@@ -1,14 +1,18 @@
 package com.refactoringhabit.member.controller;
 
+import com.refactoringhabit.cart.domain.service.CartService;
+import com.refactoringhabit.cart.dto.CartDetailResponseDto;
 import com.refactoringhabit.common.response.ApiResponse;
 import com.refactoringhabit.member.domain.service.MemberService;
 import com.refactoringhabit.member.dto.MemberJoinRequestDto;
 import com.refactoringhabit.member.dto.MemberUpdateInfoRequestDto;
 import com.refactoringhabit.review.domain.service.ReviewService;
 import com.refactoringhabit.review.dto.ReviewDetailListByMemberResponseDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +30,7 @@ public class MemberRestController {
 
     private final MemberService memberService;
     private final ReviewService reviewService;
+    private final CartService cartService;
 
     @PostMapping
     public ApiResponse<String> joinApi(
@@ -51,5 +56,18 @@ public class MemberRestController {
             .reviewDetailDtos(reviewService.getReviewDetailDtoListByMemberId(memberAltId, pageable))
             .reviewCount(reviewService.getReviewCountByMemberId(memberAltId))
             .build());
+    }
+
+    @GetMapping("/{memberAltId}/carts")
+    public ApiResponse<List<CartDetailResponseDto>> getCartsByMemberApi(
+        @PathVariable("memberAltId") String memberAltId) {
+        return ApiResponse.ok(cartService.getCartsByMember(memberAltId));
+    }
+
+    @DeleteMapping("/{memberAltId}/carts")
+    public ApiResponse<String> deleteCartsByMemberApi(
+        @PathVariable("memberAltId") String memberAltId) {
+        cartService.deleteCartsByMember(memberAltId);
+        return ApiResponse.noContent();
     }
 }

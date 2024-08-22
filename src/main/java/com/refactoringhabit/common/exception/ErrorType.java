@@ -5,6 +5,7 @@ import com.refactoringhabit.auth.domain.exception.EmailingException;
 import com.refactoringhabit.auth.domain.exception.InvalidTokenException;
 import com.refactoringhabit.auth.domain.exception.NullTokenException;
 import com.refactoringhabit.auth.domain.exception.PasswordNotMatchException;
+import com.refactoringhabit.cart.domain.exception.NotFoundCartException;
 import com.refactoringhabit.category.domain.exception.CategoryNotFoundException;
 import com.refactoringhabit.host.domain.exception.NotFoundBankException;
 import com.refactoringhabit.member.domain.exception.FileSaveFailedException;
@@ -60,7 +61,10 @@ public enum ErrorType {
         NotFoundWishException.class, HttpStatus.NOT_FOUND),
 
     O001("O001", "옵션을 찾을 수 없습니다.",
-        NotFoundOptionException.class, HttpStatus.NOT_FOUND);
+        NotFoundOptionException.class, HttpStatus.NOT_FOUND),
+
+    CT001("CT001", "장바구니를 찾을 수 없습니다.",
+        NotFoundCartException.class, HttpStatus.NOT_FOUND);
 
     private final String code;
     private final String message;
