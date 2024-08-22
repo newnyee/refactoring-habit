@@ -1,128 +1,75 @@
-//보여줄 상품 갯수
-const showPro=8;
-
-
-$(document).ready(function(){
-  //common.js
-  common();
-
- /* // 페이지 로드 후 페이징 초기화
-  onPageClick(1);*/
-
-    $(".Home_product_recommend_p").slice(0, showPro).css('display','block'); // 초기갯수
-
-    var btn=$('.zzim_btn');
-    btn.click(function (){
-
-        //찜 해제할때
-        /*$(this).parents().eq(3).remove();
-        onPageClick($(".pactive"));*/
-        window.location.reload();
-
-
-    })
-})
-
-
-function onPageClick(ele) {
-
-    //=====인덱스 전후 번튼 클릭시 페이징
-    if(ele==-1) {
-        //전버튼
-        //console.log(ele);
-        let activeIndex = $(".pactive").index();
-        //console.log(activeIndex);
-        if(activeIndex!='1'){
-            paging($('.pactive'),ele);
-        }
-
-
-    }else if(ele==0){
-        //후버튼
-        //console.log(ele);
-        let activeIndex = $(".pactive").index();
-        //console.log(activeIndex);
-        let length=$(".index_page_btn").length;
-
-        if(activeIndex!=length){
-            let way=1;
-            paging($('.pactive'),way);
-        }
-    }else {
-        //=====인덱스 숫자 클릭시 페이징
-        $(".Home_product_recommend_p").css('display', 'none');
-
-        let indexpage = $(ele).index();
-        //console.log("기초"+$(ele).index());
-        //console.log($(".index_page_btn").length);
-        $(".Home_product_recommend_p").slice(showPro * (indexpage - 1), showPro * indexpage).show();
-
-
-        //=====인덱스 화면상에서  3개만 보이게
-        //첫번째 인덱스 클릭시
-        if (indexpage == 1) {
-            $(".index_page_btn").eq(indexpage - 1).css("display", "block");
-            $(".index_page_btn").eq(indexpage).css("display", "block");
-            $(".index_page_btn").eq(indexpage + 1).css("display", "block");
-            //마지막 인덱스 클릭시
-        } else if (indexpage == $(".index_page_btn").length) {
-            $(".index_page_btn").eq(indexpage - 3).css("display", "block");
-            $(".index_page_btn").eq(indexpage - 2).css("display", "block");
-            $(".index_page_btn").eq(indexpage - 1).css("display", "block");
-        } else {
-            //인덱스 화면상에서  3개만 보이게
-            $(".index_page_btn").css("display", "none");
-            $(".index_page_btn").eq(indexpage - 2).css("display", "block");
-            $(".index_page_btn").eq(indexpage - 1).css("display", "block");
-            $(".index_page_btn").eq(indexpage).css("display", "block");
-        }
-        //클릭한 인덱스 색깔 바꾸기
-        $(".paging>button").removeClass("pactive");
-        $(ele).addClass("pactive");
-
-    }
+const paging = {
+    displayPageNumber: 4,
+    recordPerPage: 12
 }
 
-//인덱스전후 버튼 함수
-function paging(ele,way){
-    //=====인덱스 숫자 클릭시 페이징
-    $(".Home_product_recommend_p").css('display', 'none');
+const addCallGetProductsByCategoryLargeApiMethod = (pageNumber) => {
+    return ` onclick="callGetWishesApi('${memberAltId}', ${pageNumber})"`
+}
 
-    let indexpage = parseInt($(ele).index())+parseInt(way);
-    //console.log(indexpage);
-    //console.log("함수"+$(ele).index());
-    //console.log($(".index_page_btn").length);
-    $(".Home_product_recommend_p").slice(showPro* (indexpage - 1), showPro * indexpage).show();
-
-    //첫번째 인덱스 클릭시
-    if (indexpage == 1) {
-        $(".index_page_btn").eq(indexpage - 1).css("display", "block");
-        $(".index_page_btn").eq(indexpage).css("display", "block");
-        $(".index_page_btn").eq(indexpage + 1).css("display", "block");
-        //마지막 인덱스 클릭시
-    } else if (indexpage == $(".index_page_btn").length) {
-        $(".index_page_btn").eq(indexpage - 3).css("display", "block");
-        $(".index_page_btn").eq(indexpage - 2).css("display", "block");
-        $(".index_page_btn").eq(indexpage - 1).css("display", "block");
+const createPageArrowButton = (buttonType, buttonStatus, pageNumber) => {
+    let element = '          <button class="paging-button-' + buttonStatus + '"'
+    if (buttonStatus === 'active') {
+        element += addCallGetProductsByCategoryLargeApiMethod(pageNumber)
+    }
+    if (buttonType === 'prev') {
+        element += '><</button>\n'
     } else {
-        //인덱스 화면상에서  3개만 보이게
-        $(".index_page_btn").css("display", "none");
-        $(".index_page_btn").eq(indexpage - 2).css("display", "block");
-        $(".index_page_btn").eq(indexpage - 1).css("display", "block");
-        $(".index_page_btn").eq(indexpage).css("display", "block");
+        element += '>></button>'
     }
-
-    if(way==-1) {
-        //클릭한 인덱스 색깔 바꾸기
-        $(".paging>button").removeClass("pactive");
-        $(ele).prev().addClass("pactive");
-    }else{
-        //클릭한 인덱스 색깔 바꾸기
-        $(".paging>button").removeClass("pactive");
-        $(ele).next().addClass("pactive");
-    }
+    return element;
 }
 
+const createPageNumberButton = (pageNumber, addClass) => {
+    return `          <button onclick="callGetWishesApi('${memberAltId}', ${pageNumber})" class="paging-button-active ${addClass}">${pageNumber}</button>\n`
+}
 
+const addPageButton = (pagingWrapper, currentPage, totalRecord) => {
+    let displayPageNumber = paging.displayPageNumber
+    let totalPages = Math.ceil(totalRecord / paging.recordPerPage)
+    let startPage = (Math.ceil(currentPage / displayPageNumber) - 1) * displayPageNumber + 1
+    let endPage = (Math.ceil(currentPage / displayPageNumber) * displayPageNumber)
+    if (endPage > totalPages) {
+        endPage = totalPages
+    }
+    let prevStatus = (startPage === 1) ? 'disabled' : 'active'
+    let nextStatus = (endPage === totalPages) ? 'disabled' : 'active'
 
+    pagingWrapper.append(createPageArrowButton('prev', prevStatus, startPage - 1))
+    for (let i = startPage; i <= endPage; i++) {
+        if (i === currentPage) {
+            pagingWrapper.append(createPageNumberButton(i, 'now'));
+            continue
+        }
+        pagingWrapper.append(createPageNumberButton(i));
+    }
+    pagingWrapper.append(createPageArrowButton('next', nextStatus, endPage + 1))
+}
 
+const callGetWishesApi = (memberAltId, page) => {
+    let productCardContainer = $('.card-product-list-wrapper')
+    let pageWrapper = $('.paging')
+    $.ajax({
+        url: `/api/v2/members/${memberAltId}/wishes?page=${page-1}&size=${paging.recordPerPage}`,
+        method: 'GET',
+        success: (response) => {
+            let wishList = response.data.wishes
+            let wishCount = response.data.wishCount
+
+            productCardContainer.children().remove()
+            pageWrapper.children().remove()
+
+            addProducts(productCardContainer, wishList, wishList.length)
+            addPageButton(pageWrapper, page, wishCount)
+        },
+        error: (e) => {
+            if (e.responseJSON.status === 500) {
+                alert("오류가 발생했습니다. 관리자에게 문의하세요.")
+            }
+        }
+    })
+}
+
+$(document).ready(() => {
+    callGetWishesApi(memberAltId, 1)
+})
